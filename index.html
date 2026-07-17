@@ -110,7 +110,7 @@ tbody tr:hover{background:#f5f8ff}
   <div class="card">
    <div class="sec-h"><h2><span class="i" style="background:var(--red)"></span>결석자 명단 <span id="absWk" class="mut" style="font-weight:600;font-size:12px"></span></h2>
     <span id="absCnt" class="tag r"></span></div>
-   <div class="list"><table><thead><tr><th>이름</th><th>학년</th><th>구분</th><th>누적결석</th></tr></thead><tbody id="absBody"></tbody></table></div>
+   <div class="list"><table><thead><tr><th>이름</th><th>학년</th><th>구분</th><th>누적 결석</th><th>결석 횟수</th></tr></thead><tbody id="absBody"></tbody></table></div>
   </div>
   <div class="card">
    <div class="sec-h"><h2><span class="i" style="background:var(--green)"></span>개근자 명단</h2>
@@ -256,11 +256,13 @@ function renderLists(){
  document.getElementById('absWk').textContent='· '+w+'주';
  const chr=wd.absent.filter(a=>a.chronic).length;
  document.getElementById('absCnt').textContent='결석 '+wd.absent.length+'명 (장기 '+chr+')';
+ const streakOf=n=>{let c=0;for(let i=cur;i>=0;i--){if(D.weekly_detail[D.order[i]].absent.some(a=>a.name===n))c++;else break;}return c;};
  document.getElementById('absBody').innerHTML=wd.absent.length?wd.absent.map(a=>
    `<tr><td style="font-weight:700">${a.name}</td><td>${a.grade}</td>
     <td>${a.chronic?'<span class="tag r">장기결석</span>':'<span class="tag a">결석</span>'}</td>
-    <td class="mut">${A.freq[a.name]||0}주</td></tr>`).join('')
-   :'<tr><td colspan="4" class="mut" style="text-align:center;padding:18px">결석자 없음 🎉</td></tr>';
+    <td><b style="font-weight:700">${streakOf(a.name)}</b><span class="mut"> 주 연속</span></td>
+    <td><b style="font-weight:700">${A.freq[a.name]||0}</b><span class="mut"> 회</span></td></tr>`).join('')
+   :'<tr><td colspan="5" class="mut" style="text-align:center;padding:18px">결석자 없음 🎉</td></tr>';
  // 개근자
  const nonNew=A.perfect.filter(p=>!p.joinIdx),news=A.perfect.filter(p=>p.joinIdx);
  document.getElementById('perfCnt').textContent='완전개근 '+nonNew.length+'명';
