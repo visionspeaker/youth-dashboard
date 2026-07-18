@@ -223,11 +223,16 @@ function drawAtt(mode){
    {type:'line',label:'출석률(%)',data:dd.line,borderColor:cBlue,backgroundColor:'rgba(14,165,233,.12)',fill:true,tension:.35,yAxisID:'y1',pointRadius:3,pointHoverRadius:6,pointBackgroundColor:'#fff',pointBorderColor:cBlue,pointBorderWidth:2,borderWidth:2.5,order:1}
  ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
    onHover:(e,el)=>{if(e.native&&e.native.target)e.native.target.style.cursor=(attMode==='week'&&el.length)?'pointer':'default';},
-   onClick:(e,el,ch)=>{if(attMode!=='week')return;let i=(el&&el.length)?el[0].index:((ch&&ch.scales&&ch.scales.x)?Math.round(ch.scales.x.getValueForPixel(e.x)):null);if(i!=null&&i>=0&&i<D.order.length&&i!==cur){const j=i;setTimeout(()=>{cur=j;sel.value=cur;render();},0);}},
    plugins:{legend:{position:'top'},tooltip:{callbacks:{afterBody:()=>attMode==='week'?'▶ 클릭하면 그 주까지 누적으로 이동':''}}},
    scales:{y:{beginAtZero:true,grid:{color:cLine},title:{display:true,text:'명'}},
      y1:{position:'right',min:0,max:100,grid:{drawOnChartArea:false},title:{display:true,text:'%'}},
      x:{grid:{display:false}}}}});
+ attCh.canvas.addEventListener('click',ev=>{
+   if(attMode!=='week'||!attCh||!attCh.scales||!attCh.scales.x)return;
+   const rect=attCh.canvas.getBoundingClientRect();
+   const idx=Math.round(attCh.scales.x.getValueForPixel(ev.clientX-rect.left));
+   if(idx>=0&&idx<D.order.length&&idx!==cur){const j=idx;setTimeout(()=>{cur=j;sel.value=cur;render();},0);}
+ });
 }
 function drawGr(mode){
  grMode=mode;
