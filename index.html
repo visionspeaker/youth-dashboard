@@ -149,7 +149,7 @@ const cAcc='#4f68ff',cBlue='#0ea5e9',cGreen='#16b364',cAmber='#f59e0b',cRed='#f4
 Chart.defaults.color=cTx2;Chart.defaults.font.family="'Pretendard','Apple SD Gothic Neo',sans-serif";Chart.defaults.font.size=12;
 Chart.defaults.plugins.legend.labels.boxWidth=12;Chart.defaults.plugins.legend.labels.boxHeight=12;Chart.defaults.plugins.legend.labels.usePointStyle=true;
 Chart.defaults.animation=false;Chart.defaults.animations=false;
-Chart.defaults.plugins.tooltip={backgroundColor:'rgba(31,40,64,.92)',padding:10,cornerRadius:8,titleFont:{weight:'700'},bodyFont:{size:12.5},displayColors:true,usePointStyle:true,boxPadding:4,animation:false};
+Object.assign(Chart.defaults.plugins.tooltip,{position:'average',backgroundColor:'rgba(31,40,64,.92)',padding:10,cornerRadius:8,titleFont:{weight:'700'},bodyFont:{size:12.5},displayColors:true,usePointStyle:true,boxPadding:4,animation:false});
 Chart.defaults.hover={mode:'index',intersect:false};
 const won=n=>n.toLocaleString('ko-KR');
 const safeUpdate=ch=>{try{ch.setActiveElements([]);if(ch.tooltip)ch.tooltip.setActiveElements([],{x:0,y:0});}catch(e){}ch.update('none');};
