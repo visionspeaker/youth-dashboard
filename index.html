@@ -215,7 +215,7 @@ function drawAtt(mode){
    {type:'line',label:'출석률(%)',data:dd.line,borderColor:cBlue,backgroundColor:'rgba(14,165,233,.12)',fill:true,tension:.35,yAxisID:'y1',pointRadius:3,pointHoverRadius:6,pointBackgroundColor:'#fff',pointBorderColor:cBlue,pointBorderWidth:2,borderWidth:2.5,order:1}
  ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
    onHover:(e,el)=>{e.native.target.style.cursor=(mode==='week'&&el.length)?'pointer':'default';},
-   onClick:(e,el)=>{if(mode==='week'&&el.length){cur=el[0].index;sel.value=cur;render();}},
+   onClick:(e,el)=>{if(mode==='week'&&el.length){const i=el[0].index;setTimeout(()=>{cur=i;sel.value=cur;render();},0);}},
    plugins:{legend:{position:'top'},tooltip:{callbacks:{afterBody:()=>mode==='week'?'▶ 클릭하면 그 주까지 누적으로 이동':''}}},
    scales:{y:{beginAtZero:true,grid:{color:cLine},title:{display:true,text:'명'}},
      y1:{position:'right',min:0,max:100,grid:{drawOnChartArea:false},title:{display:true,text:'%'}},
@@ -284,9 +284,9 @@ function render(){
  const w=D.order[cur];
  document.getElementById('genlab').textContent='· 기준 '+w+'주 (1월~'+w+' 누적) · 자료 '+D.generated;
  renderKPI();
- drawAtt(document.querySelector('#attToggle .on').dataset.m);
- drawGr(document.querySelector('#grToggle .on').dataset.m);
- drawOff();
+ try{drawAtt(document.querySelector('#attToggle .on').dataset.m);}catch(err){console.warn('attChart',err);}
+ try{drawGr(document.querySelector('#grToggle .on').dataset.m);}catch(err){console.warn('grChart',err);}
+ try{drawOff();}catch(err){console.warn('offChart',err);}
  renderLists();
  document.getElementById('foot').innerHTML=
   '데이터 출처: <a href="https://docs.google.com/spreadsheets/d/1rXRzno9pE_PYXHR6KX5Hm4FGtrPVVoRUJouxkNmhD5k">주간 사역보고서</a>(출결·헌금) · '
