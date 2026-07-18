@@ -148,10 +148,11 @@ const D={"generated": "2026-07-18", "latest_week": "7/12", "note_latest": "26071
 const cAcc='#4f68ff',cBlue='#0ea5e9',cGreen='#16b364',cAmber='#f59e0b',cRed='#f43f5e',cViolet='#8b5cf6',cTx2='#6b7896',cLine='#eef1f7';
 Chart.defaults.color=cTx2;Chart.defaults.font.family="'Pretendard','Apple SD Gothic Neo',sans-serif";Chart.defaults.font.size=12;
 Chart.defaults.plugins.legend.labels.boxWidth=12;Chart.defaults.plugins.legend.labels.boxHeight=12;Chart.defaults.plugins.legend.labels.usePointStyle=true;
-Chart.defaults.animation={duration:650,easing:'easeOutQuart'};
-Chart.defaults.plugins.tooltip={backgroundColor:'rgba(31,40,64,.92)',padding:10,cornerRadius:8,titleFont:{weight:'700'},bodyFont:{size:12.5},displayColors:true,usePointStyle:true,boxPadding:4};
+Chart.defaults.animation=false;Chart.defaults.animations=false;
+Chart.defaults.plugins.tooltip={backgroundColor:'rgba(31,40,64,.92)',padding:10,cornerRadius:8,titleFont:{weight:'700'},bodyFont:{size:12.5},displayColors:true,usePointStyle:true,boxPadding:4,animation:false};
 Chart.defaults.hover={mode:'index',intersect:false};
 const won=n=>n.toLocaleString('ko-KR');
+const safeUpdate=ch=>{try{ch.setActiveElements([]);if(ch.tooltip)ch.tooltip.setActiveElements([],{x:0,y:0});}catch(e){}ch.update('none');};
 let cur=D.order.length-1, A=null;
 
 // week selector
@@ -215,7 +216,7 @@ function drawAtt(mode){
    attCh.data.labels=dd.labels;
    attCh.data.datasets[0].label=dd.blabel; attCh.data.datasets[0].data=dd.bars;
    attCh.data.datasets[1].data=dd.line;
-   attCh.update(); return;
+   safeUpdate(attCh); return;
  }
  attCh=new Chart(document.getElementById('attChart'),{data:{labels:dd.labels,datasets:[
    {type:'bar',label:dd.blabel,data:dd.bars,backgroundColor:'rgba(79,104,255,.5)',hoverBackgroundColor:cAcc,borderRadius:6,maxBarThickness:46,yAxisID:'y',order:2},
@@ -238,7 +239,7 @@ function drawGr(mode){
    grCh.data.labels=labels;
    grCh.data.datasets[0].label=lbl; grCh.data.datasets[0].data=rates;
    grCh.data.datasets[0].backgroundColor=cols.map(c=>c+'d9'); grCh.data.datasets[0].hoverBackgroundColor=cols;
-   grCh.update(); return;
+   safeUpdate(grCh); return;
  }
  grCh=new Chart(document.getElementById('grChart'),{type:'bar',data:{labels,datasets:[
    {label:lbl,data:rates,backgroundColor:cols.map(c=>c+'d9'),hoverBackgroundColor:cols,borderRadius:8,maxBarThickness:66}]},
@@ -251,7 +252,7 @@ function drawOff(){
  const bc=by.filter(c=>c.amt>0);
  if(offCh){
    offCh.data.labels=bc.map(c=>c.cat); offCh.data.datasets[0].data=bc.map(c=>c.amt);
-   offCh.data.datasets[0].backgroundColor=bc.map(c=>c.color); offCh.update();
+   offCh.data.datasets[0].backgroundColor=bc.map(c=>c.color); safeUpdate(offCh);
  }else{
    offCh=new Chart(document.getElementById('offChart'),{type:'doughnut',data:{labels:bc.map(c=>c.cat),
      datasets:[{data:bc.map(c=>c.amt),backgroundColor:bc.map(c=>c.color),borderColor:'#fff',borderWidth:3,hoverOffset:10}]},
@@ -262,7 +263,7 @@ function drawOff(){
    `<div class="off-row"><span>${c.cat}</span><b>${won(c.amt)}<span class="mut"> 원</span></b></div>`).join('')
    +`<div class="off-row" style="border:0"><span style="font-weight:800">합계</span><b style="color:${cAmber}">${won(A.offTot)} 원</b></div>`;
  if(offM){
-   offM.data.labels=A.monthlyOff.map(m=>m.month); offM.data.datasets[0].data=A.monthlyOff.map(m=>m.total); offM.update();
+   offM.data.labels=A.monthlyOff.map(m=>m.month); offM.data.datasets[0].data=A.monthlyOff.map(m=>m.total); safeUpdate(offM);
  }else{
    offM=new Chart(document.getElementById('offMonth'),{type:'bar',data:{labels:A.monthlyOff.map(m=>m.month),
      datasets:[{label:'월별 헌금(원)',data:A.monthlyOff.map(m=>m.total),backgroundColor:'rgba(245,158,11,.5)',hoverBackgroundColor:cAmber,borderRadius:6,maxBarThickness:40}]},
