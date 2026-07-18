@@ -38,8 +38,8 @@ header{display:flex;align-items:center;justify-content:space-between;flex-wrap:w
 .wk select{background:var(--panel2);border:1px solid var(--line);color:var(--tx);padding:8px 10px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer}
 .wk .lab{font-size:11px;color:var(--tx2);margin-right:2px}
 .grid{display:grid;gap:16px}
-.kpis{grid-template-columns:repeat(6,1fr)}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);
+.kpis{grid-template-columns:repeat(6,minmax(0,1fr))}
+.card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);
  transition:transform .18s ease,box-shadow .18s ease}
 .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hi)}
 .kpi .t{font-size:12.5px;color:var(--tx2);font-weight:600;display:flex;align-items:center;gap:6px}
@@ -60,9 +60,11 @@ header{display:flex;align-items:center;justify-content:space-between;flex-wrap:w
 .toggle button{background:transparent;border:0;color:var(--tx2);padding:5px 12px;border-radius:7px;font-size:12px;cursor:pointer;font-weight:600;transition:.15s}
 .toggle button:hover{color:var(--accent)}
 .toggle button.on{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(79,104,255,.35)}
-.r2{grid-template-columns:1.35fr 1fr}
-.r3{grid-template-columns:1fr 1fr}
-.chart-box{position:relative;height:270px}
+.r2{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+.r3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.chart-box{position:relative;height:270px;min-width:0;width:100%}
+.card>*{min-width:0}
+canvas{max-width:100%!important}
 .chart-box.sm{height:250px}
 .list{max-height:300px;overflow:auto}
 .list::-webkit-scrollbar{width:7px}.list::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
@@ -90,7 +92,8 @@ tbody tr:hover{background:#f5f8ff}
 .kpi-anim{animation:popIn .5s cubic-bezier(.22,.85,.3,1) both}
 .head-anim{animation:headIn .6s cubic-bezier(.22,.85,.3,1) both}
 @media(prefers-reduced-motion:reduce){.rv,.rv.in,.kpi-anim,.head-anim{animation:none!important;opacity:1!important}}
-@media(max-width:1100px){.kpis{grid-template-columns:repeat(3,1fr)}.r2,.r3{grid-template-columns:1fr}}
+@media(max-width:1100px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.r2,.r3{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:720px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -141,7 +144,7 @@ tbody tr:hover{background:#f5f8ff}
   <div class="card">
    <div class="sec-h"><h2><span class="i" style="background:var(--amber)"></span>헌금 현황 <span class="mut" style="font-size:12px;font-weight:600">· 1월~선택주 누적</span></h2>
     <span id="offTot" class="tag a"></span></div>
-   <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px;align-items:center">
+   <div class="grid" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:center">
     <div class="chart-box sm" style="height:230px"><canvas id="offChart"></canvas></div>
     <div id="offList"></div>
    </div>
