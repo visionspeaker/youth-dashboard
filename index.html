@@ -204,50 +204,71 @@ function renderKPI(){
 }
 
 // ===== charts =====
-let attCh,grCh,offCh,offM;
+let attCh,grCh,offCh,offM,attMode='month',grMode='avg',grArr=[];
+const OFFPAL=[cAcc,cViolet,cBlue,cGreen,cAmber,cRed];
 function drawAtt(mode){
+ attMode=mode;
  const dd=mode==='month'
    ?{labels:A.monthly.map(m=>m.month),bars:A.monthly.map(m=>m.avg_chul),line:A.monthly.map(m=>m.rate),blabel:'평균 출석'}
    :{labels:A.weekly.map(m=>m.label),bars:A.weekly.map(m=>m.chul),line:A.weekly.map(m=>m.rate),blabel:'출석'};
- if(attCh)attCh.destroy();
+ if(attCh){
+   attCh.data.labels=dd.labels;
+   attCh.data.datasets[0].label=dd.blabel; attCh.data.datasets[0].data=dd.bars;
+   attCh.data.datasets[1].data=dd.line;
+   attCh.update(); return;
+ }
  attCh=new Chart(document.getElementById('attChart'),{data:{labels:dd.labels,datasets:[
    {type:'bar',label:dd.blabel,data:dd.bars,backgroundColor:'rgba(79,104,255,.5)',hoverBackgroundColor:cAcc,borderRadius:6,maxBarThickness:46,yAxisID:'y',order:2},
    {type:'line',label:'출석률(%)',data:dd.line,borderColor:cBlue,backgroundColor:'rgba(14,165,233,.12)',fill:true,tension:.35,yAxisID:'y1',pointRadius:3,pointHoverRadius:6,pointBackgroundColor:'#fff',pointBorderColor:cBlue,pointBorderWidth:2,borderWidth:2.5,order:1}
  ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-   onHover:(e,el)=>{e.native.target.style.cursor=(mode==='week'&&el.length)?'pointer':'default';},
-   onClick:(e,el)=>{if(mode==='week'&&el.length){const i=el[0].index;setTimeout(()=>{cur=i;sel.value=cur;render();},0);}},
-   plugins:{legend:{position:'top'},tooltip:{callbacks:{afterBody:()=>mode==='week'?'▶ 클릭하면 그 주까지 누적으로 이동':''}}},
+   onHover:(e,el)=>{if(e.native&&e.native.target)e.native.target.style.cursor=(attMode==='week'&&el.length)?'pointer':'default';},
+   onClick:(e,el)=>{if(attMode==='week'&&el.length){const i=el[0].index;if(i!==cur){cur=i;sel.value=cur;render();}}},
+   plugins:{legend:{position:'top'},tooltip:{callbacks:{afterBody:()=>attMode==='week'?'▶ 클릭하면 그 주까지 누적으로 이동':''}}},
    scales:{y:{beginAtZero:true,grid:{color:cLine},title:{display:true,text:'명'}},
      y1:{position:'right',min:0,max:100,grid:{drawOnChartArea:false},title:{display:true,text:'%'}},
      x:{grid:{display:false}}}}});
 }
 function drawGr(mode){
- const arr=mode==='week'?D.weekly_detail[D.order[cur]].grade:A.gradeAvg;
+ grMode=mode;
+ const arr=mode==='week'?D.weekly_detail[D.order[cur]].grade:A.gradeAvg; grArr=arr;
  const labels=arr.map(g=>g.grade),rates=arr.map(g=>g.rate);
  const cols=rates.map(r=>r>=80?cGreen:r>=65?cAmber:cRed);
- if(grCh)grCh.destroy();
+ const lbl=mode==='week'?D.order[cur]+'주 출석률(%)':'누적 평균 출석률(%)';
+ if(grCh){
+   grCh.data.labels=labels;
+   grCh.data.datasets[0].label=lbl; grCh.data.datasets[0].data=rates;
+   grCh.data.datasets[0].backgroundColor=cols.map(c=>c+'d9'); grCh.data.datasets[0].hoverBackgroundColor=cols;
+   grCh.update(); return;
+ }
  grCh=new Chart(document.getElementById('grChart'),{type:'bar',data:{labels,datasets:[
-   {label:mode==='week'?D.order[cur]+'주 출석률(%)':'누적 평균 출석률(%)',data:rates,backgroundColor:cols.map(c=>c+'d9'),hoverBackgroundColor:cols,borderRadius:8,maxBarThickness:66}]},
+   {label:lbl,data:rates,backgroundColor:cols.map(c=>c+'d9'),hoverBackgroundColor:cols,borderRadius:8,maxBarThickness:66}]},
    options:{maintainAspectRatio:false,plugins:{legend:{display:false},
-     tooltip:{callbacks:{afterLabel:ctx=>{if(mode!=='week')return'';const g=arr[ctx.dataIndex];return`출석 ${g.present}/${g.size}명`;}}}},
+     tooltip:{callbacks:{afterLabel:ctx=>{if(grMode!=='week')return'';const g=grArr[ctx.dataIndex];return g?`출석 ${g.present}/${g.size}명`:'';}}}},
    scales:{y:{beginAtZero:true,max:100,grid:{color:cLine},title:{display:true,text:'%'}},x:{grid:{display:false}}}}});
 }
 function drawOff(){
- const by=D.categories.map((c,i)=>({cat:c,amt:A.csum[i]}));
+ const by=D.categories.map((c,i)=>({cat:c,amt:A.csum[i],color:OFFPAL[i%OFFPAL.length]}));
  const bc=by.filter(c=>c.amt>0);
- if(offCh)offCh.destroy();
- offCh=new Chart(document.getElementById('offChart'),{type:'doughnut',data:{labels:bc.map(c=>c.cat),
-   datasets:[{data:bc.map(c=>c.amt),backgroundColor:[cAcc,cViolet,cBlue,cGreen,cAmber,cRed],borderColor:'#fff',borderWidth:3,hoverOffset:10}]},
-   options:{maintainAspectRatio:false,cutout:'60%',animation:{animateRotate:true,animateScale:true,duration:700},plugins:{legend:{position:'right',labels:{padding:8,font:{size:11}}},
-     tooltip:{callbacks:{label:ctx=>ctx.label+' '+won(ctx.raw)+'원'}}}}});
+ if(offCh){
+   offCh.data.labels=bc.map(c=>c.cat); offCh.data.datasets[0].data=bc.map(c=>c.amt);
+   offCh.data.datasets[0].backgroundColor=bc.map(c=>c.color); offCh.update();
+ }else{
+   offCh=new Chart(document.getElementById('offChart'),{type:'doughnut',data:{labels:bc.map(c=>c.cat),
+     datasets:[{data:bc.map(c=>c.amt),backgroundColor:bc.map(c=>c.color),borderColor:'#fff',borderWidth:3,hoverOffset:10}]},
+     options:{maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{padding:8,font:{size:11}}},
+       tooltip:{callbacks:{label:ctx=>ctx.label+' '+won(ctx.raw)+'원'}}}}});
+ }
  document.getElementById('offList').innerHTML=by.map(c=>
    `<div class="off-row"><span>${c.cat}</span><b>${won(c.amt)}<span class="mut"> 원</span></b></div>`).join('')
    +`<div class="off-row" style="border:0"><span style="font-weight:800">합계</span><b style="color:${cAmber}">${won(A.offTot)} 원</b></div>`;
- if(offM)offM.destroy();
- offM=new Chart(document.getElementById('offMonth'),{type:'bar',data:{labels:A.monthlyOff.map(m=>m.month),
-   datasets:[{label:'월별 헌금(원)',data:A.monthlyOff.map(m=>m.total),backgroundColor:'rgba(245,158,11,.5)',hoverBackgroundColor:cAmber,borderRadius:6,maxBarThickness:40}]},
-   options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>won(c.raw)+'원'}}},
-     scales:{y:{beginAtZero:true,grid:{color:cLine},ticks:{callback:v=>v/10000+'만'}},x:{grid:{display:false}}}}});
+ if(offM){
+   offM.data.labels=A.monthlyOff.map(m=>m.month); offM.data.datasets[0].data=A.monthlyOff.map(m=>m.total); offM.update();
+ }else{
+   offM=new Chart(document.getElementById('offMonth'),{type:'bar',data:{labels:A.monthlyOff.map(m=>m.month),
+     datasets:[{label:'월별 헌금(원)',data:A.monthlyOff.map(m=>m.total),backgroundColor:'rgba(245,158,11,.5)',hoverBackgroundColor:cAmber,borderRadius:6,maxBarThickness:40}]},
+     options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>won(c.raw)+'원'}}},
+       scales:{y:{beginAtZero:true,grid:{color:cLine},ticks:{callback:v=>v/10000+'만'}},x:{grid:{display:false}}}}});
+ }
 }
 
 // ===== lists =====
