@@ -83,14 +83,14 @@ tbody tr:hover{background:#f5f8ff}
 .foot{margin-top:22px;color:var(--tx3);font-size:11.5px;line-height:1.7;border-top:1px solid var(--line);padding-top:14px}
 .foot a{color:#0784b5;text-decoration:none}
 .foot a:hover{text-decoration:underline}
-@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 @keyframes popIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes headIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes barGrow{from{transform:scaleY(.2);opacity:0}to{transform:scaleY(1);opacity:1}}
 .rv{opacity:0}
-.rv.in{animation:fadeUp .62s cubic-bezier(.22,.85,.3,1) both}
-.kpi-anim{animation:popIn .5s cubic-bezier(.22,.85,.3,1) both}
-.head-anim{animation:headIn .6s cubic-bezier(.22,.85,.3,1) both}
+.rv.in{animation:fadeUp 1.05s cubic-bezier(.22,.9,.3,1) both}
+.kpi-anim{animation:popIn .85s cubic-bezier(.22,.9,.3,1) both}
+.head-anim{animation:headIn 1s cubic-bezier(.22,.9,.3,1) both}
 @media(prefers-reduced-motion:reduce){.rv,.rv.in,.kpi-anim,.head-anim{animation:none!important;opacity:1!important}}
 @media(max-width:1100px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.r2,.r3{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:720px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -229,15 +229,15 @@ function renderKPI(){
  ];
  const box=document.getElementById('kpis');
  box.innerHTML=cards.map((c,i)=>
-  `<div class="card kpi kpi-anim ${c.cls}" style="animation-delay:${i*60}ms">
+  `<div class="card kpi kpi-anim ${c.cls}" style="animation-delay:${i*120}ms">
      <div class="t">${c.t}</div>
      <div class="v"><span class="num" data-to="${c.n}" data-dec="${c.d}">0</span><small> ${c.u}</small></div>
      <div class="s">${c.s}</div></div>`).join('');
  box.querySelectorAll('.num').forEach((el,i)=>{
    const to=+el.dataset.to, dec=+el.dataset.dec;
-   setTimeout(()=>countUp(el,to,dec,700), 120+i*60);
+   setTimeout(()=>countUp(el,to,dec,1400), 220+i*120);
  });
- setTimeout(()=>box.querySelectorAll('.kpi').forEach(k=>k.classList.remove('kpi-anim')),900);
+ setTimeout(()=>box.querySelectorAll('.kpi').forEach(k=>k.classList.remove('kpi-anim')),1700);
 }
 
 // ===== charts =====
@@ -257,7 +257,7 @@ function drawAtt(mode){
  attCh=new Chart(document.getElementById('attChart'),{data:{labels:dd.labels,datasets:[
    {type:'bar',label:dd.blabel,data:dd.bars,backgroundColor:'rgba(79,104,255,.5)',hoverBackgroundColor:cAcc,borderRadius:6,maxBarThickness:46,yAxisID:'y',order:2},
    {type:'line',label:'출석률(%)',data:dd.line,borderColor:cBlue,backgroundColor:'rgba(14,165,233,.12)',fill:true,tension:.35,yAxisID:'y1',pointRadius:3,pointHoverRadius:6,pointBackgroundColor:'#fff',pointBorderColor:cBlue,pointBorderWidth:2,borderWidth:2.5,order:1}
- ]},options:{maintainAspectRatio:false,animation:{duration:1000,easing:'easeOutQuart'},interaction:{mode:'index',intersect:false},
+ ]},options:{maintainAspectRatio:false,animation:{duration:1700,easing:'easeOutQuart'},interaction:{mode:'index',intersect:false},
    onHover:(e,el)=>{if(e.native&&e.native.target)e.native.target.style.cursor=(attMode==='week'&&el.length)?'pointer':'default';},
    plugins:{legend:{position:'top'},tooltip:{callbacks:{afterBody:()=>attMode==='week'?'▶ 클릭하면 그 주까지 누적으로 이동':''}}},
    scales:{y:{beginAtZero:true,grid:{color:cLine},title:{display:true,text:'명'}},
@@ -284,7 +284,7 @@ function drawGr(mode){
  }
  grCh=new Chart(document.getElementById('grChart'),{type:'bar',data:{labels,datasets:[
    {label:lbl,data:rates,backgroundColor:cols.map(c=>c+'d9'),hoverBackgroundColor:cols,borderRadius:8,maxBarThickness:66}]},
-   options:{maintainAspectRatio:false,animation:{duration:900,easing:'easeOutQuart'},plugins:{legend:{display:false},
+   options:{maintainAspectRatio:false,animation:{duration:1500,easing:'easeOutQuart'},plugins:{legend:{display:false},
      tooltip:{callbacks:{afterLabel:ctx=>{if(grMode!=='week')return'';const g=grArr[ctx.dataIndex];return g?`출석 ${g.present}/${g.size}명`:'';}}}},
    scales:{y:{beginAtZero:true,max:100,grid:{color:cLine},title:{display:true,text:'%'}},x:{grid:{display:false}}}}});
 }
@@ -297,10 +297,10 @@ function drawOff(){
  }else{
    offCh=new Chart(document.getElementById('offChart'),{type:'doughnut',data:{labels:bc.map(c=>c.cat),
      datasets:[{data:bc.map(c=>c.amt),backgroundColor:bc.map(c=>c.color),borderColor:'#fff',borderWidth:3,hoverOffset:10}]},
-     options:{maintainAspectRatio:false,cutout:'60%',animation:{duration:1000,animateRotate:true,animateScale:true,easing:'easeOutQuart'},plugins:{legend:{position:'right',labels:{padding:8,font:{size:11}}},
+     options:{maintainAspectRatio:false,cutout:'60%',animation:{duration:1700,animateRotate:true,animateScale:true,easing:'easeOutQuart'},plugins:{legend:{position:'right',labels:{padding:8,font:{size:11}}},
        tooltip:{callbacks:{label:ctx=>ctx.label+' '+won(ctx.raw)+'원'}}}}});
  }
- document.getElementById('offList').innerHTML=by.map(c=>
+ document.getElementById('offList').innerHTML=by.filter(c=>c.amt>0).map(c=>
    `<div class="off-row"><span>${c.cat}</span><b>${won(c.amt)}<span class="mut"> 원</span></b></div>`).join('')
    +`<div class="off-row" style="border:0"><span style="font-weight:800">합계</span><b style="color:${cAmber}">${won(A.offTot)} 원</b></div>`;
  if(offM){
@@ -308,7 +308,7 @@ function drawOff(){
  }else{
    offM=new Chart(document.getElementById('offMonth'),{type:'bar',data:{labels:A.monthlyOff.map(m=>m.month),
      datasets:[{label:'월별 헌금(원)',data:A.monthlyOff.map(m=>m.total),backgroundColor:'rgba(245,158,11,.5)',hoverBackgroundColor:cAmber,borderRadius:6,maxBarThickness:40}]},
-     options:{maintainAspectRatio:false,animation:{duration:900,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>won(c.raw)+'원'}}},
+     options:{maintainAspectRatio:false,animation:{duration:1500,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>won(c.raw)+'원'}}},
        scales:{y:{beginAtZero:true,grid:{color:cLine},ticks:{callback:v=>v/10000+'만'}},x:{grid:{display:false}}}}});
  }
 }
@@ -372,14 +372,18 @@ function setupMotion(){
  const kpiBox=document.getElementById('kpis');
  const targets=cards.filter(c=>!kpiBox.contains(c));
  targets.forEach(c=>c.classList.add('rv'));
- const reveal=el=>{el.classList.add('in');
-   setTimeout(()=>{el.classList.remove('rv','in');el.style.opacity='';},760);};
+ const replayCharts=el=>{try{el.querySelectorAll('canvas').forEach(cv=>{
+     const ch=(window.Chart&&Chart.getChart)?Chart.getChart(cv):null;
+     if(ch&&(!ch.getActiveElements||ch.getActiveElements().length===0)){ch.reset();ch.update();}
+   });}catch(e){}};
+ const reveal=el=>{el.classList.add('in'); setTimeout(()=>replayCharts(el),120);
+   setTimeout(()=>{el.classList.remove('rv','in');el.style.opacity='';},1300);};
  if(!('IntersectionObserver' in window)){targets.forEach(reveal);return;}
  const io=new IntersectionObserver((es)=>{
    es.forEach(e=>{ if(e.isIntersecting){ const el=e.target;
      const d=+(el.dataset.rd||0); setTimeout(()=>reveal(el),d); io.unobserve(el); } });
  },{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
- targets.forEach((el,i)=>{el.dataset.rd=(i<2?i*110:0);io.observe(el);});
+ targets.forEach((el,i)=>{el.dataset.rd=(i<2?i*180:0);io.observe(el);});
 }
 render();
 setupMotion();
