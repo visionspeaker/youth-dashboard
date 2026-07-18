@@ -384,6 +384,15 @@ function setupMotion(){
      const d=+(el.dataset.rd||0); setTimeout(()=>reveal(el),d); io.unobserve(el); } });
  },{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
  targets.forEach((el,i)=>{el.dataset.rd=(i<2?i*180:0);io.observe(el);});
+ // 빠른 스크롤로 관찰을 건너뛴 카드 보정: 화면 하단선을 지난 카드는 무조건 표시
+ const sweep=()=>{targets.forEach(el=>{
+   if(el.classList.contains('rv')&&!el.classList.contains('in')){
+     const r=el.getBoundingClientRect();
+     if(r.top < window.innerHeight*0.95){ io.unobserve(el); reveal(el); }
+   }});};
+ window.addEventListener('scroll',sweep,{passive:true});
+ window.addEventListener('resize',sweep);
+ setTimeout(sweep,60);
 }
 render();
 setupMotion();
