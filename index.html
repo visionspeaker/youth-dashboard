@@ -30,13 +30,17 @@ header{display:flex;align-items:center;justify-content:space-between;flex-wrap:w
 .h-left h1{font-size:26px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
 .h-left h1 .dot{width:11px;height:26px;background:linear-gradient(180deg,var(--accent),var(--blue));border-radius:4px;display:inline-block}
 .h-left p{color:var(--tx2);font-size:13.5px;margin-top:6px}
-.wk{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);
- padding:8px 10px;border-radius:12px;box-shadow:var(--shadow)}
-.wk button{background:var(--panel2);border:1px solid var(--line);color:var(--tx);width:34px;height:34px;
- border-radius:9px;font-size:16px;cursor:pointer;transition:.15s}
-.wk button:hover{border-color:var(--accent);color:var(--accent);background:#eef1ff}
-.wk select{background:var(--panel2);border:1px solid var(--line);color:var(--tx);padding:8px 10px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer}
-.wk .lab{font-size:11px;color:var(--tx2);margin-right:2px}
+.wk{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);
+ padding:8px 12px;border-radius:14px;box-shadow:var(--shadow)}
+.wk button{background:var(--panel2);border:1px solid var(--line);color:var(--accent);width:30px;height:30px;
+ border-radius:9px;font-size:15px;cursor:pointer;transition:.15s;line-height:1}
+.wk button:hover{border-color:var(--accent);background:#eef1ff}
+.wk-mid{position:relative;text-align:center;min-width:152px}
+.wk-date{font-size:19px;font-weight:800;color:var(--tx);letter-spacing:-.4px;display:flex;align-items:center;justify-content:center;gap:6px;line-height:1.25}
+.wk-caret{color:var(--accent);font-size:11px}
+.wk-sub{font-size:11.5px;color:var(--tx2);margin-top:1px;white-space:nowrap}
+.wk-mid select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:16px}
+.wk-mid:hover .wk-date{color:var(--accent)}
 .grid{display:grid;gap:16px}
 .kpis{grid-template-columns:repeat(6,minmax(0,1fr))}
 .card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);
@@ -114,10 +118,13 @@ tbody tr:hover{background:#f5f8ff}
    <p>송탄영광교회 중고등부 · 2026년 상반기 사역 현황 <span id="genlab" class="mut"></span></p>
   </div>
   <div class="wk">
-   <span class="lab">주차</span>
-   <button id="prev">‹</button>
-   <select id="weeksel"></select>
-   <button id="next">›</button>
+   <button id="prev" aria-label="이전 주">‹</button>
+   <div class="wk-mid">
+    <div class="wk-date"><span id="wkDate"></span><span class="wk-caret">▾</span></div>
+    <div class="wk-sub" id="wkSub"></div>
+    <select id="weeksel" aria-label="주차 선택"></select>
+   </div>
+   <button id="next" aria-label="다음 주">›</button>
   </div>
  </header>
 
@@ -195,8 +202,16 @@ const safeUpdate=ch=>{try{ch.setActiveElements([]);if(ch.tooltip)ch.tooltip.setA
 let cur=D.order.length-1, A=null;
 
 // week selector
+const YEAR=2026;
+// 'M/D' → {y,m,d, nth: 그 달의 몇 번째 주일}
+const wkInfo=lbl=>{const[m,d]=lbl.split('/').map(Number);
+  return {y:YEAR,m,d,nth:Math.floor((d-1)/7)+1};};
+const fmtDate=lbl=>{const k=wkInfo(lbl);return `${k.y}. ${k.m}. ${k.d}`;};
+const fmtSub =lbl=>{const k=wkInfo(lbl);return `주일 · ${k.y}년 ${k.m}월 ${k.nth}주차`;};
+const fmtOpt =lbl=>{const k=wkInfo(lbl);return `${lbl} (${k.m}월 ${k.nth}주차)`;};
+const fmtDay =lbl=>`${lbl} 주일`;
 const sel=document.getElementById('weeksel');
-D.order.forEach((w,i)=>{const o=document.createElement('option');o.value=i;o.textContent=w+'주';sel.appendChild(o);});
+D.order.forEach((w,i)=>{const o=document.createElement('option');o.value=i;o.textContent=fmtOpt(w);sel.appendChild(o);});
 sel.value=cur;
 sel.onchange=e=>{cur=+e.target.value;render();};
 document.getElementById('prev').onclick=()=>{if(cur>0){cur--;sel.value=cur;render();}};
@@ -294,7 +309,7 @@ function drawGr(mode){
  const arr=mode==='week'?D.weekly_detail[D.order[cur]].grade:A.gradeAvg; grArr=arr;
  const labels=arr.map(g=>g.grade),rates=arr.map(g=>g.rate);
  const cols=rates.map(r=>r>=80?cGreen:r>=65?cAmber:cRed);
- const lbl=mode==='week'?D.order[cur]+'주 출석률(%)':'누적 평균 출석률(%)';
+ const lbl=mode==='week'?fmtDay(D.order[cur])+' 출석률(%)':'누적 평균 출석률(%)';
  if(grCh){
    grCh.data.labels=labels;
    grCh.data.datasets[0].label=lbl; grCh.data.datasets[0].data=rates;
@@ -335,7 +350,7 @@ function drawOff(){
 // ===== lists =====
 function renderLists(){
  const w=D.order[cur],wd=D.weekly_detail[w];
- document.getElementById('absWk').textContent='· '+w+'주';
+ document.getElementById('absWk').textContent='· '+fmtDay(w);
  const chr=wd.absent.filter(a=>a.chronic).length;
  document.getElementById('absCnt').textContent='결석 '+wd.absent.length+'명 (장기 '+chr+')';
  const streakOf=n=>{let c=0;for(let i=cur;i>=0;i--){if(D.weekly_detail[D.order[i]].absent.some(a=>a.name===n))c++;else break;}return c;};
@@ -364,7 +379,9 @@ function renderLists(){
 function render(){
  A=asof();
  const w=D.order[cur];
- document.getElementById('genlab').textContent='· 기준 '+w+'주 (1월~'+w+' 누적) · 자료 '+D.generated;
+ document.getElementById('wkDate').textContent=fmtDate(w);
+ document.getElementById('wkSub').textContent=fmtSub(w);
+ document.getElementById('genlab').textContent='· 기준 '+fmtDate(w)+' 주일 (1월~'+w+' 누적) · 자료 '+D.generated;
  renderKPI();
  try{drawAtt(document.querySelector('#attToggle .on').dataset.m);}catch(err){console.warn('attChart',err);}
  try{drawGr(document.querySelector('#grToggle .on').dataset.m);}catch(err){console.warn('grChart',err);}
@@ -395,7 +412,7 @@ function renderOfferList(){
    ${r.names.length?`<div style="margin-top:8px">${chips([...r.names].sort((a,b)=>a.localeCompare(b,'ko')))}</div>`:''}
    ${r.note?`<div class="ol-note">${r.note}</div>`:''}</div>`;
  const named=thisWk.filter(r=>r.names.length), plain=thisWk.filter(r=>!r.names.length);
- let html='<div class="ol-sub">선택주 내역 · '+cur_wk+'주</div>';
+ let html='<div class="ol-sub">선택주 내역 · '+fmtDay(cur_wk)+'</div>';
  html+= thisWk.length ? named.map(rowHtml).join('')
         +(plain.length?`<div class="ol-grid2">${plain.map(rowHtml).join('')}</div>`:'')
       : '<div class="ol-row"><div class="mut" style="font-size:12.5px">이 주의 헌금명단 기록이 없습니다</div></div>';
