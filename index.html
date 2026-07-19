@@ -378,7 +378,7 @@ function renderOfferList(){
  thisWk.sort((a,b)=>ord(a)-ord(b));
  // 누적 참여 횟수
  const cnt={}; inRange.forEach(r=>r.names.forEach(n=>cnt[n]=(cnt[n]||0)+1));
- const rank=Object.entries(cnt).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'ko'));
+ const rank=Object.entries(cnt).sort((a,b)=>a[0].localeCompare(b[0],'ko'));
  document.getElementById('olWk').textContent='· 1월~'+cur_wk+' 누적';
  document.getElementById('olCnt').textContent=inRange.length
    ? '참여 '+rank.length+'명 · '+inRange.length+'건' : '기록 없음';
@@ -392,7 +392,7 @@ function renderOfferList(){
    return `<span class="chip${hot?' hot':''}">${n}${c?`<span class="gr">${c}회</span>`:''}</span>`;}).join('');
  const rowHtml=r=>`<div class="ol-row"><div class="ol-h"><b>${r.item}</b>
      <span class="ol-amt">${won(r.amt)}<span class="mut"> 원${r.names.length?' · '+r.names.length+'명':''}</span></span></div>
-   ${r.names.length?`<div style="margin-top:8px">${chips(r.names)}</div>`:''}
+   ${r.names.length?`<div style="margin-top:8px">${chips([...r.names].sort((a,b)=>a.localeCompare(b,'ko')))}</div>`:''}
    ${r.note?`<div class="ol-note">${r.note}</div>`:''}</div>`;
  const named=thisWk.filter(r=>r.names.length), plain=thisWk.filter(r=>!r.names.length);
  let html='<div class="ol-sub">선택주 내역 · '+cur_wk+'주</div>';
