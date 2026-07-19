@@ -1,454 +1,215 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#e23b2c">
 <title>중고등부 사역 대시보드 · 송탄영광교회</title>
-<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
-<link rel="manifest" href="manifest.webmanifest"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-<meta name="apple-mobile-web-app-title" content="중고등부 대시보드"/>
-<meta name="theme-color" content="#e23b2c"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
-:root{
- --bg:#eef2f9; --panel:#ffffff; --panel2:#f4f7fc; --line:#e4e9f2;
- --tx:#1f2840; --tx2:#6b7896; --tx3:#95a0b8;
- --accent:#4f68ff; --blue:#0ea5e9; --green:#16b364; --amber:#f59e0b; --red:#f43f5e; --violet:#8b5cf6;
- --shadow:0 1px 2px rgba(31,40,64,.04),0 6px 20px rgba(31,40,64,.06);
- --shadow-hi:0 6px 16px rgba(31,40,64,.08),0 16px 40px rgba(79,104,255,.12);
-}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:radial-gradient(1100px 520px at 15% -10%,#e6ecfb 0,transparent 55%),radial-gradient(900px 500px at 100% 0,#eaf4fb 0,transparent 50%),var(--bg);
- color:var(--tx);font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
- padding:22px 26px 40px;min-height:100vh;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1480px;margin:0 auto}
-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:20px}
-.h-left h1{font-size:26px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
-.h-left h1 .dot{width:11px;height:26px;background:linear-gradient(180deg,var(--accent),var(--blue));border-radius:4px;display:inline-block}
-.h-left p{color:var(--tx2);font-size:13.5px;margin-top:6px}
-.wk{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);
- padding:8px 10px;border-radius:12px;box-shadow:var(--shadow)}
-.wk button{background:var(--panel2);border:1px solid var(--line);color:var(--tx);width:34px;height:34px;
- border-radius:9px;font-size:16px;cursor:pointer;transition:.15s}
-.wk button:hover{border-color:var(--accent);color:var(--accent);background:#eef1ff}
-.wk select{background:var(--panel2);border:1px solid var(--line);color:var(--tx);padding:8px 10px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer}
-.wk .lab{font-size:11px;color:var(--tx2);margin-right:2px}
-.grid{display:grid;gap:16px}
-.kpis{grid-template-columns:repeat(6,minmax(0,1fr))}
-.card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);
- transition:transform .18s ease,box-shadow .18s ease}
-.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hi)}
-.kpi .t{font-size:12.5px;color:var(--tx2);font-weight:600;display:flex;align-items:center;gap:6px}
-.kpi .v{font-size:30px;font-weight:800;margin-top:8px;letter-spacing:-1px;color:var(--tx)}
-.kpi .s{font-size:12px;color:var(--tx3);margin-top:3px}
-.kpi .v small{font-size:15px;font-weight:700;color:var(--tx2)}
-.bar-accent{border-top:3px solid var(--accent)}
-.tag{font-size:10.5px;padding:2px 7px;border-radius:20px;font-weight:700}
-.tag.g{background:rgba(22,179,100,.12);color:#0f9d55}
-.tag.r{background:rgba(244,63,94,.12);color:var(--red)}
-.tag.a{background:rgba(245,158,11,.14);color:#c67c00}
-.tag.b{background:rgba(14,165,233,.12);color:#0784b5}
-.tag.v{background:rgba(139,92,246,.13);color:var(--violet)}
-.sec-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.sec-h h2{font-size:15.5px;font-weight:750;display:flex;align-items:center;gap:8px}
-.sec-h h2 .i{width:6px;height:16px;border-radius:3px;background:var(--accent)}
-.toggle{display:flex;gap:4px;background:var(--panel2);padding:3px;border-radius:9px;border:1px solid var(--line)}
-.toggle button{background:transparent;border:0;color:var(--tx2);padding:5px 12px;border-radius:7px;font-size:12px;cursor:pointer;font-weight:600;transition:.15s}
-.toggle button:hover{color:var(--accent)}
-.toggle button.on{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(79,104,255,.35)}
-.r2{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
-.r3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-.chart-box{position:relative;height:270px;min-width:0;width:100%}
-.card>*{min-width:0}
-canvas{max-width:100%!important}
-.chart-box.sm{height:250px}
-.list{max-height:300px;overflow:auto}
-.list::-webkit-scrollbar{width:7px}.list::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;color:var(--tx2);font-weight:600;font-size:11.5px;padding:6px 8px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel)}
-td{padding:7px 8px;border-bottom:1px solid #eef1f7}
-tbody tr{transition:background .12s}
-tbody tr:hover{background:#f5f8ff}
-.ol-row{border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:8px}
-.ol-h{display:flex;justify-content:space-between;align-items:center;font-size:13px}
-.ol-h b{font-weight:750;color:var(--tx)}
-.ol-amt{font-weight:700;font-variant-numeric:tabular-nums}
-.ol-note{font-size:12px;color:var(--tx2);margin-top:6px}
-.ol-sub{font-size:12px;font-weight:700;color:var(--tx2);margin:0 0 8px}
-.ol-grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:6px}
-.ol-empty{padding:18px;text-align:center;color:var(--tx2);font-size:13px}
-.chip.hot{background:#fff8ec;border-color:#f6d9a6}
-.chip.hot .gr{color:#c67c00;background:rgba(245,158,11,.16)}
-.chip{display:inline-flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);
- border-radius:10px;padding:7px 11px;font-size:13px;font-weight:600;margin:0 6px 8px 0;transition:.15s;cursor:default}
-.chip:hover{border-color:var(--green);background:#effaf3;transform:translateY(-1px)}
-.chip .gr{font-size:10.5px;color:var(--tx2);background:#e9eef7;padding:1px 6px;border-radius:6px}
-.off-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #eef1f7;font-size:13.5px}
-.off-row b{font-variant-numeric:tabular-nums}
-.mut{color:var(--tx2)}
-.foot{margin-top:22px;color:var(--tx3);font-size:11.5px;line-height:1.7;border-top:1px solid var(--line);padding-top:14px}
-.foot a{color:#0784b5;text-decoration:none}
-.foot a:hover{text-decoration:underline}
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes popIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes headIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes barGrow{from{transform:scaleY(.2);opacity:0}to{transform:scaleY(1);opacity:1}}
-.rv{opacity:0}
-.rv.in{animation:fadeUp 1.05s cubic-bezier(.22,.9,.3,1) both}
-.kpi-anim{animation:popIn .85s cubic-bezier(.22,.9,.3,1) both}
-.head-anim{animation:headIn 1s cubic-bezier(.22,.9,.3,1) both}
-@media(prefers-reduced-motion:reduce){.rv,.rv.in,.kpi-anim,.head-anim{animation:none!important;opacity:1!important}}
-@media(max-width:1100px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.r2,.r3{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:720px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
-</style>
-</head>
-<body>
-<div class="wrap">
- <header>
-  <div class="h-left">
-   <h1><span class="dot"></span>중고등부 사역 대시보드</h1>
-   <p>송탄영광교회 중고등부 · 2026년 상반기 사역 현황 <span id="genlab" class="mut"></span></p>
-  </div>
-  <div class="wk">
-   <span class="lab">주차</span>
-   <button id="prev">‹</button>
-   <select id="weeksel"></select>
-   <button id="next">›</button>
-  </div>
- </header>
+body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+background:#f6f7f9;color:#1d2129;line-height:1.5;padding:20px}
+.wrap{max-width:1240px;margin:0 auto}
+header{background:linear-gradient(135deg,#e23b2c,#b81f13);color:#fff;border-radius:16px;padding:26px 30px;margin-bottom:20px}
+header h1{font-size:26px;font-weight:800;letter-spacing:-.5px}
+header p{opacity:.9;font-size:14px;margin-top:6px}
+.meta{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.pill{background:rgba(255,255,255,.18);border-radius:999px;padding:5px 13px;font-size:12.5px;font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.kpi .lab{font-size:12.5px;color:#6b7280;font-weight:600}
+.kpi .val{font-size:30px;font-weight:800;margin:4px 0 2px;letter-spacing:-1px}
+.kpi .sub{font-size:12px;color:#8a9099}
+.up{color:#0b8a3d;font-weight:700}.down{color:#d92c20;font-weight:700}
+.bar{background:#fff;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;
+align-items:center;gap:14px;flex-wrap:wrap;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.bar b{font-size:13px;color:#6b7280}
+button{font-family:inherit;border:1px solid #dfe3e8;background:#fff;border-radius:9px;
+padding:7px 15px;font-size:13.5px;font-weight:600;cursor:pointer;color:#374151}
+button:hover{background:#f2f4f7}
+button.on{background:#e23b2c;border-color:#e23b2c;color:#fff}
+.nav{display:flex;align-items:center;gap:8px;margin-left:auto}
+.nav .cur{font-weight:800;font-size:15px;min-width:130px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:18px}
+.card{background:#fff;border-radius:14px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.card h2{font-size:15.5px;font-weight:750;margin-bottom:4px}
+.card .hint{font-size:12px;color:#9aa0a6;margin-bottom:14px}
+.chartbox{position:relative;height:270px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:11.5px;color:#8a9099;font-weight:700;padding:7px 8px;border-bottom:2px solid #eef0f3}
+td{padding:8px;border-bottom:1px solid #f2f4f7}
+tr:last-child td{border-bottom:none}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
+.t-long{background:#fdecea;color:#c0271b}.t-new{background:#e7f4ec;color:#0b8a3d}
+.t-g{background:#eef1f5;color:#4b5563}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{background:#f4f6f8;border:1px solid #e6e9ed;border-radius:9px;padding:7px 12px;font-size:13px;font-weight:600}
+.chip small{color:#8a9099;font-weight:500;margin-left:4px}
+.money{display:flex;justify-content:space-between;align-items:center;padding:10px 2px;border-bottom:1px solid #f2f4f7;font-size:14px}
+.money:last-child{border-bottom:none}
+.money b{font-variant-numeric:tabular-nums;font-weight:750}
+.total{margin-top:12px;background:#fff7f6;border:1px solid #fadbd7;border-radius:11px;padding:13px 15px;
+display:flex;justify-content:space-between;font-size:14.5px;font-weight:800;color:#b81f13}
+.empty{color:#9aa0a6;font-size:13.5px;padding:16px 2px}
+footer{text-align:center;color:#9aa0a6;font-size:12px;margin:26px 0 10px}
+@media(max-width:560px){body{padding:12px}.grid{grid-template-columns:1fr}.nav{margin-left:0;width:100%}}
+</style></head><body><div class="wrap">
 
- <div class="grid kpis" id="kpis"></div>
+<header>
+  <h1>중고등부 사역 대시보드</h1>
+  <p>송탄영광교회 중고등부 · 2026년 상반기 사역 현황</p>
+  <div class="meta">
+    <span class="pill">자료 갱신 2026-07-19</span>
+    <span class="pill">최신 집계 29주 (7/19)</span>
+    <span class="pill">집계 완료 29개 주차</span>
+  </div>
+</header>
 
- <div class="grid r2" style="margin-top:16px">
-  <div class="card">
-   <div class="sec-h"><h2><span class="i"></span>출석 추이</h2>
-    <div class="toggle" id="attToggle"><button data-m="month" class="on">월별</button><button data-m="week">주차별</button></div></div>
-   <div class="chart-box"><canvas id="attChart"></canvas></div>
-  </div>
-  <div class="card">
-   <div class="sec-h"><h2><span class="i"></span>학년별 출석률</h2>
-    <div class="toggle" id="grToggle"><button data-m="avg" class="on">누적평균</button><button data-m="week">선택주</button></div></div>
-   <div class="chart-box"><canvas id="grChart"></canvas></div>
-  </div>
- </div>
+<div class="kpis">
+  <div class="kpi"><div class="lab">재적</div><div class="val">43</div><div class="sub">교사 15명</div></div>
+  <div class="kpi"><div class="lab">출석</div><div class="val">35</div><div class="sub">새친구 4명 포함</div></div>
+  <div class="kpi"><div class="lab">출석률</div><div class="val">81.4%</div><div class="sub">전주 대비 <span class="up">+7.0%p</span></div></div>
+  <div class="kpi"><div class="lab">결석 / 장기결석</div><div class="val">4 / 8</div><div class="sub">장기결석 제외 결석 4명</div></div>
+  <div class="kpi"><div class="lab">새친구 누적</div><div class="val">15</div><div class="sub">1월 이후 등록 인원</div></div>
+</div>
 
- <div class="grid r2" style="margin-top:16px">
-  <div class="card">
-   <div class="sec-h"><h2><span class="i" style="background:var(--red)"></span>결석자 명단 <span id="absWk" class="mut" style="font-weight:600;font-size:12px"></span></h2>
-    <span id="absCnt" class="tag r"></span></div>
-   <div class="list"><table><thead><tr><th>이름</th><th>학년</th><th>구분</th><th>누적 결석</th><th>결석 횟수</th></tr></thead><tbody id="absBody"></tbody></table></div>
+<div class="bar">
+  <b>주차 선택</b>
+  <div class="nav">
+    <button id="pv">‹ 이전</button>
+    <div class="cur" id="cw"></div>
+    <button id="nx">다음 ›</button>
   </div>
-  <div class="card">
-   <div class="sec-h"><h2><span class="i" style="background:var(--green)"></span>개근자 명단</h2>
-    <span id="perfCnt" class="tag g"></span></div>
-   <div id="perfWrap"></div>
-   <div style="margin-top:10px" class="mut" id="nearWrap"></div>
-  </div>
- </div>
+</div>
 
- <div class="grid r2" style="margin-top:16px">
+<div class="grid">
   <div class="card">
-   <div class="sec-h"><h2><span class="i" style="background:var(--amber)"></span>헌금 현황 <span class="mut" style="font-size:12px;font-weight:600">· 1월~선택주 누적</span></h2>
-    <span id="offTot" class="tag a"></span></div>
-   <div class="grid" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:center">
-    <div class="chart-box sm" style="height:230px"><canvas id="offChart"></canvas></div>
-    <div id="offList"></div>
-   </div>
-   <div class="chart-box sm" style="height:150px;margin-top:8px"><canvas id="offMonth"></canvas></div>
+    <h2>출석 추이</h2><div class="hint">학생 출석 인원 · 새친구 포함</div>
+    <div class="bar" style="margin:0 0 12px;padding:0;box-shadow:none;background:none">
+      <button class="on" id="bM">월별</button><button id="bW">주차별</button>
+    </div>
+    <div class="chartbox"><canvas id="cTrend"></canvas></div>
   </div>
-  <div class="card">
-   <div class="sec-h"><h2><span class="i" style="background:var(--violet)"></span>새친구</h2>
-    <span id="nfCnt" class="tag v"></span></div>
-   <div class="list"><table><thead><tr><th>이름</th><th>학년</th><th>등록</th><th>비고</th></tr></thead><tbody id="nfBody"></tbody></table></div>
-   <div style="margin-top:14px;padding:12px 14px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;font-size:13px;line-height:1.6">
-    <b style="color:var(--violet)">새친구 흐름</b><br><span class="mut">중2 유입이 두드러집니다(앨런·반레이첼·이혜민·이해랑). 이해랑은 7/5 재적으로 편입되었습니다.</span>
-   </div>
-  </div>
- </div>
 
- <div class="grid" style="margin-top:16px">
   <div class="card">
-   <div class="sec-h"><h2><span class="i" style="background:var(--amber)"></span>헌금 참여 명단 <span id="olWk" class="mut" style="font-size:12px;font-weight:600"></span></h2>
-    <span id="olCnt" class="tag a"></span></div>
-   <div class="mut" style="font-size:11.5px;margin:-6px 0 12px">출석부 「헌금명단」 탭 기준 · 개인별 금액은 기록되지 않아 참여 여부/횟수로 집계</div>
-   <div id="olBody"></div>
+    <h2>학년별 출석률</h2><div class="hint">현 재적 명부 기준</div>
+    <div class="bar" style="margin:0 0 12px;padding:0;box-shadow:none;background:none">
+      <button class="on" id="bA">누적 평균</button><button id="bS">선택 주</button>
+    </div>
+    <div class="chartbox"><canvas id="cGrade"></canvas></div>
   </div>
- </div>
 
- <div class="foot" id="foot"></div>
+  <div class="card">
+    <h2>결석자 명단</h2><div class="hint" id="hAbs"></div>
+    <div id="tAbs"></div>
+  </div>
+
+  <div class="card">
+    <h2>완전 개근자</h2><div class="hint">1월부터 전 주차 결석 0회 · 신규 편입자는 편입 이후 기준</div>
+    <div class="chips" id="cPerf"></div>
+  </div>
+
+  <div class="card">
+    <h2>헌금 현황</h2><div class="hint">1월 ~ 7/19 누적 · 이월금 제외</div>
+    <div id="mList"></div>
+    <div class="total"><span>누적 합계</span><span>4,472,000원</span></div>
+    <div class="hint" style="margin-top:10px">총 잔액 1,167,499원 (7/12 기준 · 7/19 잔액 미기재)</div>
+  </div>
+
+  <div class="card">
+    <h2>새친구</h2><div class="hint">1월 이후 등록 누적 15명</div>
+    <div id="tNew"></div>
+  </div>
+</div>
+
+<footer>송탄영광교회 중고등부 · 주간 사역보고서 &amp; 온라인 출석부 기준 자동 집계</footer>
 </div>
 
 <script>
-const D={"generated": "2026-07-18", "latest_week": "7/12", "note_latest": "260719주는 미집계(작성중)로 260712까지 반영", "kpi": {"jaejeok": 43, "chulseok": 32, "rate": 74.4, "gyeolseok": 5, "jangkyeol": 8, "newfriend_total": 5, "offering_total": 4355000, "perfect_cnt": 14}, "monthly": [{"month": "1월", "avg_chul": 30.8, "avg_jae": 43.0, "rate": 71.5, "weeks": 4}, {"month": "2월", "avg_chul": 28.0, "avg_jae": 43.0, "rate": 65.1, "weeks": 4}, {"month": "3월", "avg_chul": 32.4, "avg_jae": 43.0, "rate": 75.3, "weeks": 5}, {"month": "4월", "avg_chul": 30.2, "avg_jae": 43.0, "rate": 70.3, "weeks": 4}, {"month": "5월", "avg_chul": 27.2, "avg_jae": 42.0, "rate": 64.8, "weeks": 5}, {"month": "6월", "avg_chul": 31.0, "avg_jae": 42.0, "rate": 73.8, "weeks": 4}, {"month": "7월", "avg_chul": 31.5, "avg_jae": 43.0, "rate": 73.3, "weeks": 2}], "weekly": [{"label": "1/4", "jae": 43, "chul": 33, "gs": 10, "rate": 76.7}, {"label": "1/11", "jae": 43, "chul": 29, "gs": 14, "rate": 67.4}, {"label": "1/18", "jae": 43, "chul": 31, "gs": 12, "rate": 72.1}, {"label": "1/25", "jae": 43, "chul": 30, "gs": 13, "rate": 69.8}, {"label": "2/1", "jae": 43, "chul": 28, "gs": 15, "rate": 65.1}, {"label": "2/8", "jae": 43, "chul": 31, "gs": 12, "rate": 72.1}, {"label": "2/15", "jae": 43, "chul": 23, "gs": 20, "rate": 53.5}, {"label": "2/22", "jae": 43, "chul": 30, "gs": 13, "rate": 69.8}, {"label": "3/1", "jae": 43, "chul": 32, "gs": 11, "rate": 74.4}, {"label": "3/8", "jae": 43, "chul": 35, "gs": 11, "rate": 81.4}, {"label": "3/15", "jae": 43, "chul": 32, "gs": 11, "rate": 74.4}, {"label": "3/22", "jae": 43, "chul": 31, "gs": 12, "rate": 72.1}, {"label": "3/29", "jae": 43, "chul": 32, "gs": 12, "rate": 74.4}, {"label": "4/5", "jae": 43, "chul": 33, "gs": 12, "rate": 76.7}, {"label": "4/12", "jae": 43, "chul": 30, "gs": 14, "rate": 69.8}, {"label": "4/19", "jae": 43, "chul": 32, "gs": 12, "rate": 74.4}, {"label": "4/26", "jae": 43, "chul": 26, "gs": 17, "rate": 60.5}, {"label": "5/3", "jae": 42, "chul": 25, "gs": 17, "rate": 59.5}, {"label": "5/10", "jae": 42, "chul": 30, "gs": 12, "rate": 71.4}, {"label": "5/17", "jae": 42, "chul": 28, "gs": 14, "rate": 66.7}, {"label": "5/24", "jae": 42, "chul": 26, "gs": 16, "rate": 61.9}, {"label": "5/31", "jae": 42, "chul": 27, "gs": 16, "rate": 64.3}, {"label": "6/7", "jae": 42, "chul": 27, "gs": 16, "rate": 64.3}, {"label": "6/14", "jae": 42, "chul": 30, "gs": 15, "rate": 71.4}, {"label": "6/21", "jae": 42, "chul": 33, "gs": 11, "rate": 78.6}, {"label": "6/28", "jae": 42, "chul": 34, "gs": 11, "rate": 81.0}, {"label": "7/5", "jae": 43, "chul": 31, "gs": 13, "rate": 72.1}, {"label": "7/12", "jae": 43, "chul": 32, "gs": 13, "rate": 74.4}], "latest_absent": [{"name": "김수영", "grade": "중1", "chronic": false}, {"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "abs_freq": [{"name": "이슬찬", "grade": "중2", "cnt": 28}, {"name": "이하영", "grade": "고3", "cnt": 28}, {"name": "변형원", "grade": "고3", "cnt": 28}, {"name": "조한들", "grade": "중2", "cnt": 27}, {"name": "홍은솔", "grade": "고2", "cnt": 26}, {"name": "김태영", "grade": "고1", "cnt": 26}, {"name": "조재희", "grade": "고3", "cnt": 25}, {"name": "정찬빈", "grade": "고3", "cnt": 24}, {"name": "김예준", "grade": "중2", "cnt": 22}, {"name": "박강빈", "grade": "중2", "cnt": 21}, {"name": "김한빈", "grade": "중1", "cnt": 19}, {"name": "이민교", "grade": "중2", "cnt": 13}, {"name": "신승연", "grade": "중2", "cnt": 11}, {"name": "장요셉", "grade": "고3", "cnt": 11}, {"name": "김수영", "grade": "중1", "cnt": 9}, {"name": "유우빈", "grade": "중1", "cnt": 7}, {"name": "유세라", "grade": "중2", "cnt": 6}, {"name": "최유근", "grade": "중1", "cnt": 5}, {"name": "신민준", "grade": "중2", "cnt": 5}, {"name": "이준서", "grade": "중1", "cnt": 5}, {"name": "박예은", "grade": "고2", "cnt": 3}, {"name": "박시우", "grade": "중2", "cnt": 3}, {"name": "이다온", "grade": "고3", "cnt": 2}, {"name": "박봄", "grade": "고1", "cnt": 2}, {"name": "이하윤", "grade": "중2", "cnt": 2}, {"name": "최시원", "grade": "중3", "cnt": 2}, {"name": "김동건", "grade": "중3", "cnt": 2}, {"name": "김서현", "grade": "중2", "cnt": 1}, {"name": "김지호", "grade": "중1", "cnt": 1}], "perfect": [{"name": "이예승", "grade": "중1", "note": ""}, {"name": "홍예인", "grade": "중1", "note": ""}, {"name": "김주온", "grade": "중2", "note": ""}, {"name": "박온유", "grade": "중2", "note": ""}, {"name": "이해랑", "grade": "중2", "note": "신규편입(7/5)"}, {"name": "강민아", "grade": "중2", "note": ""}, {"name": "이예나", "grade": "중3", "note": ""}, {"name": "홍예주", "grade": "고1", "note": ""}, {"name": "김수현", "grade": "고2", "note": ""}, {"name": "김지우", "grade": "고2", "note": ""}, {"name": "배연희", "grade": "고2", "note": ""}, {"name": "이지온", "grade": "고2", "note": ""}, {"name": "강민희", "grade": "고3", "note": ""}, {"name": "이윤지", "grade": "고3", "note": ""}], "near": [{"name": "김지호", "grade": "중1", "cnt": 1}, {"name": "김서현", "grade": "중2", "cnt": 1}], "offering": {"by_cat": [{"cat": "십일조", "amt": 594000}, {"cat": "감사헌금", "amt": 577000}, {"cat": "주일헌금", "amt": 2597000}, {"cat": "특별헌금", "amt": 0}, {"cat": "선교헌금", "amt": 387000}, {"cat": "지목헌금", "amt": 200000}], "total": 4355000, "monthly": [{"month": "1월", "total": 539000}, {"month": "2월", "total": 728000}, {"month": "3월", "total": 962000}, {"month": "4월", "total": 543000}, {"month": "5월", "total": 596000}, {"month": "6월", "total": 519000}, {"month": "7월", "total": 468000}]}, "newfriends": [{"name": "이해랑", "grade": "중2", "date": "7/5 등반", "note": "박시우 전도 · 재적 편입", "wk": 26}, {"name": "반소영", "grade": "고2", "date": "6월", "note": "오산고", "wk": 22}, {"name": "반레이첼", "grade": "중2", "date": "6월", "note": "오산중 · Rachel Ban", "wk": 23}, {"name": "앨런", "grade": "중2", "date": "7월", "note": "Alan Mathias", "wk": 26}, {"name": "이혜민", "grade": "중2", "date": "7월", "note": "송탄중", "wk": 27}], "newfriend_report_sum": 21, "grade_latest": [{"grade": "중1", "size": 8, "present": 6, "absent": 2, "rate": 75.0}, {"grade": "중2", "size": 15, "present": 11, "absent": 4, "rate": 73.3}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}], "grade_avg": [{"grade": "중1", "rate": 79.5}, {"grade": "중2", "rate": 66.9}, {"grade": "중3", "rate": 95.2}, {"grade": "고1", "rate": 66.7}, {"grade": "고2", "rate": 82.7}, {"grade": "고3", "rate": 47.3}], "grade_order": ["중1", "중2", "중3", "고1", "고2", "고3"], "roster": [{"name": "김수영", "grade": "중1", "joinIdx": 0}, {"name": "김지호", "grade": "중1", "joinIdx": 0}, {"name": "김한빈", "grade": "중1", "joinIdx": 0}, {"name": "유우빈", "grade": "중1", "joinIdx": 0}, {"name": "이예승", "grade": "중1", "joinIdx": 0}, {"name": "이준서", "grade": "중1", "joinIdx": 0}, {"name": "최유근", "grade": "중1", "joinIdx": 0}, {"name": "홍예인", "grade": "중1", "joinIdx": 0}, {"name": "김예준", "grade": "중2", "joinIdx": 0}, {"name": "김주온", "grade": "중2", "joinIdx": 0}, {"name": "박강빈", "grade": "중2", "joinIdx": 0}, {"name": "박시우", "grade": "중2", "joinIdx": 0}, {"name": "박온유", "grade": "중2", "joinIdx": 0}, {"name": "신민준", "grade": "중2", "joinIdx": 0}, {"name": "신승연", "grade": "중2", "joinIdx": 0}, {"name": "이민교", "grade": "중2", "joinIdx": 0}, {"name": "이해랑", "grade": "중2", "joinIdx": 26}, {"name": "이슬찬", "grade": "중2", "joinIdx": 0}, {"name": "강민아", "grade": "중2", "joinIdx": 0}, {"name": "김서현", "grade": "중2", "joinIdx": 0}, {"name": "이하윤", "grade": "중2", "joinIdx": 0}, {"name": "유세라", "grade": "중2", "joinIdx": 0}, {"name": "조한들", "grade": "중2", "joinIdx": 0}, {"name": "김동건", "grade": "중3", "joinIdx": 0}, {"name": "이예나", "grade": "중3", "joinIdx": 0}, {"name": "최시원", "grade": "중3", "joinIdx": 0}, {"name": "김태영", "grade": "고1", "joinIdx": 0}, {"name": "박봄", "grade": "고1", "joinIdx": 0}, {"name": "홍예주", "grade": "고1", "joinIdx": 0}, {"name": "김수현", "grade": "고2", "joinIdx": 0}, {"name": "김지우", "grade": "고2", "joinIdx": 0}, {"name": "박예은", "grade": "고2", "joinIdx": 0}, {"name": "배연희", "grade": "고2", "joinIdx": 0}, {"name": "이지온", "grade": "고2", "joinIdx": 0}, {"name": "홍은솔", "grade": "고2", "joinIdx": 0}, {"name": "강민희", "grade": "고3", "joinIdx": 0}, {"name": "변형원", "grade": "고3", "joinIdx": 0}, {"name": "이다온", "grade": "고3", "joinIdx": 0}, {"name": "이윤지", "grade": "고3", "joinIdx": 0}, {"name": "이하영", "grade": "고3", "joinIdx": 0}, {"name": "장요셉", "grade": "고3", "joinIdx": 0}, {"name": "정찬빈", "grade": "고3", "joinIdx": 0}, {"name": "조재희", "grade": "고3", "joinIdx": 0}], "categories": ["십일조", "감사헌금", "주일헌금", "특별헌금", "선교헌금", "지목헌금"], "weekly_detail": {"1/4": {"jae": 43, "chul": 33, "gs": 10, "jk": 0, "sc": 0, "tea": 14, "oc": [0, 20000, 112000, 0, 0, 0], "rate": 76.7, "offering": 132000, "absent": [{"name": "김수영", "grade": "중1", "chronic": false}, {"name": "최유근", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 6, "absent": 2, "rate": 75.0}, {"grade": "중2", "size": 15, "present": 11, "absent": 4, "rate": 73.3}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 6, "absent": 2, "rate": 75.0}]}, "1/11": {"jae": 43, "chul": 29, "gs": 14, "jk": 0, "sc": 0, "tea": 14, "oc": [10000, 0, 154000, 0, 0, 0], "rate": 67.4, "offering": 164000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신민준", "grade": "중2", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이다온", "grade": "고3", "chronic": false}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 7, "absent": 1, "rate": 87.5}, {"grade": "중2", "size": 15, "present": 8, "absent": 7, "rate": 53.3}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "1/18": {"jae": 43, "chul": 31, "gs": 12, "jk": 0, "sc": 0, "tea": 14, "oc": [15000, 0, 102000, 0, 5000, 0], "rate": 72.1, "offering": 122000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "유우빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "박봄", "grade": "고1", "chronic": false}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 6, "absent": 2, "rate": 75.0}, {"grade": "중2", "size": 15, "present": 12, "absent": 3, "rate": 80.0}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 1, "absent": 2, "rate": 33.3}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 5, "absent": 3, "rate": 62.5}]}, "1/25": {"jae": 43, "chul": 30, "gs": 13, "jk": 0, "sc": 0, "tea": 14, "oc": [30000, 0, 86000, 0, 5000, 0], "rate": 69.8, "offering": 121000, "absent": [{"name": "김수영", "grade": "중1", "chronic": false}, {"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신민준", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "박봄", "grade": "고1", "chronic": false}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 6, "absent": 2, "rate": 75.0}, {"grade": "중2", "size": 15, "present": 9, "absent": 6, "rate": 60.0}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 1, "absent": 2, "rate": 33.3}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 6, "absent": 2, "rate": 75.0}]}, "2/1": {"jae": 43, "chul": 28, "gs": 10, "jk": 5, "sc": 0, "tea": 14, "oc": [0, 0, 109000, 0, 5000, 0], "rate": 65.1, "offering": 114000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "유우빈", "grade": "중1", "chronic": false}, {"name": "최유근", "grade": "중1", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신민준", "grade": "중2", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 5, "absent": 3, "rate": 62.5}, {"grade": "중2", "size": 15, "present": 9, "absent": 6, "rate": 60.0}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "2/8": {"jae": 43, "chul": 31, "gs": 7, "jk": 5, "sc": 0, "tea": 14, "oc": [16000, 0, 97000, 0, 5000, 0], "rate": 72.1, "offering": 118000, "absent": [{"name": "이준서", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 7, "absent": 1, "rate": 87.5}, {"grade": "중2", "size": 15, "present": 10, "absent": 5, "rate": 66.7}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 5, "absent": 3, "rate": 62.5}]}, "2/15": {"jae": 43, "chul": 23, "gs": 14, "jk": 6, "sc": 0, "tea": 14, "oc": [110000, 50000, 72000, 0, 0, 0], "rate": 53.5, "offering": 232000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "유우빈", "grade": "중1", "chronic": false}, {"name": "최유근", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "박시우", "grade": "중2", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "유세라", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "박예은", "grade": "고2", "chronic": false}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이다온", "grade": "고3", "chronic": false}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 5, "absent": 3, "rate": 62.5}, {"grade": "중2", "size": 15, "present": 7, "absent": 8, "rate": 46.7}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 4, "absent": 2, "rate": 66.7}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}, "2/22": {"jae": 43, "chul": 30, "gs": 6, "jk": 7, "sc": 0, "tea": 14, "oc": [145000, 5000, 104000, 0, 10000, 0], "rate": 69.8, "offering": 264000, "absent": [{"name": "김수영", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 7, "absent": 1, "rate": 87.5}, {"grade": "중2", "size": 15, "present": 10, "absent": 5, "rate": 66.7}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "3/1": {"jae": 43, "chul": 32, "gs": 3, "jk": 8, "sc": 0, "tea": 14, "oc": [90000, 300000, 94000, 0, 5000, 0], "rate": 74.4, "offering": 489000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "최유근", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 6, "absent": 2, "rate": 75.0}, {"grade": "중2", "size": 15, "present": 11, "absent": 4, "rate": 73.3}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 6, "absent": 0, "rate": 100.0}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "3/8": {"jae": 43, "chul": 35, "gs": 2, "jk": 9, "sc": 3, "tea": 14, "oc": [30000, 0, 109000, 0, 5000, 0], "rate": 81.4, "offering": 144000, "absent": [{"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 8, "absent": 0, "rate": 100.0}, {"grade": "중2", "size": 15, "present": 10, "absent": 5, "rate": 66.7}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "3/15": {"jae": 43, "chul": 32, "gs": 3, "jk": 8, "sc": 0, "tea": 14, "oc": [0, 0, 109000, 0, 20000, 0], "rate": 74.4, "offering": 129000, "absent": [{"name": "유우빈", "grade": "중1", "chronic": false}, {"name": "최유근", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 6, "absent": 2, "rate": 75.0}, {"grade": "중2", "size": 15, "present": 12, "absent": 3, "rate": 80.0}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "3/22": {"jae": 43, "chul": 31, "gs": 4, "jk": 8, "sc": 0, "tea": 14, "oc": [0, 0, 74000, 0, 5000, 0], "rate": 72.1, "offering": 79000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "유세라", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 7, "absent": 1, "rate": 87.5}, {"grade": "중2", "size": 15, "present": 11, "absent": 4, "rate": 73.3}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "3/29": {"jae": 43, "chul": 32, "gs": 5, "jk": 7, "sc": 1, "tea": 14, "oc": [0, 0, 0, 0, 121000, 0], "rate": 74.4, "offering": 121000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "이준서", "grade": "중1", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 6, "absent": 2, "rate": 75.0}, {"grade": "중2", "size": 15, "present": 12, "absent": 3, "rate": 80.0}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "4/5": {"jae": 43, "chul": 33, "gs": 4, "jk": 8, "sc": 2, "tea": 14, "oc": [5000, 99000, 102000, 0, 11000, 0], "rate": 76.7, "offering": 217000, "absent": [{"name": "김수영", "grade": "중1", "chronic": false}, {"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 6, "absent": 2, "rate": 75.0}, {"grade": "중2", "size": 15, "present": 12, "absent": 3, "rate": 80.0}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "4/12": {"jae": 43, "chul": 30, "gs": 7, "jk": 7, "sc": 1, "tea": 14, "oc": [0, 28000, 54000, 0, 15000, 0], "rate": 69.8, "offering": 97000, "absent": [{"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신민준", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "유세라", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 8, "absent": 0, "rate": 100.0}, {"grade": "중2", "size": 15, "present": 8, "absent": 7, "rate": 53.3}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}, "4/19": {"jae": 43, "chul": 32, "gs": 4, "jk": 8, "sc": 2, "tea": 14, "oc": [0, 0, 109000, 0, 5000, 0], "rate": 74.4, "offering": 114000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신민준", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 7, "absent": 1, "rate": 87.5}, {"grade": "중2", "size": 15, "present": 10, "absent": 5, "rate": 66.7}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "4/26": {"jae": 43, "chul": 26, "gs": 9, "jk": 8, "sc": 0, "tea": 14, "oc": [10000, 0, 85000, 0, 20000, 0], "rate": 60.5, "offering": 115000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "유우빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "이하윤", "grade": "중2", "chronic": false}, {"name": "유세라", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 6, "absent": 2, "rate": 75.0}, {"grade": "중2", "size": 15, "present": 7, "absent": 8, "rate": 46.7}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "5/3": {"jae": 42, "chul": 25, "gs": 10, "jk": 7, "sc": 0, "tea": 14, "oc": [5000, 0, 78000, 0, 6000, 0], "rate": 59.5, "offering": 89000, "absent": [{"name": "김수영", "grade": "중1", "chronic": false}, {"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "이준서", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "박시우", "grade": "중2", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "최시원", "grade": "중3", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "박예은", "grade": "고2", "chronic": false}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 5, "absent": 3, "rate": 62.5}, {"grade": "중2", "size": 15, "present": 8, "absent": 7, "rate": 53.3}, {"grade": "중3", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 4, "absent": 4, "rate": 50.0}]}, "5/10": {"jae": 42, "chul": 30, "gs": 5, "jk": 7, "sc": 0, "tea": 15, "oc": [31000, 0, 107000, 0, 20000, 0], "rate": 71.4, "offering": 158000, "absent": [{"name": "유우빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 7, "absent": 1, "rate": 87.5}, {"grade": "중2", "size": 15, "present": 11, "absent": 4, "rate": 73.3}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}, "5/17": {"jae": 42, "chul": 28, "gs": 7, "jk": 7, "sc": 0, "tea": 15, "oc": [65000, 0, 84000, 0, 5000, 0], "rate": 66.7, "offering": 154000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "김서현", "grade": "중2", "chronic": false}, {"name": "이하윤", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김동건", "grade": "중3", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 7, "absent": 1, "rate": 87.5}, {"grade": "중2", "size": 15, "present": 10, "absent": 5, "rate": 66.7}, {"grade": "중3", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}, "5/24": {"jae": 42, "chul": 26, "gs": 9, "jk": 7, "sc": 0, "tea": 15, "oc": [0, 0, 93000, 0, 4000, 0], "rate": 61.9, "offering": 97000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "박시우", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "유세라", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "박예은", "grade": "고2", "chronic": false}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 7, "absent": 1, "rate": 87.5}, {"grade": "중2", "size": 15, "present": 8, "absent": 7, "rate": 53.3}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 4, "absent": 2, "rate": 66.7}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}, "5/31": {"jae": 42, "chul": 27, "gs": 9, "jk": 7, "sc": 1, "tea": 15, "oc": [10000, 0, 83000, 0, 5000, 0], "rate": 64.3, "offering": 98000, "absent": [{"name": "김수영", "grade": "중1", "chronic": false}, {"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "유우빈", "grade": "중1", "chronic": false}, {"name": "이준서", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 4, "absent": 4, "rate": 50.0}, {"grade": "중2", "size": 15, "present": 10, "absent": 5, "rate": 66.7}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}, "6/7": {"jae": 42, "chul": 27, "gs": 7, "jk": 9, "sc": 1, "tea": 15, "oc": [16000, 0, 87000, 0, 15000, 0], "rate": 64.3, "offering": 118000, "absent": [{"name": "김수영", "grade": "중1", "chronic": false}, {"name": "김지호", "grade": "중1", "chronic": false}, {"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김동건", "grade": "중3", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 5, "absent": 3, "rate": 62.5}, {"grade": "중2", "size": 15, "present": 10, "absent": 5, "rate": 66.7}, {"grade": "중3", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}, "6/14": {"jae": 42, "chul": 30, "gs": 5, "jk": 10, "sc": 2, "tea": 15, "oc": [5000, 0, 111000, 0, 5000, 0], "rate": 71.4, "offering": 121000, "absent": [{"name": "이준서", "grade": "중1", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "유세라", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 7, "absent": 1, "rate": 87.5}, {"grade": "중2", "size": 15, "present": 9, "absent": 6, "rate": 60.0}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}, "6/21": {"jae": 42, "chul": 33, "gs": 1, "jk": 10, "sc": 2, "tea": 15, "oc": [1000, 0, 102000, 0, 5000, 0], "rate": 78.6, "offering": 108000, "absent": [{"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 7, "absent": 1, "rate": 87.5}, {"grade": "중2", "size": 15, "present": 12, "absent": 3, "rate": 80.0}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}, "6/28": {"jae": 42, "chul": 34, "gs": 1, "jk": 10, "sc": 3, "tea": 15, "oc": [0, 0, 92000, 0, 80000, 0], "rate": 81.0, "offering": 172000, "absent": [{"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "최시원", "grade": "중3", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 8, "absent": 0, "rate": 100.0}, {"grade": "중2", "size": 15, "present": 12, "absent": 3, "rate": 80.0}, {"grade": "중3", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}, "7/5": {"jae": 43, "chul": 31, "gs": 4, "jk": 9, "sc": 1, "tea": 15, "oc": [0, 75000, 113000, 0, 0, 0], "rate": 72.1, "offering": 188000, "absent": [{"name": "김수영", "grade": "중1", "chronic": false}, {"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "이민교", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "조한들", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 6, "absent": 2, "rate": 75.0}, {"grade": "중2", "size": 15, "present": 11, "absent": 4, "rate": 73.3}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}, "7/12": {"jae": 43, "chul": 32, "gs": 5, "jk": 8, "sc": 2, "tea": 15, "oc": [0, 0, 75000, 0, 5000, 200000], "rate": 74.4, "offering": 280000, "absent": [{"name": "김수영", "grade": "중1", "chronic": false}, {"name": "김한빈", "grade": "중1", "chronic": false}, {"name": "김예준", "grade": "중2", "chronic": false}, {"name": "박강빈", "grade": "중2", "chronic": false}, {"name": "신승연", "grade": "중2", "chronic": false}, {"name": "이슬찬", "grade": "중2", "chronic": false}, {"name": "김태영", "grade": "고1", "chronic": true}, {"name": "홍은솔", "grade": "고2", "chronic": true}, {"name": "변형원", "grade": "고3", "chronic": true}, {"name": "이하영", "grade": "고3", "chronic": true}, {"name": "장요셉", "grade": "고3", "chronic": true}, {"name": "정찬빈", "grade": "고3", "chronic": true}, {"name": "조재희", "grade": "고3", "chronic": true}], "grade": [{"grade": "중1", "size": 8, "present": 6, "absent": 2, "rate": 75.0}, {"grade": "중2", "size": 15, "present": 11, "absent": 4, "rate": 73.3}, {"grade": "중3", "size": 3, "present": 3, "absent": 0, "rate": 100.0}, {"grade": "고1", "size": 3, "present": 2, "absent": 1, "rate": 66.7}, {"grade": "고2", "size": 6, "present": 5, "absent": 1, "rate": 83.3}, {"grade": "고3", "size": 8, "present": 3, "absent": 5, "rate": 37.5}]}}, "order": ["1/4", "1/11", "1/18", "1/25", "2/1", "2/8", "2/15", "2/22", "3/1", "3/8", "3/15", "3/22", "3/29", "4/5", "4/12", "4/19", "4/26", "5/3", "5/10", "5/17", "5/24", "5/31", "6/7", "6/14", "6/21", "6/28", "7/5", "7/12"], "offerList": {"rows": [{"date": "2026-07-05", "wk": "7/5", "item": "감사헌금", "amt": 75000, "names": ["박예은", "강민아", "강민희", "홍예주", "홍예인", "이윤지"], "note": "맥추 감사", "idx": 26}, {"date": "2026-07-05", "wk": "7/5", "item": "주일헌금", "amt": 113000, "names": ["김주온", "김수현", "이윤지", "박봄", "유세라", "이예승", "배연희", "박온유", "홍예인", "홍예주", "강민아", "강민희", "박예은", "이지온", "이다온", "김지우"], "note": "", "idx": 26}, {"date": "2026-07-12", "wk": "7/12", "item": "구제/선교", "amt": 5000, "names": [], "note": "익명 1명", "idx": 27}, {"date": "2026-07-12", "wk": "7/12", "item": "기타", "amt": 200000, "names": [], "note": "지목헌금 박션", "idx": 27}, {"date": "2026-07-12", "wk": "7/12", "item": "주일헌금", "amt": 75000, "names": ["홍예주", "이다온", "이지온", "박예은", "이준서", "박온유", "홍예인", "배연희", "이윤지", "유세라", "김지우", "강민아"], "note": "", "idx": 27}, {"date": "2026-07-19", "wk": "7/19", "item": "구제/선교", "amt": 5000, "names": [], "note": "익명 1명", "idx": -1}, {"date": "2026-07-19", "wk": "7/19", "item": "기타", "amt": 100000, "names": [], "note": "찬조 강순애 권사", "idx": -1}, {"date": "2026-07-19", "wk": "7/19", "item": "주일헌금", "amt": 112000, "names": ["김한빈", "김수영", "박온유", "이지온", "이다온", "박예은", "홍예주", "홍예인", "이예승", "김수현", "강민아", "이하윤"], "note": "", "idx": -1}], "itemOrder": ["주일헌금", "감사헌금", "구제/선교", "기타"]}};
-const cAcc='#4f68ff',cBlue='#0ea5e9',cGreen='#16b364',cAmber='#f59e0b',cRed='#f43f5e',cViolet='#8b5cf6',cTx2='#6b7896',cLine='#eef1f7';
-Chart.defaults.color=cTx2;Chart.defaults.font.family="'Pretendard','Apple SD Gothic Neo',sans-serif";Chart.defaults.font.size=12;
-Chart.defaults.plugins.legend.labels.boxWidth=12;Chart.defaults.plugins.legend.labels.boxHeight=12;Chart.defaults.plugins.legend.labels.usePointStyle=true;
-Chart.defaults.animation=false;Chart.defaults.animations=false;
-Object.assign(Chart.defaults.plugins.tooltip,{position:'average',backgroundColor:'rgba(31,40,64,.92)',padding:10,cornerRadius:8,titleFont:{weight:'700'},bodyFont:{size:12.5},displayColors:true,usePointStyle:true,boxPadding:4,animation:false});
-Chart.defaults.hover={mode:'index',intersect:false};
-const won=n=>n.toLocaleString('ko-KR');
-const safeUpdate=ch=>{try{ch.setActiveElements([]);if(ch.tooltip)ch.tooltip.setActiveElements([],{x:0,y:0});}catch(e){}ch.update('none');};
-let cur=D.order.length-1, A=null;
+const DATA = {"updated":"2026-07-19","latest":"7/19","latest_w":29,"weeks":[{"w":1,"date":"1/4","enrolled":43,"teachers":14,"attend":33,"absent":10,"long":0,"new":0,"rate":76.7},{"w":2,"date":"1/11","enrolled":43,"teachers":14,"attend":29,"absent":14,"long":0,"new":0,"rate":67.4},{"w":3,"date":"1/18","enrolled":43,"teachers":14,"attend":31,"absent":12,"long":0,"new":0,"rate":72.1},{"w":4,"date":"1/25","enrolled":43,"teachers":14,"attend":30,"absent":13,"long":0,"new":0,"rate":69.8},{"w":5,"date":"2/1","enrolled":43,"teachers":14,"attend":28,"absent":10,"long":5,"new":0,"rate":65.1},{"w":6,"date":"2/8","enrolled":43,"teachers":14,"attend":31,"absent":7,"long":5,"new":0,"rate":72.1},{"w":7,"date":"2/15","enrolled":43,"teachers":14,"attend":23,"absent":14,"long":6,"new":0,"rate":53.5},{"w":8,"date":"2/22","enrolled":43,"teachers":14,"attend":30,"absent":6,"long":7,"new":0,"rate":69.8},{"w":9,"date":"3/1","enrolled":43,"teachers":14,"attend":32,"absent":3,"long":8,"new":0,"rate":74.4},{"w":10,"date":"3/8","enrolled":43,"teachers":14,"attend":35,"absent":2,"long":9,"new":3,"rate":81.4},{"w":11,"date":"3/15","enrolled":43,"teachers":14,"attend":32,"absent":3,"long":8,"new":0,"rate":74.4},{"w":12,"date":"3/22","enrolled":43,"teachers":14,"attend":31,"absent":4,"long":8,"new":0,"rate":72.1},{"w":13,"date":"3/29","enrolled":43,"teachers":14,"attend":32,"absent":5,"long":7,"new":1,"rate":74.4},{"w":14,"date":"4/5","enrolled":43,"teachers":14,"attend":33,"absent":4,"long":8,"new":2,"rate":76.7},{"w":15,"date":"4/12","enrolled":43,"teachers":14,"attend":30,"absent":7,"long":7,"new":1,"rate":69.8},{"w":16,"date":"4/19","enrolled":43,"teachers":14,"attend":32,"absent":4,"long":8,"new":2,"rate":74.4},{"w":17,"date":"4/26","enrolled":43,"teachers":14,"attend":26,"absent":9,"long":8,"new":0,"rate":60.5},{"w":18,"date":"5/3","enrolled":42,"teachers":14,"attend":25,"absent":10,"long":7,"new":0,"rate":59.5},{"w":19,"date":"5/10","enrolled":42,"teachers":15,"attend":30,"absent":5,"long":7,"new":0,"rate":71.4},{"w":20,"date":"5/17","enrolled":42,"teachers":15,"attend":28,"absent":7,"long":7,"new":0,"rate":66.7},{"w":21,"date":"5/24","enrolled":42,"teachers":15,"attend":26,"absent":9,"long":7,"new":0,"rate":61.9},{"w":22,"date":"5/31","enrolled":42,"teachers":15,"attend":27,"absent":9,"long":7,"new":1,"rate":64.3},{"w":23,"date":"6/7","enrolled":42,"teachers":15,"attend":27,"absent":7,"long":9,"new":1,"rate":64.3},{"w":24,"date":"6/14","enrolled":42,"teachers":15,"attend":30,"absent":5,"long":10,"new":2,"rate":71.4},{"w":25,"date":"6/21","enrolled":42,"teachers":15,"attend":33,"absent":1,"long":10,"new":2,"rate":78.6},{"w":26,"date":"6/28","enrolled":42,"teachers":15,"attend":34,"absent":1,"long":10,"new":3,"rate":81.0},{"w":27,"date":"7/5","enrolled":43,"teachers":15,"attend":31,"absent":4,"long":9,"new":1,"rate":72.1},{"w":28,"date":"7/12","enrolled":43,"teachers":15,"attend":32,"absent":5,"long":8,"new":2,"rate":74.4},{"w":29,"date":"7/19","enrolled":43,"teachers":15,"attend":35,"absent":4,"long":8,"new":4,"rate":81.4}],"monthly":[{"month":1,"rate":71.5,"attend":30.8,"weeks":4},{"month":2,"rate":65.1,"attend":28.0,"weeks":4},{"month":3,"rate":75.3,"attend":32.4,"weeks":5},{"month":4,"rate":70.3,"attend":30.2,"weeks":4},{"month":5,"rate":64.8,"attend":27.2,"weeks":5},{"month":6,"rate":73.8,"attend":31.0,"weeks":4},{"month":7,"rate":76.0,"attend":32.7,"weeks":3}],"offerings":{"십일조":594000,"감사":478000,"주일":2709000,"특별":99000,"선교":392000,"지목":200000},"balance":1167499,"roster":[{"name":"김수영","grade":"중1","cls":"중1","long":false,"absent":["1/4","1/25","2/22","4/5","5/3","5/31","6/7","7/5","7/12"],"weeks":29,"new_member":false},{"name":"김지호","grade":"중1","cls":"중1","long":false,"absent":["6/7"],"weeks":29,"new_member":false},{"name":"김한빈","grade":"중1","cls":"중1","long":false,"absent":["1/11","1/18","1/25","2/1","2/15","3/1","3/22","3/29","4/5","4/19","4/26","5/3","5/17","5/24","5/31","6/7","6/21","7/5","7/12"],"weeks":29,"new_member":false},{"name":"유우빈","grade":"중1","cls":"중1","long":false,"absent":["1/18","2/1","2/15","3/15","4/26","5/10","5/31"],"weeks":29,"new_member":false},{"name":"이예승","grade":"중1","cls":"중1","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"이준서","grade":"중1","cls":"중1","long":false,"absent":["2/8","3/29","5/3","5/31","6/14"],"weeks":29,"new_member":false},{"name":"최유근","grade":"중1","cls":"중1","long":false,"absent":["1/4","2/1","2/15","3/1","3/15"],"weeks":29,"new_member":false},{"name":"홍예인","grade":"중1","cls":"중1","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"김예준","grade":"중2","cls":"중2남","long":false,"absent":["1/4","1/11","1/18","1/25","2/8","2/15","2/22","3/1","3/8","3/15","3/22","4/5","4/12","4/19","4/26","5/3","5/10","5/24","5/31","6/7","7/5","7/12"],"weeks":29,"new_member":false},{"name":"김주온","grade":"중2","cls":"중2남","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"박강빈","grade":"중2","cls":"중2남","long":false,"absent":["1/4","1/11","1/25","2/1","2/8","2/15","2/22","3/1","3/8","4/12","4/19","4/26","5/3","5/17","5/24","5/31","6/7","6/14","6/21","6/28","7/12"],"weeks":29,"new_member":false},{"name":"박시우","grade":"중2","cls":"중2남","long":false,"absent":["2/15","5/3","5/24"],"weeks":29,"new_member":false},{"name":"박온유","grade":"중2","cls":"중2남","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"신민준","grade":"중2","cls":"중2남","long":false,"absent":["1/11","1/25","2/1","4/12","4/19","7/19"],"weeks":29,"new_member":false},{"name":"신승연","grade":"중2","cls":"중2남","long":false,"absent":["1/11","2/1","2/8","2/15","2/22","3/29","4/26","5/3","5/31","6/14","7/12"],"weeks":29,"new_member":false},{"name":"이민교","grade":"중2","cls":"중2남","long":false,"absent":["1/11","1/25","2/1","2/15","3/8","4/12","4/26","5/3","5/10","5/24","6/7","6/14","7/5"],"weeks":29,"new_member":false},{"name":"이해랑","grade":"중2","cls":"중2남","long":false,"absent":[],"weeks":2,"new_member":true},{"name":"이슬찬","grade":"중2","cls":"중2남","long":true,"absent":["1/4","1/11","1/18","1/25","2/1","2/8","2/15","2/22","3/1","3/8","3/15","3/22","3/29","4/5","4/12","4/19","4/26","5/3","5/10","5/17","5/24","5/31","6/7","6/14","6/21","6/28","7/5","7/12","7/19"],"weeks":29,"new_member":false},{"name":"강민아","grade":"중2","cls":"중2여","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"김서현","grade":"중2","cls":"중2여","long":false,"absent":["5/17","7/19"],"weeks":29,"new_member":false},{"name":"이하윤","grade":"중2","cls":"중2여","long":false,"absent":["4/26","5/17"],"weeks":29,"new_member":false},{"name":"유세라","grade":"중2","cls":"중2여","long":false,"absent":["2/15","3/22","4/12","4/26","5/24","6/14"],"weeks":29,"new_member":false},{"name":"조한들","grade":"중2","cls":"중2여","long":false,"absent":["1/4","1/11","1/18","1/25","2/1","2/8","2/15","2/22","3/1","3/8","3/15","3/22","3/29","4/5","4/12","4/19","4/26","5/3","5/10","5/17","5/24","5/31","6/7","6/14","6/21","6/28","7/5","7/19"],"weeks":29,"new_member":false},{"name":"김동건","grade":"중3","cls":"중3","long":false,"absent":["5/17","6/7"],"weeks":29,"new_member":false},{"name":"이예나","grade":"중3","cls":"중3","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"최시원","grade":"중3","cls":"중3","long":false,"absent":["5/3","6/28"],"weeks":29,"new_member":false},{"name":"김태영","grade":"고1","cls":"고1","long":true,"absent":["1/4","1/18","1/25","2/1","2/8","2/15","2/22","3/1","3/8","3/15","3/22","3/29","4/5","4/19","4/26","5/3","5/10","5/17","5/24","5/31","6/7","6/14","6/21","6/28","7/5","7/12","7/19"],"weeks":29,"new_member":false},{"name":"박봄","grade":"고1","cls":"고1","long":false,"absent":["1/18","1/25"],"weeks":29,"new_member":false},{"name":"홍예주","grade":"고1","cls":"고1","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"김수현","grade":"고2","cls":"고2","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"김지우","grade":"고2","cls":"고2","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"박예은","grade":"고2","cls":"고2","long":false,"absent":["2/15","5/3","5/24"],"weeks":29,"new_member":false},{"name":"배연희","grade":"고2","cls":"고2","long":false,"absent":["7/19"],"weeks":29,"new_member":false},{"name":"이지온","grade":"고2","cls":"고2","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"홍은솔","grade":"고2","cls":"고2","long":true,"absent":["1/4","1/11","1/18","1/25","2/1","2/8","2/15","2/22","3/8","3/15","3/22","3/29","4/5","4/12","4/19","4/26","5/10","5/17","5/24","5/31","6/7","6/14","6/21","6/28","7/5","7/12","7/19"],"weeks":29,"new_member":false},{"name":"강민희","grade":"고3","cls":"고3","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"변형원","grade":"고3","cls":"고3","long":true,"absent":["1/4","1/11","1/18","1/25","2/1","2/8","2/15","2/22","3/1","3/8","3/15","3/22","3/29","4/5","4/12","4/19","4/26","5/3","5/10","5/17","5/24","5/31","6/7","6/14","6/21","6/28","7/5","7/12","7/19"],"weeks":29,"new_member":false},{"name":"이다온","grade":"고3","cls":"고3","long":false,"absent":["1/11","2/15"],"weeks":29,"new_member":false},{"name":"이윤지","grade":"고3","cls":"고3","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"이하영","grade":"고3","cls":"고3","long":true,"absent":["1/4","1/11","1/18","1/25","2/1","2/8","2/15","2/22","3/1","3/8","3/15","3/22","3/29","4/5","4/12","4/19","4/26","5/3","5/10","5/17","5/24","5/31","6/7","6/14","6/21","6/28","7/5","7/12","7/19"],"weeks":29,"new_member":false},{"name":"장요셉","grade":"고3","cls":"고3","long":true,"absent":["4/12","5/10","5/17","5/24","5/31","6/7","6/14","6/21","6/28","7/5","7/12","7/19"],"weeks":29,"new_member":false},{"name":"정찬빈","grade":"고3","cls":"고3","long":true,"absent":["3/29","6/21","6/28","7/5","7/12","7/19"],"weeks":6,"new_member":true},{"name":"조재희","grade":"고3","cls":"고3","long":true,"absent":["1/18","2/1","2/8","2/15","2/22","3/1","3/8","3/15","3/22","3/29","4/5","4/12","4/19","4/26","5/3","5/10","5/17","5/24","5/31","6/7","6/14","6/21","6/28","7/5","7/12","7/19"],"weeks":29,"new_member":false}],"perfect":[{"name":"이예승","grade":"중1","cls":"중1","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"홍예인","grade":"중1","cls":"중1","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"김주온","grade":"중2","cls":"중2남","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"박온유","grade":"중2","cls":"중2남","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"이해랑","grade":"중2","cls":"중2남","long":false,"absent":[],"weeks":2,"new_member":true},{"name":"강민아","grade":"중2","cls":"중2여","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"이예나","grade":"중3","cls":"중3","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"홍예주","grade":"고1","cls":"고1","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"김수현","grade":"고2","cls":"고2","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"김지우","grade":"고2","cls":"고2","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"이지온","grade":"고2","cls":"고2","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"강민희","grade":"고3","cls":"고3","long":false,"absent":[],"weeks":29,"new_member":false},{"name":"이윤지","grade":"고3","cls":"고3","long":false,"absent":[],"weeks":29,"new_member":false}],"grade":{"중1":{"n":8,"rate":80.2},"중2":{"n":15,"rate":65.0},"중3":{"n":3,"rate":95.4},"고1":{"n":3,"rate":66.7},"고2":{"n":6,"rate":82.2},"고3":{"n":8,"rate":50.2}},"gweek":{"1/4":{"중1":75.0,"중2":71.4,"중3":100.0,"고1":75.0,"고2":83.3,"고3":75.0},"1/11":{"중1":87.5,"중2":50.0,"중3":100.0,"고1":75.0,"고2":83.3,"고3":50.0},"1/18":{"중1":75.0,"중2":78.6,"중3":100.0,"고1":25.0,"고2":83.3,"고3":62.5},"1/25":{"중1":75.0,"중2":57.1,"중3":100.0,"고1":50.0,"고2":83.3,"고3":75.0},"2/1":{"중1":62.5,"중2":57.1,"중3":100.0,"고1":75.0,"고2":83.3,"고3":50.0},"2/8":{"중1":87.5,"중2":64.3,"중3":100.0,"고1":50.0,"고2":83.3,"고3":62.5},"2/15":{"중1":62.5,"중2":42.9,"중3":100.0,"고1":50.0,"고2":66.7,"고3":37.5},"2/22":{"중1":87.5,"중2":64.3,"중3":100.0,"고1":50.0,"고2":83.3,"고3":50.0},"3/1":{"중1":75.0,"중2":71.4,"중3":100.0,"고1":75.0,"고2":100.0,"고3":50.0},"3/8":{"중1":100.0,"중2":64.3,"중3":100.0,"고1":75.0,"고2":83.3,"고3":50.0},"3/15":{"중1":75.0,"중2":78.6,"중3":100.0,"고1":75.0,"고2":83.3,"고3":50.0},"3/22":{"중1":87.5,"중2":71.4,"중3":100.0,"고1":50.0,"고2":83.3,"고3":50.0},"3/29":{"중1":75.0,"중2":78.6,"중3":100.0,"고1":50.0,"고2":83.3,"고3":50.0},"4/5":{"중1":75.0,"중2":78.6,"중3":100.0,"고1":50.0,"고2":83.3,"고3":50.0},"4/12":{"중1":100.0,"중2":50.0,"중3":100.0,"고1":75.0,"고2":83.3,"고3":37.5},"4/19":{"중1":87.5,"중2":64.3,"중3":100.0,"고1":50.0,"고2":83.3,"고3":50.0},"4/26":{"중1":75.0,"중2":42.9,"중3":100.0,"고1":50.0,"고2":83.3,"고3":50.0},"5/3":{"중1":62.5,"중2":50.0,"중3":66.7,"고1":66.7,"고2":83.3,"고3":50.0},"5/10":{"중1":87.5,"중2":71.4,"중3":100.0,"고1":66.7,"고2":83.3,"고3":37.5},"5/17":{"중1":87.5,"중2":64.3,"중3":66.7,"고1":66.7,"고2":83.3,"고3":37.5},"5/24":{"중1":87.5,"중2":50.0,"중3":100.0,"고1":66.7,"고2":66.7,"고3":37.5},"5/31":{"중1":50.0,"중2":64.3,"중3":100.0,"고1":66.7,"고2":83.3,"고3":37.5},"6/7":{"중1":62.5,"중2":64.3,"중3":66.7,"고1":66.7,"고2":83.3,"고3":37.5},"6/14":{"중1":87.5,"중2":57.1,"중3":100.0,"고1":66.7,"고2":83.3,"고3":37.5},"6/21":{"중1":87.5,"중2":78.6,"중3":100.0,"고1":66.7,"고2":83.3,"고3":37.5},"6/28":{"중1":100.0,"중2":78.6,"중3":66.7,"고1":66.7,"고2":83.3,"고3":37.5},"7/5":{"중1":75.0,"중2":71.4,"중3":100.0,"고1":66.7,"고2":83.3,"고3":37.5},"7/12":{"중1":75.0,"중2":73.3,"중3":100.0,"고1":66.7,"고2":83.3,"고3":37.5},"7/19":{"중1":100.0,"중2":73.3,"중3":100.0,"고1":66.7,"고2":66.7,"고3":37.5}},"absent":{"1/4":[{"name":"김수영","grade":"중1","reason":"감기"},{"name":"최유근","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":""},{"name":"박강빈","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":""},{"name":"김태영","grade":"고1","reason":""},{"name":"홍은솔","grade":"고2","reason":""},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이하영","grade":"고3","reason":"학원"}],"1/11":[{"name":"김한빈","grade":"중1","reason":"엄마 수술 병간호"},{"name":"김예준","grade":"중2","reason":""},{"name":"박강빈","grade":"중2","reason":""},{"name":"신민준","grade":"중2","reason":""},{"name":"신승연","grade":"중2","reason":""},{"name":"이민교","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":""},{"name":"김대현","grade":"고1","reason":"늦잠"},{"name":"홍은솔","grade":"고2","reason":"늦잠"},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이다온","grade":"고3","reason":"늦잠"},{"name":"이하영","grade":"고3","reason":"학원"},{"name":"정창빈","grade":"고3","reason":"늦잠"}],"1/18":[{"name":"김한빈","grade":"중1","reason":"엄마 수술 병간호"},{"name":"유우빈","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":""},{"name":"김대현","grade":"고1","reason":""},{"name":"김태영","grade":"고1","reason":""},{"name":"박봄","grade":"고1","reason":"가족여행(\\~1/28)"},{"name":"홍은솔","grade":"고2","reason":""},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이하영","grade":"고3","reason":"학원"},{"name":"조재희","grade":"고3","reason":"늦잠"}],"1/25":[{"name":"김수영","grade":"중1","reason":""},{"name":"김한빈","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":""},{"name":"박강빈","grade":"중2","reason":""},{"name":"신민준","grade":"중2","reason":""},{"name":"이민교","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":""},{"name":"김태영","grade":"고1","reason":""},{"name":"박봄","grade":"고1","reason":"가족여행"},{"name":"홍은솔","grade":"고2","reason":""},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이하영","grade":"고3","reason":"학원"}],"2/1":[{"name":"김한빈","grade":"중1","reason":""},{"name":"유우빈","grade":"중1","reason":""},{"name":"최유근","grade":"중1","reason":""},{"name":"박강빈","grade":"중2","reason":""},{"name":"신민준","grade":"중2","reason":"교회 와서.. 대예배 드렸다고 함"},{"name":"신승연","grade":"중2","reason":""},{"name":"이민교","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":""},{"name":"김태영","grade":"고1","reason":""},{"name":"홍은솔","grade":"고2","reason":""},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이하영","grade":"고3","reason":"학원"},{"name":"정창빈","grade":"고3","reason":""},{"name":"조재희","grade":"고3","reason":""}],"2/8":[{"name":"이준서","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":""},{"name":"박강빈","grade":"중2","reason":""},{"name":"신승연","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":""},{"name":"김대현","grade":"고1","reason":""},{"name":"김태영","grade":"고1","reason":""},{"name":"홍은솔","grade":"고2","reason":""},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이하영","grade":"고3","reason":"학원"},{"name":"조재희","grade":"고3","reason":""}],"2/15":[{"name":"김한빈","grade":"중1","reason":""},{"name":"유우빈","grade":"중1","reason":""},{"name":"최유근","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":""},{"name":"박강빈","grade":"중2","reason":""},{"name":"박시우","grade":"중2","reason":""},{"name":"신승연","grade":"중2","reason":""},{"name":"이민교","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":""},{"name":"유세라","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":""},{"name":"김대현","grade":"고1","reason":""},{"name":"김태영","grade":"고1","reason":""},{"name":"박예은","grade":"고2","reason":""},{"name":"홍은솔","grade":"고2","reason":""},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이다온","grade":"고3","reason":""},{"name":"이하영","grade":"고3","reason":"학원"},{"name":"정창빈","grade":"고3","reason":""},{"name":"조재희","grade":"고3","reason":""}],"2/22":[{"name":"김수영","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":"수련회 참석 후 늦잠"},{"name":"박강빈","grade":"중2","reason":""},{"name":"신승연","grade":"중2","reason":"친척집 방문"},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김대현","grade":"고1","reason":""},{"name":"김태영","grade":"고1","reason":""},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이하영","grade":"고3","reason":"학원"},{"name":"정창빈","grade":"고3","reason":""},{"name":"조재희","grade":"고3","reason":""}],"3/1":[{"name":"김한빈","grade":"중1","reason":""},{"name":"최유근","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":""},{"name":"박강빈","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김태영","grade":"고1","reason":""},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이하영","grade":"고3","reason":"학원"},{"name":"정창빈","grade":"고3","reason":""},{"name":"조재희","grade":"고3","reason":""}],"3/8":[{"name":"김예준","grade":"중2","reason":""},{"name":"박강빈","grade":"중2","reason":""},{"name":"이민교","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김태영","grade":"고1","reason":""},{"name":"홍은솔","grade":"고2","reason":""},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이하영","grade":"고3","reason":"학원"},{"name":"정창빈","grade":"고3","reason":""},{"name":"조재희","grade":"고3","reason":""}],"3/15":[{"name":"유우빈","grade":"중1","reason":""},{"name":"최유근","grade":"중1","reason":"아침에.. 김지호랑 같이 교회에 있는 것을 봤는데, 예배에는 안 들어왔군요.."},{"name":"김예준","grade":"중2","reason":"장기결석"},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"3/22":[{"name":"김한빈","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"유세라","grade":"중2","reason":"가족여행"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김대현","grade":"고1","reason":""},{"name":"김태영","grade":"고1","reason":""},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이하영","grade":"고3","reason":"학원"},{"name":"정창빈","grade":"고3","reason":""},{"name":"조재희","grade":"고3","reason":""}],"3/29":[{"name":"김한빈","grade":"중1","reason":""},{"name":"이준서","grade":"중1","reason":""},{"name":"신승연","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김대현","grade":"고1","reason":""},{"name":"김태영","grade":"고1","reason":""},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"알바"},{"name":"이하영","grade":"고3","reason":"학원"},{"name":"정찬빈","grade":"고3","reason":""},{"name":"조재희","grade":"고3","reason":""}],"4/5":[{"name":"김수영","grade":"중1","reason":""},{"name":"김한빈","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":"장기결석"},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김대현","grade":"고1","reason":"타 교회로(4월까지 재적 반영)"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"},{"name":"김예준","grade":"중2","reason":"장기결석"},{"name":"박강빈","grade":"중2","reason":""},{"name":"신민준","grade":"중2","reason":""},{"name":"이민교","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"유세라","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김대현","grade":"고1","reason":"타 교회로(4월까지 재적 반영)"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":""},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"4/19":[{"name":"김한빈","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":"장기결석"},{"name":"박강빈","grade":"중2","reason":""},{"name":"신민준","grade":"중2","reason":"고열"},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김대현","grade":"고1","reason":"타 교회로(4월까지 재적 반영)"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"4/26":[{"name":"김한빈","grade":"중1","reason":""},{"name":"유우빈","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":"장기결석"},{"name":"박강빈","grade":"중2","reason":""},{"name":"신승연","grade":"중2","reason":""},{"name":"이민교","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"이하윤","grade":"중2","reason":""},{"name":"유세라","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김대현","grade":"고1","reason":"타 교회로(4월까지 재적 반영)"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"5/3":[{"name":"김수영","grade":"중1","reason":""},{"name":"김한빈","grade":"중1","reason":""},{"name":"이준서","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":"장기결석"},{"name":"박강빈","grade":"중2","reason":""},{"name":"박시우","grade":"중2","reason":""},{"name":"신승연","grade":"중2","reason":"가족 여행"},{"name":"이민교","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"최시원","grade":"중3","reason":"가족 여행"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"박예은","grade":"고2","reason":""},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"5/10":[{"name":"유우빈","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":"장기결석"},{"name":"이민교","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":""},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"5/17":[{"name":"김한빈","grade":"중1","reason":""},{"name":"박강빈","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"김서현","grade":"중2","reason":""},{"name":"이하윤","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김동건","grade":"중3","reason":""},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":""},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"5/24":[{"name":"김한빈","grade":"중1","reason":""},{"name":"김예준","grade":"중2","reason":"장기결석"},{"name":"박강빈","grade":"중2","reason":""},{"name":"박시우","grade":"중2","reason":"가족여행"},{"name":"이민교","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"유세라","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"박예은","grade":"고2","reason":"가족여행"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":"무릎 수술 평택성모병원 입원, 5/28(목) 퇴원 예정"},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"5/31":[{"name":"김수영","grade":"중1","reason":"늦잠"},{"name":"김한빈","grade":"중1","reason":"집안사정"},{"name":"유우빈","grade":"중1","reason":"집안사정"},{"name":"이준서","grade":"중1","reason":"청소년 특별 회의 참석"},{"name":"김예준","grade":"중2","reason":"장기결석 , 부모님과 여행"},{"name":"박강빈","grade":"중2","reason":"늦잠"},{"name":"신승연","grade":"중2","reason":"친척집 방문"},{"name":"이슬찬","grade":"중2","reason":"장기결석, 공부하려고"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":""},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"6/7":[{"name":"김수영","grade":"중1","reason":"개인사정"},{"name":"김지호","grade":"중1","reason":"체육관 행사"},{"name":"김한빈","grade":"중1","reason":"집안사정"},{"name":"김예준","grade":"중2","reason":"장기결석"},{"name":"박강빈","grade":"중2","reason":"늦잠"},{"name":"이민교","grade":"중2","reason":"늦잠"},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김동건","grade":"중3","reason":"감기몸살"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":""},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"6/14":[{"name":"이준서","grade":"중1","reason":"몸과 컨디션이 안좋아서 집에 휴식"},{"name":"박강빈","grade":"중2","reason":"시험공부로 인해 7월부터참석"},{"name":"신승연","grade":"중2","reason":"친척결혼식"},{"name":"이민교","grade":"중2","reason":"부모님과 할머니병문안"},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"유세라","grade":"중2","reason":"피구 대회로 예배 드리지 못함"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":""},{"name":"정창빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"6/21":[{"name":"김한빈","grade":"중1","reason":"병원진료"},{"name":"박강빈","grade":"중2","reason":"어머니 생신가족모임"},{"name":"이슬찬","grade":"중2","reason":"장기결석/ 늦잠"},{"name":"조한들","grade":"중2","reason":"장기결석"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":""},{"name":"정찬빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"6/28":[{"name":"박강빈","grade":"중2","reason":"시험기간 학원으로 가서못나옴"},{"name":"이슬찬","grade":"중2","reason":"장기결석/오랜만에 카톡으로 연락됨/계속 연락하겠습니다."},{"name":"조한들","grade":"중2","reason":"장기결석/  오늘 처음으로 통화가 되었습니다. 다음주에는 교회에 나오기로 했습니다."},{"name":"최시원","grade":"중3","reason":"장염"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":"장기결석"},{"name":"정찬빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"7/5":[{"name":"김수영","grade":"중1","reason":""},{"name":"김한빈","grade":"중1","reason":"개인사정으로 불참석"},{"name":"김예준","grade":"중2","reason":"힘들어서 못감"},{"name":"이민교","grade":"중2","reason":"늦잠"},{"name":"이슬찬","grade":"중2","reason":"장기결석/게임으로 인해 못일어남"},{"name":"조한들","grade":"중2","reason":"가족모임, 다음주 예배 드리기로 했습니다."},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":"장기결석"},{"name":"정찬빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"7/12":[{"name":"김수영","grade":"중1","reason":""},{"name":"김한빈","grade":"중1","reason":"집안사정으로 불참석"},{"name":"김예준","grade":"중2","reason":""},{"name":"박강빈","grade":"중2","reason":""},{"name":"신승연","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":""},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":"장기결석"},{"name":"정찬빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}],"7/19":[{"name":"신민준","grade":"중2","reason":""},{"name":"이슬찬","grade":"중2","reason":"장기결석"},{"name":"김서현","grade":"중2","reason":""},{"name":"조한들","grade":"중2","reason":"가족여행"},{"name":"김태영","grade":"고1","reason":"장기결석"},{"name":"배연희","grade":"고2","reason":""},{"name":"홍은솔","grade":"고2","reason":"장기결석"},{"name":"변형원","grade":"고3","reason":"장기결석(알바)"},{"name":"이하영","grade":"고3","reason":"장기결석(학원)"},{"name":"장요셉","grade":"고3","reason":"장기결석"},{"name":"정찬빈","grade":"고3","reason":"장기결석"},{"name":"조재희","grade":"고3","reason":"장기결석"}]},"newfriends":[{"name":"김우영","grade":"고2","first":"1/4","note":""},{"name":"안세윤","grade":"고2","first":"1/4","note":""},{"name":"안지후","grade":"중2","first":"1/4","note":""},{"name":"유승우","grade":"고3","first":"1/4","note":""},{"name":"조혜린","grade":"고2","first":"3/8","note":""},{"name":"하유빈","grade":"중2","first":"3/8","note":""},{"name":"윤서영","grade":"고3","first":"3/8","note":""},{"name":"길은비","grade":"중2","first":"4/5","note":"라온중, 김서현 전도"},{"name":"반소영","grade":"고2","first":"4/5","note":"오산고"},{"name":"김강민","grade":"고3","first":"4/19","note":"안중고"},{"name":"김세민","grade":"고1","first":"4/19","note":"안중고"},{"name":"이해랑","grade":"중2","first":"5/31","note":"라온중 2, 010-3620-8290, 박시우 전도","joined":"7/5"},{"name":"반레이첼","grade":"중2","first":"6/14","note":""},{"name":"앨런","grade":"중2","first":"7/5","note":""},{"name":"이혜민","grade":"중2","first":"7/12","note":"송탄중3, 010-2333-3078(9.19.) 010-6333-9380(모)"}]};
+const W = DATA.weeks, G = ['중1','중2','중3','고1','고2','고3'];
+let idx = W.length - 1, mode = 'M', gmode = 'A';
+const won = n => n.toLocaleString('ko-KR');
 
-// week selector
-const sel=document.getElementById('weeksel');
-D.order.forEach((w,i)=>{const o=document.createElement('option');o.value=i;o.textContent=w+'주';sel.appendChild(o);});
-sel.value=cur;
-sel.onchange=e=>{cur=+e.target.value;render();};
-document.getElementById('prev').onclick=()=>{if(cur>0){cur--;sel.value=cur;render();}};
-document.getElementById('next').onclick=()=>{if(cur<D.order.length-1){cur++;sel.value=cur;render();}};
+Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+Chart.defaults.color = '#6b7280';
 
-// ===== as-of(1월~선택주) 집계 =====
-function asof(){
- const ws=D.order.slice(0,cur+1), wd=D.weekly_detail;
- const csum=D.categories.map(()=>0); let offTot=0,chulS=0,jaeS=0;
- const morder=[],mmap={};
- ws.forEach(w=>{const x=wd[w];
-  x.oc.forEach((v,i)=>csum[i]+=v); offTot+=x.offering; chulS+=x.chul; jaeS+=x.jae;
-  const mo=w.split('/')[0];
-  if(!mmap[mo]){mmap[mo]={chul:0,jae:0,cnt:0,off:0};morder.push(mo);}
-  mmap[mo].chul+=x.chul;mmap[mo].jae+=x.jae;mmap[mo].cnt++;mmap[mo].off+=x.offering;});
- const monthly=morder.map(mo=>({month:mo+'월',avg_chul:+(mmap[mo].chul/mmap[mo].cnt).toFixed(1),rate:+(mmap[mo].chul/mmap[mo].jae*100).toFixed(1)}));
- const monthlyOff=morder.map(mo=>({month:mo+'월',total:mmap[mo].off}));
- const weekly=ws.map(w=>({label:w,chul:wd[w].chul,jae:wd[w].jae,rate:+(wd[w].chul/wd[w].jae*100).toFixed(1)}));
- const perfect=[],near=[];
- D.roster.forEach(r=>{ if(cur<r.joinIdx) return; let c=0;
-  for(let i=r.joinIdx;i<=cur;i++){if(wd[D.order[i]].absent.some(a=>a.name===r.name))c++;}
-  if(c===0) perfect.push(r); else if(c===1) near.push(Object.assign({cnt:1},r)); });
- const g2={}; D.grade_order.forEach(g=>g2[g]=[0,0]);
- ws.forEach(w=>wd[w].grade.forEach(g=>{g2[g.grade][0]+=g.present;g2[g.grade][1]+=g.size;}));
- const gradeAvg=D.grade_order.map(g=>({grade:g,rate:+(g2[g][0]/g2[g][1]*100).toFixed(1)}));
- const nf=D.newfriends.filter(n=>n.wk<=cur);
- const freq={}; ws.forEach(w=>wd[w].absent.forEach(a=>{freq[a.name]=(freq[a.name]||0)+1;}));
- return {ws,csum,offTot,monthly,monthlyOff,weekly,perfect,near,gradeAvg,nf,freq,
-   rate:+(chulS/jaeS*100).toFixed(1),avgChul:+(chulS/ws.length).toFixed(1)};
-}
+const trend = new Chart(document.getElementById('cTrend'), {
+  type:'line', data:{labels:[],datasets:[]},
+  options:{maintainAspectRatio:false,plugins:{legend:{display:false}},
+   scales:{y:{beginAtZero:true,grid:{color:'#eef0f3'}},x:{grid:{display:false}}}}
+});
+const grade = new Chart(document.getElementById('cGrade'), {
+  type:'bar', data:{labels:G,datasets:[]},
+  options:{maintainAspectRatio:false,plugins:{legend:{display:false}},
+   scales:{y:{beginAtZero:true,max:100,grid:{color:'#eef0f3'},ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}
+});
 
-// ===== KPI =====
-function countUp(el,to,dec,ms){
- const from=0,t0=performance.now();
- const step=now=>{let p=Math.min(1,(now-t0)/ms);p=1-Math.pow(1-p,3);
-   el.textContent=(from+(to-from)*p).toFixed(dec);
-   if(p<1)requestAnimationFrame(step);else el.textContent=to.toFixed(dec);};
- requestAnimationFrame(step);
+function drawTrend(){
+  if(mode==='M'){
+    trend.data.labels = DATA.monthly.map(m=>m.month+'월');
+    trend.data.datasets = [{label:'평균 출석',data:DATA.monthly.map(m=>m.attend),
+      borderColor:'#e23b2c',backgroundColor:'rgba(226,59,44,.12)',fill:true,tension:.35,
+      pointRadius:5,pointBackgroundColor:'#e23b2c'}];
+  } else {
+    trend.data.labels = W.map(w=>w.date);
+    trend.data.datasets = [{label:'출석',data:W.map(w=>w.attend),
+      borderColor:'#e23b2c',backgroundColor:'rgba(226,59,44,.10)',fill:true,tension:.3,
+      pointRadius:W.map((_,i)=>i===idx?6:2.5),
+      pointBackgroundColor:W.map((_,i)=>i===idx?'#b81f13':'#e23b2c')}];
+  }
+  trend.update();
 }
-function renderKPI(){
- const w=D.order[cur],wd=D.weekly_detail[w];
- const cards=[
-  {t:'재적 (학생) · 선택주',n:wd.jae,d:0,u:'명',s:'교사 '+wd.tea+'명',cls:''},
-  {t:'평균 출석률 · 누적',n:A.rate,d:1,u:'%',s:'1월~'+w+' · '+A.ws.length+'주',cls:'bar-accent'},
-  {t:'평균 출석 · 누적',n:A.avgChul,d:1,u:'명',s:'주 평균 (새친구 포함)',cls:''},
-  {t:'완전개근 · 누적',n:A.perfect.filter(p=>!p.joinIdx).length,d:0,u:'명',s:'1월~'+w+' 결석 0회',cls:''},
-  {t:'새친구 · 누적',n:A.nf.length,d:0,u:'명',s:'1월~'+w,cls:''},
-  {t:'헌금 · 누적',n:Math.round(A.offTot/10000),d:0,u:'만원',s:'1월~'+w+' 합계',cls:''},
- ];
- const box=document.getElementById('kpis');
- box.innerHTML=cards.map((c,i)=>
-  `<div class="card kpi kpi-anim ${c.cls}" style="animation-delay:${i*120}ms">
-     <div class="t">${c.t}</div>
-     <div class="v"><span class="num" data-to="${c.n}" data-dec="${c.d}">0</span><small> ${c.u}</small></div>
-     <div class="s">${c.s}</div></div>`).join('');
- box.querySelectorAll('.num').forEach((el,i)=>{
-   const to=+el.dataset.to, dec=+el.dataset.dec;
-   setTimeout(()=>countUp(el,to,dec,1400), 220+i*120);
- });
- setTimeout(()=>box.querySelectorAll('.kpi').forEach(k=>k.classList.remove('kpi-anim')),1700);
+function drawGrade(){
+  let vals;
+  if(gmode==='A') vals = G.map(g=>DATA.grade[g].rate);
+  else { const gw = DATA.gweek[W[idx].date]||{}; vals = G.map(g=>gw[g]); }
+  grade.data.datasets = [{data:vals,backgroundColor:'#e23b2c',borderRadius:7,maxBarThickness:52}];
+  grade.update();
 }
-
-// ===== charts =====
-let attCh,grCh,offCh,offM,attMode='month',grMode='avg',grArr=[];
-const OFFPAL=[cAcc,cViolet,cBlue,cGreen,cAmber,cRed];
-function drawAtt(mode){
- attMode=mode;
- const dd=mode==='month'
-   ?{labels:A.monthly.map(m=>m.month),bars:A.monthly.map(m=>m.avg_chul),line:A.monthly.map(m=>m.rate),blabel:'평균 출석'}
-   :{labels:A.weekly.map(m=>m.label),bars:A.weekly.map(m=>m.chul),line:A.weekly.map(m=>m.rate),blabel:'출석'};
- if(attCh){
-   attCh.data.labels=dd.labels;
-   attCh.data.datasets[0].label=dd.blabel; attCh.data.datasets[0].data=dd.bars;
-   attCh.data.datasets[1].data=dd.line;
-   safeUpdate(attCh); return;
- }
- attCh=new Chart(document.getElementById('attChart'),{data:{labels:dd.labels,datasets:[
-   {type:'bar',label:dd.blabel,data:dd.bars,backgroundColor:'rgba(79,104,255,.5)',hoverBackgroundColor:cAcc,borderRadius:6,maxBarThickness:46,yAxisID:'y',order:2},
-   {type:'line',label:'출석률(%)',data:dd.line,borderColor:cBlue,backgroundColor:'rgba(14,165,233,.12)',fill:true,tension:.35,yAxisID:'y1',pointRadius:3,pointHoverRadius:6,pointBackgroundColor:'#fff',pointBorderColor:cBlue,pointBorderWidth:2,borderWidth:2.5,order:1}
- ]},options:{maintainAspectRatio:false,animation:{duration:1700,easing:'easeOutQuart'},interaction:{mode:'index',intersect:false},
-   onHover:(e,el)=>{if(e.native&&e.native.target)e.native.target.style.cursor=(attMode==='week'&&el.length)?'pointer':'default';},
-   plugins:{legend:{position:'top'},tooltip:{callbacks:{afterBody:()=>attMode==='week'?'▶ 클릭하면 그 주까지 누적으로 이동':''}}},
-   scales:{y:{beginAtZero:true,grid:{color:cLine},title:{display:true,text:'명'}},
-     y1:{position:'right',min:0,max:100,grid:{drawOnChartArea:false},title:{display:true,text:'%'}},
-     x:{grid:{display:false}}}}});
- attCh.canvas.addEventListener('click',ev=>{
-   if(attMode!=='week'||!attCh||!attCh.scales||!attCh.scales.x)return;
-   const rect=attCh.canvas.getBoundingClientRect();
-   const idx=Math.round(attCh.scales.x.getValueForPixel(ev.clientX-rect.left));
-   if(idx>=0&&idx<D.order.length&&idx!==cur){const j=idx;setTimeout(()=>{cur=j;sel.value=cur;render();},0);}
- });
+function drawAbs(){
+  const d = W[idx].date, list = DATA.absent[d]||[];
+  document.getElementById('hAbs').textContent = d + ' · 총 ' + list.length + '명';
+  if(!list.length){ document.getElementById('tAbs').innerHTML='<div class="empty">결석자가 없습니다.</div>'; return; }
+  const cnt = {}; DATA.roster.forEach(r=>cnt[r.name]=r.absent.length);
+  document.getElementById('tAbs').innerHTML =
+   '<table><tr><th>이름</th><th>학년</th><th>사유</th><th style="text-align:right">누적</th></tr>' +
+   list.map(a=>{
+     const lg = (a.reason||'').includes('장기');
+     return '<tr><td><b>'+a.name+'</b></td><td><span class="tag t-g">'+a.grade+'</span></td>'+
+      '<td>'+(a.reason? (lg?'<span class="tag t-long">'+a.reason+'</span>':a.reason) :'<span style="color:#c3c7cc">-</span>')+'</td>'+
+      '<td style="text-align:right;font-weight:700">'+(cnt[a.name]!==undefined?cnt[a.name]+'회':'-')+'</td></tr>';
+   }).join('') + '</table>';
 }
-function drawGr(mode){
- grMode=mode;
- const arr=mode==='week'?D.weekly_detail[D.order[cur]].grade:A.gradeAvg; grArr=arr;
- const labels=arr.map(g=>g.grade),rates=arr.map(g=>g.rate);
- const cols=rates.map(r=>r>=80?cGreen:r>=65?cAmber:cRed);
- const lbl=mode==='week'?D.order[cur]+'주 출석률(%)':'누적 평균 출석률(%)';
- if(grCh){
-   grCh.data.labels=labels;
-   grCh.data.datasets[0].label=lbl; grCh.data.datasets[0].data=rates;
-   grCh.data.datasets[0].backgroundColor=cols.map(c=>c+'d9'); grCh.data.datasets[0].hoverBackgroundColor=cols;
-   safeUpdate(grCh); return;
- }
- grCh=new Chart(document.getElementById('grChart'),{type:'bar',data:{labels,datasets:[
-   {label:lbl,data:rates,backgroundColor:cols.map(c=>c+'d9'),hoverBackgroundColor:cols,borderRadius:8,maxBarThickness:66}]},
-   options:{maintainAspectRatio:false,animation:{duration:1500,easing:'easeOutQuart'},plugins:{legend:{display:false},
-     tooltip:{callbacks:{afterLabel:ctx=>{if(grMode!=='week')return'';const g=grArr[ctx.dataIndex];return g?`출석 ${g.present}/${g.size}명`:'';}}}},
-   scales:{y:{beginAtZero:true,max:100,grid:{color:cLine},title:{display:true,text:'%'}},x:{grid:{display:false}}}}});
+function drawPerf(){
+  document.getElementById('cPerf').innerHTML = DATA.perfect.map(p=>
+    '<div class="chip">'+p.name+'<small>'+p.grade+'</small>'+
+    (p.new_member?' <span class="tag t-new">신규</span>':'')+'</div>').join('');
 }
-function drawOff(){
- const by=D.categories.map((c,i)=>({cat:c,amt:A.csum[i],color:OFFPAL[i%OFFPAL.length]}));
- const bc=by.filter(c=>c.amt>0);
- if(offCh){
-   offCh.data.labels=bc.map(c=>c.cat); offCh.data.datasets[0].data=bc.map(c=>c.amt);
-   offCh.data.datasets[0].backgroundColor=bc.map(c=>c.color); safeUpdate(offCh);
- }else{
-   offCh=new Chart(document.getElementById('offChart'),{type:'doughnut',data:{labels:bc.map(c=>c.cat),
-     datasets:[{data:bc.map(c=>c.amt),backgroundColor:bc.map(c=>c.color),borderColor:'#fff',borderWidth:3,hoverOffset:10}]},
-     options:{maintainAspectRatio:false,cutout:'60%',animation:{duration:1700,animateRotate:true,animateScale:true,easing:'easeOutQuart'},plugins:{legend:{position:'right',labels:{padding:8,font:{size:11}}},
-       tooltip:{callbacks:{label:ctx=>ctx.label+' '+won(ctx.raw)+'원'}}}}});
- }
- document.getElementById('offList').innerHTML=by.filter(c=>c.amt>0).map(c=>
-   `<div class="off-row"><span>${c.cat}</span><b>${won(c.amt)}<span class="mut"> 원</span></b></div>`).join('')
-   +`<div class="off-row" style="border:0"><span style="font-weight:800">합계</span><b style="color:${cAmber}">${won(A.offTot)} 원</b></div>`;
- if(offM){
-   offM.data.labels=A.monthlyOff.map(m=>m.month); offM.data.datasets[0].data=A.monthlyOff.map(m=>m.total); safeUpdate(offM);
- }else{
-   offM=new Chart(document.getElementById('offMonth'),{type:'bar',data:{labels:A.monthlyOff.map(m=>m.month),
-     datasets:[{label:'월별 헌금(원)',data:A.monthlyOff.map(m=>m.total),backgroundColor:'rgba(245,158,11,.5)',hoverBackgroundColor:cAmber,borderRadius:6,maxBarThickness:40}]},
-     options:{maintainAspectRatio:false,animation:{duration:1500,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>won(c.raw)+'원'}}},
-       scales:{y:{beginAtZero:true,grid:{color:cLine},ticks:{callback:v=>v/10000+'만'}},x:{grid:{display:false}}}}});
- }
+function drawMoney(){
+  const o = DATA.offerings;
+  document.getElementById('mList').innerHTML = Object.keys(o).map(k=>
+    '<div class="money"><span>'+k+(k==='지목'||k==='주일'||k==='선교'||k==='특별'||k==='감사'?'헌금':'')+'</span><b>'+won(o[k])+'원</b></div>').join('');
 }
-
-// ===== lists =====
-function renderLists(){
- const w=D.order[cur],wd=D.weekly_detail[w];
- document.getElementById('absWk').textContent='· '+w+'주';
- const chr=wd.absent.filter(a=>a.chronic).length;
- document.getElementById('absCnt').textContent='결석 '+wd.absent.length+'명 (장기 '+chr+')';
- const streakOf=n=>{let c=0;for(let i=cur;i>=0;i--){if(D.weekly_detail[D.order[i]].absent.some(a=>a.name===n))c++;else break;}return c;};
- document.getElementById('absBody').innerHTML=wd.absent.length?wd.absent.map(a=>
-   `<tr><td style="font-weight:700">${a.name}</td><td>${a.grade}</td>
-    <td>${a.chronic?'<span class="tag r">장기결석</span>':'<span class="tag a">결석</span>'}</td>
-    <td><b style="font-weight:700">${streakOf(a.name)}</b><span class="mut"> 주 연속</span></td>
-    <td><b style="font-weight:700">${A.freq[a.name]||0}</b><span class="mut"> 회</span></td></tr>`).join('')
-   :'<tr><td colspan="5" class="mut" style="text-align:center;padding:18px">결석자 없음 🎉</td></tr>';
- // 개근자
- const nonNew=A.perfect.filter(p=>!p.joinIdx),news=A.perfect.filter(p=>p.joinIdx);
- document.getElementById('perfCnt').textContent='완전개근 '+nonNew.length+'명';
- document.getElementById('perfWrap').innerHTML=nonNew.map(p=>
-   `<span class="chip">${p.name}<span class="gr">${p.grade}</span></span>`).join('')
-   +(news.length?`<div style="margin-top:6px">${news.map(p=>`<span class="chip" style="border-color:var(--violet)">${p.name}<span class="gr">${p.grade}·신규</span></span>`).join('')}</div>`:'');
- document.getElementById('nearWrap').innerHTML=A.near.length?('<b class="mut">준개근(1회 결석):</b> '+A.near.map(n=>n.name+'('+n.grade+')').join(', ')):'';
- // 새친구
- document.getElementById('nfCnt').textContent='누적 '+A.nf.length+'명';
- document.getElementById('nfBody').innerHTML=A.nf.length?A.nf.map(n=>
-   `<tr><td style="font-weight:700">${n.name}</td><td>${n.grade}</td><td class="mut">${n.date}</td><td class="mut">${n.note}</td></tr>`).join('')
-   :'<tr><td colspan="4" class="mut" style="text-align:center;padding:14px">해당 시점까지 새친구 없음</td></tr>';
- document.getElementById('offTot').textContent=won(A.offTot)+'원';
+function drawNew(){
+  document.getElementById('tNew').innerHTML =
+   '<table><tr><th>이름</th><th>학년</th><th>첫 출석</th><th>비고</th></tr>' +
+   DATA.newfriends.slice().reverse().map(n=>
+    '<tr><td><b>'+n.name+'</b></td><td><span class="tag t-g">'+n.grade+'</span></td><td>'+n.first+'</td>'+
+    '<td>'+(n.joined?'<span class="tag t-new">'+n.joined+' 재적 편입</span>':'<span style="color:#c3c7cc">-</span>')+'</td></tr>'
+   ).join('') + '</table>';
 }
-
-// ===== master render =====
 function render(){
- A=asof();
- const w=D.order[cur];
- document.getElementById('genlab').textContent='· 기준 '+w+'주 (1월~'+w+' 누적) · 자료 '+D.generated;
- renderKPI();
- try{drawAtt(document.querySelector('#attToggle .on').dataset.m);}catch(err){console.warn('attChart',err);}
- try{drawGr(document.querySelector('#grToggle .on').dataset.m);}catch(err){console.warn('grChart',err);}
- try{drawOff();}catch(err){console.warn('offChart',err);}
-function renderOfferList(){
- const cur_wk=D.order[cur], OL=(D.offerList&&D.offerList.rows)||[];
- const inRange=OL.filter(r=>r.idx>=0&&r.idx<=cur);
- const thisWk=inRange.filter(r=>r.idx===cur);
- const io=(D.offerList&&D.offerList.itemOrder)||[];
- const ord=r=>{const i=io.indexOf(r.item);return i<0?99:i;};
- thisWk.sort((a,b)=>ord(a)-ord(b));
- // 누적 참여 횟수
- const cnt={}; inRange.forEach(r=>r.names.forEach(n=>cnt[n]=(cnt[n]||0)+1));
- const rank=Object.entries(cnt).sort((a,b)=>a[0].localeCompare(b[0],'ko'));
- document.getElementById('olWk').textContent='· 1월~'+cur_wk+' 누적';
- document.getElementById('olCnt').textContent=inRange.length
-   ? '참여 '+rank.length+'명 · '+inRange.length+'건' : '기록 없음';
- const box=document.getElementById('olBody');
- if(!inRange.length){
-   box.innerHTML='<div class="ol-empty">해당 기간의 헌금명단 기록이 없습니다<br><span style="font-size:11.5px">(「헌금명단」 탭은 7월부터 기록 시작)</span></div>';
-   return;
- }
- const chips=(names,hotMap)=>names.map(n=>{
-   const c=hotMap?hotMap[n]:0, hot=c>=3;
-   return `<span class="chip${hot?' hot':''}">${n}${c?`<span class="gr">${c}회</span>`:''}</span>`;}).join('');
- const rowHtml=r=>`<div class="ol-row"><div class="ol-h"><b>${r.item}</b>
-     <span class="ol-amt">${won(r.amt)}<span class="mut"> 원${r.names.length?' · '+r.names.length+'명':''}</span></span></div>
-   ${r.names.length?`<div style="margin-top:8px">${chips([...r.names].sort((a,b)=>a.localeCompare(b,'ko')))}</div>`:''}
-   ${r.note?`<div class="ol-note">${r.note}</div>`:''}</div>`;
- const named=thisWk.filter(r=>r.names.length), plain=thisWk.filter(r=>!r.names.length);
- let html='<div class="ol-sub">선택주 내역 · '+cur_wk+'주</div>';
- html+= thisWk.length ? named.map(rowHtml).join('')
-        +(plain.length?`<div class="ol-grid2">${plain.map(rowHtml).join('')}</div>`:'')
-      : '<div class="ol-row"><div class="mut" style="font-size:12.5px">이 주의 헌금명단 기록이 없습니다</div></div>';
- html+='<div class="ol-sub" style="padding-top:12px;border-top:1px solid var(--line);margin-top:10px">누적 참여 횟수 · 1월~'+cur_wk+'</div>';
- html+=chips(rank.map(r=>r[0]),cnt);
- box.innerHTML=html;
+  const w = W[idx];
+  document.getElementById('cw').textContent = w.w+'주 · '+w.date;
+  document.getElementById('pv').disabled = idx===0;
+  document.getElementById('nx').disabled = idx===W.length-1;
+  drawTrend(); drawGrade(); drawAbs();
 }
- renderLists(); renderOfferList();
- document.getElementById('foot').innerHTML=
-  '데이터 출처: <a href="https://docs.google.com/spreadsheets/d/1rXRzno9pE_PYXHR6KX5Hm4FGtrPVVoRUJouxkNmhD5k">주간 사역보고서</a>(출결·헌금) · '
-  +'<a href="https://docs.google.com/spreadsheets/d/1-moFQc8npkYh3ARL4SIpIB-Yft60d9srv7YBrmWpXXo">온라인 출석부</a>(결석·명부·새친구) · 중고등부만 집계.<br>'
-  +'주차 셀렉터 = <b>기준 시점(as-of)</b>: 선택한 주를 마감으로 1월부터 그 주까지 누적 집계합니다. '
-  +'재적·교사는 선택주 시점, 결석자 명단은 선택주 당주. 출석률=학생 기준(새친구 포함) · 완전개근=해당 구간 결석 0회(신규 편입자 별도) · 헌금=이월금 제외 · 학년별·결석은 현 재적 43명 기준. '
-  +'7/19주는 시트 미집계로 제외. 정적 스냅샷(주간 자동 갱신).';
-}
-
-// toggles
-document.querySelectorAll('#attToggle button').forEach(b=>b.onclick=()=>{
- document.querySelectorAll('#attToggle button').forEach(x=>x.classList.remove('on'));b.classList.add('on');drawAtt(b.dataset.m);});
-document.querySelectorAll('#grToggle button').forEach(b=>b.onclick=()=>{
- document.querySelectorAll('#grToggle button').forEach(x=>x.classList.remove('on'));b.classList.add('on');drawGr(b.dataset.m);});
-
-// ===== 진입 / 스크롤 등장 애니메이션 =====
-function setupMotion(){
- const hdr=document.querySelector('header'); if(hdr)hdr.classList.add('head-anim');
- const cards=Array.from(document.querySelectorAll('.wrap > .grid > .card'));
- const kpiBox=document.getElementById('kpis');
- const targets=cards.filter(c=>!kpiBox.contains(c));
- targets.forEach(c=>c.classList.add('rv'));
- const replayCharts=el=>{try{el.querySelectorAll('canvas').forEach(cv=>{
-     const ch=(window.Chart&&Chart.getChart)?Chart.getChart(cv):null;
-     if(ch&&(!ch.getActiveElements||ch.getActiveElements().length===0)){ch.reset();ch.update();}
-   });}catch(e){}};
- const reveal=el=>{el.classList.add('in'); setTimeout(()=>replayCharts(el),120);
-   setTimeout(()=>{el.classList.remove('rv','in');el.style.opacity='';},1300);};
- if(!('IntersectionObserver' in window)){targets.forEach(reveal);return;}
- const io=new IntersectionObserver((es)=>{
-   es.forEach(e=>{ if(e.isIntersecting){ const el=e.target;
-     const d=+(el.dataset.rd||0); setTimeout(()=>reveal(el),d); io.unobserve(el); } });
- },{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
- targets.forEach((el,i)=>{el.dataset.rd=(i<2?i*180:0);io.observe(el);});
- // 빠른 스크롤로 관찰을 건너뛴 카드 보정: 화면 하단선을 지난 카드는 무조건 표시
- const sweep=()=>{targets.forEach(el=>{
-   if(el.classList.contains('rv')&&!el.classList.contains('in')){
-     const r=el.getBoundingClientRect();
-     if(r.top < window.innerHeight*0.95){ io.unobserve(el); reveal(el); }
-   }});};
- window.addEventListener('scroll',sweep,{passive:true});
- window.addEventListener('resize',sweep);
- setTimeout(sweep,60);
-}
-render();
-setupMotion();
-</script>
-</body>
-</html>
+document.getElementById('pv').onclick = ()=>{ if(idx>0){idx--;render();} };
+document.getElementById('nx').onclick = ()=>{ if(idx<W.length-1){idx++;render();} };
+document.getElementById('bM').onclick = function(){ mode='M'; this.classList.add('on'); document.getElementById('bW').classList.remove('on'); drawTrend(); };
+document.getElementById('bW').onclick = function(){ mode='W'; this.classList.add('on'); document.getElementById('bM').classList.remove('on'); drawTrend(); };
+document.getElementById('bA').onclick = function(){ gmode='A'; this.classList.add('on'); document.getElementById('bS').classList.remove('on'); drawGrade(); };
+document.getElementById('bS').onclick = function(){ gmode='S'; this.classList.add('on'); document.getElementById('bA').classList.remove('on'); drawGrade(); };
+drawPerf(); drawMoney(); drawNew(); render();
+</script></body></html>
