@@ -1,0 +1,4893 @@
+{
+  "generated": "2026-07-21",
+  "latest_week": "7/19",
+  "note_latest": "260719까지 반영(최신 작성완료). 260726은 미도래 주차.",
+  "kpi": {
+    "jaejeok": 43,
+    "chulseok": 35,
+    "rate": 81.4,
+    "gyeolseok": 4,
+    "jangkyeol": 8,
+    "newfriend_total": 5,
+    "offering_total": 4472000,
+    "perfect_cnt": 13
+  },
+  "monthly": [
+    {
+      "month": "1월",
+      "avg_chul": 30.8,
+      "avg_jae": 43.0,
+      "rate": 71.5,
+      "weeks": 4
+    },
+    {
+      "month": "2월",
+      "avg_chul": 28.0,
+      "avg_jae": 43.0,
+      "rate": 65.1,
+      "weeks": 4
+    },
+    {
+      "month": "3월",
+      "avg_chul": 32.4,
+      "avg_jae": 43.0,
+      "rate": 75.3,
+      "weeks": 5
+    },
+    {
+      "month": "4월",
+      "avg_chul": 30.2,
+      "avg_jae": 43.0,
+      "rate": 70.3,
+      "weeks": 4
+    },
+    {
+      "month": "5월",
+      "avg_chul": 27.2,
+      "avg_jae": 42.0,
+      "rate": 64.8,
+      "weeks": 5
+    },
+    {
+      "month": "6월",
+      "avg_chul": 31.0,
+      "avg_jae": 42.0,
+      "rate": 73.8,
+      "weeks": 4
+    },
+    {
+      "month": "7월",
+      "avg_chul": 32.7,
+      "avg_jae": 43.0,
+      "rate": 76.0,
+      "weeks": 3
+    }
+  ],
+  "weekly": [
+    {
+      "label": "1/4",
+      "jae": 43,
+      "chul": 33,
+      "gs": 10,
+      "rate": 76.7
+    },
+    {
+      "label": "1/11",
+      "jae": 43,
+      "chul": 29,
+      "gs": 14,
+      "rate": 67.4
+    },
+    {
+      "label": "1/18",
+      "jae": 43,
+      "chul": 31,
+      "gs": 12,
+      "rate": 72.1
+    },
+    {
+      "label": "1/25",
+      "jae": 43,
+      "chul": 30,
+      "gs": 13,
+      "rate": 69.8
+    },
+    {
+      "label": "2/1",
+      "jae": 43,
+      "chul": 28,
+      "gs": 15,
+      "rate": 65.1
+    },
+    {
+      "label": "2/8",
+      "jae": 43,
+      "chul": 31,
+      "gs": 12,
+      "rate": 72.1
+    },
+    {
+      "label": "2/15",
+      "jae": 43,
+      "chul": 23,
+      "gs": 20,
+      "rate": 53.5
+    },
+    {
+      "label": "2/22",
+      "jae": 43,
+      "chul": 30,
+      "gs": 13,
+      "rate": 69.8
+    },
+    {
+      "label": "3/1",
+      "jae": 43,
+      "chul": 32,
+      "gs": 11,
+      "rate": 74.4
+    },
+    {
+      "label": "3/8",
+      "jae": 43,
+      "chul": 35,
+      "gs": 11,
+      "rate": 81.4
+    },
+    {
+      "label": "3/15",
+      "jae": 43,
+      "chul": 32,
+      "gs": 11,
+      "rate": 74.4
+    },
+    {
+      "label": "3/22",
+      "jae": 43,
+      "chul": 31,
+      "gs": 12,
+      "rate": 72.1
+    },
+    {
+      "label": "3/29",
+      "jae": 43,
+      "chul": 32,
+      "gs": 12,
+      "rate": 74.4
+    },
+    {
+      "label": "4/5",
+      "jae": 43,
+      "chul": 33,
+      "gs": 12,
+      "rate": 76.7
+    },
+    {
+      "label": "4/12",
+      "jae": 43,
+      "chul": 30,
+      "gs": 14,
+      "rate": 69.8
+    },
+    {
+      "label": "4/19",
+      "jae": 43,
+      "chul": 32,
+      "gs": 12,
+      "rate": 74.4
+    },
+    {
+      "label": "4/26",
+      "jae": 43,
+      "chul": 26,
+      "gs": 17,
+      "rate": 60.5
+    },
+    {
+      "label": "5/3",
+      "jae": 42,
+      "chul": 25,
+      "gs": 17,
+      "rate": 59.5
+    },
+    {
+      "label": "5/10",
+      "jae": 42,
+      "chul": 30,
+      "gs": 12,
+      "rate": 71.4
+    },
+    {
+      "label": "5/17",
+      "jae": 42,
+      "chul": 28,
+      "gs": 14,
+      "rate": 66.7
+    },
+    {
+      "label": "5/24",
+      "jae": 42,
+      "chul": 26,
+      "gs": 16,
+      "rate": 61.9
+    },
+    {
+      "label": "5/31",
+      "jae": 42,
+      "chul": 27,
+      "gs": 16,
+      "rate": 64.3
+    },
+    {
+      "label": "6/7",
+      "jae": 42,
+      "chul": 27,
+      "gs": 16,
+      "rate": 64.3
+    },
+    {
+      "label": "6/14",
+      "jae": 42,
+      "chul": 30,
+      "gs": 15,
+      "rate": 71.4
+    },
+    {
+      "label": "6/21",
+      "jae": 42,
+      "chul": 33,
+      "gs": 11,
+      "rate": 78.6
+    },
+    {
+      "label": "6/28",
+      "jae": 42,
+      "chul": 34,
+      "gs": 11,
+      "rate": 81.0
+    },
+    {
+      "label": "7/5",
+      "jae": 43,
+      "chul": 31,
+      "gs": 13,
+      "rate": 72.1
+    },
+    {
+      "label": "7/12",
+      "jae": 43,
+      "chul": 32,
+      "gs": 13,
+      "rate": 74.4
+    },
+    {
+      "label": "7/19",
+      "jae": 43,
+      "chul": 35,
+      "gs": 12,
+      "rate": 81.4
+    }
+  ],
+  "latest_absent": [
+    {
+      "name": "신민준",
+      "grade": "중2",
+      "chronic": false
+    },
+    {
+      "name": "이슬찬",
+      "grade": "중2",
+      "chronic": true
+    },
+    {
+      "name": "김서현",
+      "grade": "중2",
+      "chronic": false
+    },
+    {
+      "name": "조한들",
+      "grade": "중2",
+      "chronic": false
+    },
+    {
+      "name": "김태영",
+      "grade": "고1",
+      "chronic": true
+    },
+    {
+      "name": "배연희",
+      "grade": "고2",
+      "chronic": false
+    },
+    {
+      "name": "홍은솔",
+      "grade": "고2",
+      "chronic": true
+    },
+    {
+      "name": "변형원",
+      "grade": "고3",
+      "chronic": true
+    },
+    {
+      "name": "이하영",
+      "grade": "고3",
+      "chronic": true
+    },
+    {
+      "name": "장요셉",
+      "grade": "고3",
+      "chronic": true
+    },
+    {
+      "name": "정찬빈",
+      "grade": "고3",
+      "chronic": true
+    },
+    {
+      "name": "조재희",
+      "grade": "고3",
+      "chronic": true
+    }
+  ],
+  "abs_freq": [
+    {
+      "name": "변형원",
+      "grade": "고3",
+      "cnt": 29
+    },
+    {
+      "name": "이하영",
+      "grade": "고3",
+      "cnt": 29
+    },
+    {
+      "name": "이슬찬",
+      "grade": "중2",
+      "cnt": 29
+    },
+    {
+      "name": "조한들",
+      "grade": "중2",
+      "cnt": 28
+    },
+    {
+      "name": "김태영",
+      "grade": "고1",
+      "cnt": 27
+    },
+    {
+      "name": "홍은솔",
+      "grade": "고2",
+      "cnt": 27
+    },
+    {
+      "name": "조재희",
+      "grade": "고3",
+      "cnt": 26
+    },
+    {
+      "name": "정찬빈",
+      "grade": "고3",
+      "cnt": 25
+    },
+    {
+      "name": "김예준",
+      "grade": "중2",
+      "cnt": 22
+    },
+    {
+      "name": "박강빈",
+      "grade": "중2",
+      "cnt": 21
+    },
+    {
+      "name": "김한빈",
+      "grade": "중1",
+      "cnt": 19
+    },
+    {
+      "name": "이민교",
+      "grade": "중2",
+      "cnt": 13
+    },
+    {
+      "name": "장요셉",
+      "grade": "고3",
+      "cnt": 12
+    },
+    {
+      "name": "신승연",
+      "grade": "중2",
+      "cnt": 11
+    },
+    {
+      "name": "김수영",
+      "grade": "중1",
+      "cnt": 9
+    },
+    {
+      "name": "유우빈",
+      "grade": "중1",
+      "cnt": 7
+    },
+    {
+      "name": "신민준",
+      "grade": "중2",
+      "cnt": 6
+    },
+    {
+      "name": "유세라",
+      "grade": "중2",
+      "cnt": 6
+    },
+    {
+      "name": "최유근",
+      "grade": "중1",
+      "cnt": 5
+    },
+    {
+      "name": "이준서",
+      "grade": "중1",
+      "cnt": 5
+    },
+    {
+      "name": "박예은",
+      "grade": "고2",
+      "cnt": 3
+    },
+    {
+      "name": "박시우",
+      "grade": "중2",
+      "cnt": 3
+    },
+    {
+      "name": "이다온",
+      "grade": "고3",
+      "cnt": 2
+    },
+    {
+      "name": "박봄",
+      "grade": "고1",
+      "cnt": 2
+    },
+    {
+      "name": "이하윤",
+      "grade": "중2",
+      "cnt": 2
+    },
+    {
+      "name": "최시원",
+      "grade": "중3",
+      "cnt": 2
+    },
+    {
+      "name": "김서현",
+      "grade": "중2",
+      "cnt": 2
+    },
+    {
+      "name": "김동건",
+      "grade": "중3",
+      "cnt": 2
+    },
+    {
+      "name": "김지호",
+      "grade": "중1",
+      "cnt": 1
+    },
+    {
+      "name": "배연희",
+      "grade": "고2",
+      "cnt": 1
+    }
+  ],
+  "perfect": [
+    {
+      "name": "이예승",
+      "grade": "중1",
+      "note": ""
+    },
+    {
+      "name": "홍예인",
+      "grade": "중1",
+      "note": ""
+    },
+    {
+      "name": "김주온",
+      "grade": "중2",
+      "note": ""
+    },
+    {
+      "name": "박온유",
+      "grade": "중2",
+      "note": ""
+    },
+    {
+      "name": "이해랑",
+      "grade": "중2",
+      "note": "신규편입(7/5)"
+    },
+    {
+      "name": "강민아",
+      "grade": "중2",
+      "note": ""
+    },
+    {
+      "name": "이예나",
+      "grade": "중3",
+      "note": ""
+    },
+    {
+      "name": "홍예주",
+      "grade": "고1",
+      "note": ""
+    },
+    {
+      "name": "김수현",
+      "grade": "고2",
+      "note": ""
+    },
+    {
+      "name": "김지우",
+      "grade": "고2",
+      "note": ""
+    },
+    {
+      "name": "이지온",
+      "grade": "고2",
+      "note": ""
+    },
+    {
+      "name": "강민희",
+      "grade": "고3",
+      "note": ""
+    },
+    {
+      "name": "이윤지",
+      "grade": "고3",
+      "note": ""
+    }
+  ],
+  "near": [
+    {
+      "name": "김지호",
+      "grade": "중1",
+      "cnt": 1
+    },
+    {
+      "name": "배연희",
+      "grade": "고2",
+      "cnt": 1
+    }
+  ],
+  "offering": {
+    "by_cat": [
+      {
+        "cat": "십일조",
+        "amt": 594000
+      },
+      {
+        "cat": "감사헌금",
+        "amt": 577000
+      },
+      {
+        "cat": "주일헌금",
+        "amt": 2709000
+      },
+      {
+        "cat": "특별헌금",
+        "amt": 0
+      },
+      {
+        "cat": "선교헌금",
+        "amt": 392000
+      }
+    ],
+    "total": 4272000,
+    "monthly": [
+      {
+        "month": "1월",
+        "total": 539000
+      },
+      {
+        "month": "2월",
+        "total": 728000
+      },
+      {
+        "month": "3월",
+        "total": 962000
+      },
+      {
+        "month": "4월",
+        "total": 543000
+      },
+      {
+        "month": "5월",
+        "total": 596000
+      },
+      {
+        "month": "6월",
+        "total": 519000
+      },
+      {
+        "month": "7월",
+        "total": 585000
+      }
+    ]
+  },
+  "newfriends": [
+    {
+      "name": "이해랑",
+      "grade": "중2",
+      "date": "7/5 등반",
+      "note": "박시우 전도 · 재적 편입",
+      "wk": 26
+    },
+    {
+      "name": "반소영",
+      "grade": "고2",
+      "date": "6월",
+      "note": "오산고",
+      "wk": 22
+    },
+    {
+      "name": "반레이첼",
+      "grade": "중2",
+      "date": "6월",
+      "note": "오산중 · Rachel Ban",
+      "wk": 23
+    },
+    {
+      "name": "앨런",
+      "grade": "중2",
+      "date": "7월",
+      "note": "Alan Mathias",
+      "wk": 26
+    },
+    {
+      "name": "이혜민",
+      "grade": "중2",
+      "date": "7월",
+      "note": "송탄중",
+      "wk": 27
+    }
+  ],
+  "newfriend_report_sum": 25,
+  "grade_latest": [
+    {
+      "grade": "중1",
+      "size": 8,
+      "present": 8,
+      "absent": 0,
+      "rate": 100.0
+    },
+    {
+      "grade": "중2",
+      "size": 15,
+      "present": 11,
+      "absent": 4,
+      "rate": 73.3
+    },
+    {
+      "grade": "중3",
+      "size": 3,
+      "present": 3,
+      "absent": 0,
+      "rate": 100.0
+    },
+    {
+      "grade": "고1",
+      "size": 3,
+      "present": 2,
+      "absent": 1,
+      "rate": 66.7
+    },
+    {
+      "grade": "고2",
+      "size": 6,
+      "present": 4,
+      "absent": 2,
+      "rate": 66.7
+    },
+    {
+      "grade": "고3",
+      "size": 8,
+      "present": 3,
+      "absent": 5,
+      "rate": 37.5
+    }
+  ],
+  "grade_avg": [
+    {
+      "grade": "중1",
+      "rate": 80.2
+    },
+    {
+      "grade": "중2",
+      "rate": 67.1
+    },
+    {
+      "grade": "중3",
+      "rate": 95.4
+    },
+    {
+      "grade": "고1",
+      "rate": 66.7
+    },
+    {
+      "grade": "고2",
+      "rate": 82.2
+    },
+    {
+      "grade": "고3",
+      "rate": 47.0
+    }
+  ],
+  "grade_order": [
+    "중1",
+    "중2",
+    "중3",
+    "고1",
+    "고2",
+    "고3"
+  ],
+  "roster": [
+    {
+      "name": "김수영",
+      "grade": "중1",
+      "joinIdx": 0
+    },
+    {
+      "name": "김지호",
+      "grade": "중1",
+      "joinIdx": 0
+    },
+    {
+      "name": "김한빈",
+      "grade": "중1",
+      "joinIdx": 0
+    },
+    {
+      "name": "유우빈",
+      "grade": "중1",
+      "joinIdx": 0
+    },
+    {
+      "name": "이예승",
+      "grade": "중1",
+      "joinIdx": 0
+    },
+    {
+      "name": "이준서",
+      "grade": "중1",
+      "joinIdx": 0
+    },
+    {
+      "name": "최유근",
+      "grade": "중1",
+      "joinIdx": 0
+    },
+    {
+      "name": "홍예인",
+      "grade": "중1",
+      "joinIdx": 0
+    },
+    {
+      "name": "김예준",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "김주온",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "박강빈",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "박시우",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "박온유",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "신민준",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "신승연",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "이민교",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "이해랑",
+      "grade": "중2",
+      "joinIdx": 26
+    },
+    {
+      "name": "이슬찬",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "강민아",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "김서현",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "이하윤",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "유세라",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "조한들",
+      "grade": "중2",
+      "joinIdx": 0
+    },
+    {
+      "name": "김동건",
+      "grade": "중3",
+      "joinIdx": 0
+    },
+    {
+      "name": "이예나",
+      "grade": "중3",
+      "joinIdx": 0
+    },
+    {
+      "name": "최시원",
+      "grade": "중3",
+      "joinIdx": 0
+    },
+    {
+      "name": "김태영",
+      "grade": "고1",
+      "joinIdx": 0
+    },
+    {
+      "name": "박봄",
+      "grade": "고1",
+      "joinIdx": 0
+    },
+    {
+      "name": "홍예주",
+      "grade": "고1",
+      "joinIdx": 0
+    },
+    {
+      "name": "김수현",
+      "grade": "고2",
+      "joinIdx": 0
+    },
+    {
+      "name": "김지우",
+      "grade": "고2",
+      "joinIdx": 0
+    },
+    {
+      "name": "박예은",
+      "grade": "고2",
+      "joinIdx": 0
+    },
+    {
+      "name": "배연희",
+      "grade": "고2",
+      "joinIdx": 0
+    },
+    {
+      "name": "이지온",
+      "grade": "고2",
+      "joinIdx": 0
+    },
+    {
+      "name": "홍은솔",
+      "grade": "고2",
+      "joinIdx": 0
+    },
+    {
+      "name": "강민희",
+      "grade": "고3",
+      "joinIdx": 0
+    },
+    {
+      "name": "변형원",
+      "grade": "고3",
+      "joinIdx": 0
+    },
+    {
+      "name": "이다온",
+      "grade": "고3",
+      "joinIdx": 0
+    },
+    {
+      "name": "이윤지",
+      "grade": "고3",
+      "joinIdx": 0
+    },
+    {
+      "name": "이하영",
+      "grade": "고3",
+      "joinIdx": 0
+    },
+    {
+      "name": "장요셉",
+      "grade": "고3",
+      "joinIdx": 0
+    },
+    {
+      "name": "정찬빈",
+      "grade": "고3",
+      "joinIdx": 0
+    },
+    {
+      "name": "조재희",
+      "grade": "고3",
+      "joinIdx": 0
+    }
+  ],
+  "excludeCats": [
+    "지목헌금"
+  ],
+  "categories": [
+    "십일조",
+    "감사헌금",
+    "주일헌금",
+    "특별헌금",
+    "선교헌금",
+    "지목헌금"
+  ],
+  "weekly_detail": {
+    "1/4": {
+      "jae": 43,
+      "chul": 33,
+      "gs": 10,
+      "jk": 0,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        0,
+        20000,
+        112000,
+        0,
+        0,
+        0
+      ],
+      "offeringAll": 132000,
+      "rate": 76.7,
+      "offering": 132000,
+      "absent": [
+        {
+          "name": "김수영",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "최유근",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 11,
+          "absent": 4,
+          "rate": 73.3
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        }
+      ]
+    },
+    "1/11": {
+      "jae": 43,
+      "chul": 29,
+      "gs": 14,
+      "jk": 0,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        10000,
+        0,
+        154000,
+        0,
+        0,
+        0
+      ],
+      "offeringAll": 164000,
+      "rate": 67.4,
+      "offering": 164000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신민준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신승연",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이다온",
+          "grade": "고3",
+          "chronic": false
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 7,
+          "absent": 1,
+          "rate": 87.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 8,
+          "absent": 7,
+          "rate": 53.3
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "1/18": {
+      "jae": 43,
+      "chul": 31,
+      "gs": 12,
+      "jk": 0,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        15000,
+        0,
+        102000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 122000,
+      "rate": 72.1,
+      "offering": 122000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "유우빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "박봄",
+          "grade": "고1",
+          "chronic": false
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 12,
+          "absent": 3,
+          "rate": 80.0
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 1,
+          "absent": 2,
+          "rate": 33.3
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 5,
+          "absent": 3,
+          "rate": 62.5
+        }
+      ]
+    },
+    "1/25": {
+      "jae": 43,
+      "chul": 30,
+      "gs": 13,
+      "jk": 0,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        30000,
+        0,
+        86000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 121000,
+      "rate": 69.8,
+      "offering": 121000,
+      "absent": [
+        {
+          "name": "김수영",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신민준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "박봄",
+          "grade": "고1",
+          "chronic": false
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 9,
+          "absent": 6,
+          "rate": 60.0
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 1,
+          "absent": 2,
+          "rate": 33.3
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        }
+      ]
+    },
+    "2/1": {
+      "jae": 43,
+      "chul": 28,
+      "gs": 10,
+      "jk": 5,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        0,
+        0,
+        109000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 114000,
+      "rate": 65.1,
+      "offering": 114000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "유우빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "최유근",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신민준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신승연",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 5,
+          "absent": 3,
+          "rate": 62.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 9,
+          "absent": 6,
+          "rate": 60.0
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "2/8": {
+      "jae": 43,
+      "chul": 31,
+      "gs": 7,
+      "jk": 5,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        16000,
+        0,
+        97000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 118000,
+      "rate": 72.1,
+      "offering": 118000,
+      "absent": [
+        {
+          "name": "이준서",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신승연",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 7,
+          "absent": 1,
+          "rate": 87.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 10,
+          "absent": 5,
+          "rate": 66.7
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 5,
+          "absent": 3,
+          "rate": 62.5
+        }
+      ]
+    },
+    "2/15": {
+      "jae": 43,
+      "chul": 23,
+      "gs": 14,
+      "jk": 6,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        110000,
+        50000,
+        72000,
+        0,
+        0,
+        0
+      ],
+      "offeringAll": 232000,
+      "rate": 53.5,
+      "offering": 232000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "유우빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "최유근",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박시우",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신승연",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "유세라",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "박예은",
+          "grade": "고2",
+          "chronic": false
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이다온",
+          "grade": "고3",
+          "chronic": false
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 5,
+          "absent": 3,
+          "rate": 62.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 7,
+          "absent": 8,
+          "rate": 46.7
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 4,
+          "absent": 2,
+          "rate": 66.7
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "2/22": {
+      "jae": 43,
+      "chul": 30,
+      "gs": 6,
+      "jk": 7,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        145000,
+        5000,
+        104000,
+        0,
+        10000,
+        0
+      ],
+      "offeringAll": 264000,
+      "rate": 69.8,
+      "offering": 264000,
+      "absent": [
+        {
+          "name": "김수영",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신승연",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 7,
+          "absent": 1,
+          "rate": 87.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 10,
+          "absent": 5,
+          "rate": 66.7
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "3/1": {
+      "jae": 43,
+      "chul": 32,
+      "gs": 3,
+      "jk": 8,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        90000,
+        300000,
+        94000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 489000,
+      "rate": 74.4,
+      "offering": 489000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "최유근",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 11,
+          "absent": 4,
+          "rate": 73.3
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 6,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "3/8": {
+      "jae": 43,
+      "chul": 35,
+      "gs": 2,
+      "jk": 9,
+      "sc": 3,
+      "tea": 14,
+      "oc": [
+        30000,
+        0,
+        109000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 144000,
+      "rate": 81.4,
+      "offering": 144000,
+      "absent": [
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 8,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 10,
+          "absent": 5,
+          "rate": 66.7
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "3/15": {
+      "jae": 43,
+      "chul": 32,
+      "gs": 3,
+      "jk": 8,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        0,
+        0,
+        109000,
+        0,
+        20000,
+        0
+      ],
+      "offeringAll": 129000,
+      "rate": 74.4,
+      "offering": 129000,
+      "absent": [
+        {
+          "name": "유우빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "최유근",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 12,
+          "absent": 3,
+          "rate": 80.0
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "3/22": {
+      "jae": 43,
+      "chul": 31,
+      "gs": 4,
+      "jk": 8,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        0,
+        0,
+        74000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 79000,
+      "rate": 72.1,
+      "offering": 79000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "유세라",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 7,
+          "absent": 1,
+          "rate": 87.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 11,
+          "absent": 4,
+          "rate": 73.3
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "3/29": {
+      "jae": 43,
+      "chul": 32,
+      "gs": 5,
+      "jk": 7,
+      "sc": 1,
+      "tea": 14,
+      "oc": [
+        0,
+        0,
+        0,
+        0,
+        121000,
+        0
+      ],
+      "offeringAll": 121000,
+      "rate": 74.4,
+      "offering": 121000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "이준서",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "신승연",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 12,
+          "absent": 3,
+          "rate": 80.0
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "4/5": {
+      "jae": 43,
+      "chul": 33,
+      "gs": 4,
+      "jk": 8,
+      "sc": 2,
+      "tea": 14,
+      "oc": [
+        5000,
+        99000,
+        102000,
+        0,
+        11000,
+        0
+      ],
+      "offeringAll": 217000,
+      "rate": 76.7,
+      "offering": 217000,
+      "absent": [
+        {
+          "name": "김수영",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 12,
+          "absent": 3,
+          "rate": 80.0
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "4/12": {
+      "jae": 43,
+      "chul": 30,
+      "gs": 7,
+      "jk": 7,
+      "sc": 1,
+      "tea": 14,
+      "oc": [
+        0,
+        28000,
+        54000,
+        0,
+        15000,
+        0
+      ],
+      "offeringAll": 97000,
+      "rate": 69.8,
+      "offering": 97000,
+      "absent": [
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신민준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "유세라",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 8,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 8,
+          "absent": 7,
+          "rate": 53.3
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "4/19": {
+      "jae": 43,
+      "chul": 32,
+      "gs": 4,
+      "jk": 8,
+      "sc": 2,
+      "tea": 14,
+      "oc": [
+        0,
+        0,
+        109000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 114000,
+      "rate": 74.4,
+      "offering": 114000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신민준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 7,
+          "absent": 1,
+          "rate": 87.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 10,
+          "absent": 5,
+          "rate": 66.7
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "4/26": {
+      "jae": 43,
+      "chul": 26,
+      "gs": 9,
+      "jk": 8,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        10000,
+        0,
+        85000,
+        0,
+        20000,
+        0
+      ],
+      "offeringAll": 115000,
+      "rate": 60.5,
+      "offering": 115000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "유우빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신승연",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이하윤",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "유세라",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 7,
+          "absent": 8,
+          "rate": 46.7
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "5/3": {
+      "jae": 42,
+      "chul": 25,
+      "gs": 10,
+      "jk": 7,
+      "sc": 0,
+      "tea": 14,
+      "oc": [
+        5000,
+        0,
+        78000,
+        0,
+        6000,
+        0
+      ],
+      "offeringAll": 89000,
+      "rate": 59.5,
+      "offering": 89000,
+      "absent": [
+        {
+          "name": "김수영",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "이준서",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박시우",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신승연",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "최시원",
+          "grade": "중3",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "박예은",
+          "grade": "고2",
+          "chronic": false
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 5,
+          "absent": 3,
+          "rate": 62.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 8,
+          "absent": 7,
+          "rate": 53.3
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        }
+      ]
+    },
+    "5/10": {
+      "jae": 42,
+      "chul": 30,
+      "gs": 5,
+      "jk": 7,
+      "sc": 0,
+      "tea": 15,
+      "oc": [
+        31000,
+        0,
+        107000,
+        0,
+        20000,
+        0
+      ],
+      "offeringAll": 158000,
+      "rate": 71.4,
+      "offering": 158000,
+      "absent": [
+        {
+          "name": "유우빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 7,
+          "absent": 1,
+          "rate": 87.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 11,
+          "absent": 4,
+          "rate": 73.3
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "5/17": {
+      "jae": 42,
+      "chul": 28,
+      "gs": 7,
+      "jk": 7,
+      "sc": 0,
+      "tea": 15,
+      "oc": [
+        65000,
+        0,
+        84000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 154000,
+      "rate": 66.7,
+      "offering": 154000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김서현",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이하윤",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김동건",
+          "grade": "중3",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 7,
+          "absent": 1,
+          "rate": 87.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 10,
+          "absent": 5,
+          "rate": 66.7
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "5/24": {
+      "jae": 42,
+      "chul": 26,
+      "gs": 9,
+      "jk": 7,
+      "sc": 0,
+      "tea": 15,
+      "oc": [
+        0,
+        0,
+        93000,
+        0,
+        4000,
+        0
+      ],
+      "offeringAll": 97000,
+      "rate": 61.9,
+      "offering": 97000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박시우",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "유세라",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "박예은",
+          "grade": "고2",
+          "chronic": false
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 7,
+          "absent": 1,
+          "rate": 87.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 8,
+          "absent": 7,
+          "rate": 53.3
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 4,
+          "absent": 2,
+          "rate": 66.7
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "5/31": {
+      "jae": 42,
+      "chul": 27,
+      "gs": 9,
+      "jk": 7,
+      "sc": 1,
+      "tea": 15,
+      "oc": [
+        10000,
+        0,
+        83000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 98000,
+      "rate": 64.3,
+      "offering": 98000,
+      "absent": [
+        {
+          "name": "김수영",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "유우빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "이준서",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신승연",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 4,
+          "absent": 4,
+          "rate": 50.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 10,
+          "absent": 5,
+          "rate": 66.7
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "6/7": {
+      "jae": 42,
+      "chul": 27,
+      "gs": 7,
+      "jk": 9,
+      "sc": 1,
+      "tea": 15,
+      "oc": [
+        16000,
+        0,
+        87000,
+        0,
+        15000,
+        0
+      ],
+      "offeringAll": 118000,
+      "rate": 64.3,
+      "offering": 118000,
+      "absent": [
+        {
+          "name": "김수영",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김지호",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김동건",
+          "grade": "중3",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 5,
+          "absent": 3,
+          "rate": 62.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 10,
+          "absent": 5,
+          "rate": 66.7
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "6/14": {
+      "jae": 42,
+      "chul": 30,
+      "gs": 5,
+      "jk": 10,
+      "sc": 2,
+      "tea": 15,
+      "oc": [
+        5000,
+        0,
+        111000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 121000,
+      "rate": 71.4,
+      "offering": 121000,
+      "absent": [
+        {
+          "name": "이준서",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신승연",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "유세라",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 7,
+          "absent": 1,
+          "rate": 87.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 9,
+          "absent": 6,
+          "rate": 60.0
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "6/21": {
+      "jae": 42,
+      "chul": 33,
+      "gs": 1,
+      "jk": 10,
+      "sc": 2,
+      "tea": 15,
+      "oc": [
+        1000,
+        0,
+        102000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 108000,
+      "rate": 78.6,
+      "offering": 108000,
+      "absent": [
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 7,
+          "absent": 1,
+          "rate": 87.5
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 12,
+          "absent": 3,
+          "rate": 80.0
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "6/28": {
+      "jae": 42,
+      "chul": 34,
+      "gs": 1,
+      "jk": 10,
+      "sc": 3,
+      "tea": 15,
+      "oc": [
+        0,
+        0,
+        92000,
+        0,
+        80000,
+        0
+      ],
+      "offeringAll": 172000,
+      "rate": 81.0,
+      "offering": 172000,
+      "absent": [
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "최시원",
+          "grade": "중3",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 8,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 12,
+          "absent": 3,
+          "rate": 80.0
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "7/5": {
+      "jae": 43,
+      "chul": 31,
+      "gs": 4,
+      "jk": 9,
+      "sc": 1,
+      "tea": 15,
+      "oc": [
+        0,
+        75000,
+        113000,
+        0,
+        0,
+        0
+      ],
+      "offeringAll": 188000,
+      "rate": 72.1,
+      "offering": 188000,
+      "absent": [
+        {
+          "name": "김수영",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이민교",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 11,
+          "absent": 4,
+          "rate": 73.3
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "7/12": {
+      "jae": 43,
+      "chul": 32,
+      "gs": 5,
+      "jk": 8,
+      "sc": 2,
+      "tea": 15,
+      "oc": [
+        0,
+        0,
+        75000,
+        0,
+        5000,
+        200000
+      ],
+      "offeringAll": 280000,
+      "rate": 74.4,
+      "offering": 80000,
+      "absent": [
+        {
+          "name": "김수영",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김한빈",
+          "grade": "중1",
+          "chronic": false
+        },
+        {
+          "name": "김예준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "박강빈",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "신승연",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 6,
+          "absent": 2,
+          "rate": 75.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 11,
+          "absent": 4,
+          "rate": 73.3
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 5,
+          "absent": 1,
+          "rate": 83.3
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    },
+    "7/19": {
+      "jae": 43,
+      "chul": 35,
+      "gs": 4,
+      "jk": 8,
+      "sc": 4,
+      "tea": 15,
+      "oc": [
+        0,
+        0,
+        112000,
+        0,
+        5000,
+        0
+      ],
+      "offeringAll": 117000,
+      "rate": 81.4,
+      "offering": 117000,
+      "absent": [
+        {
+          "name": "신민준",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "이슬찬",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김서현",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "조한들",
+          "grade": "중2",
+          "chronic": false
+        },
+        {
+          "name": "김태영",
+          "grade": "고1",
+          "chronic": true
+        },
+        {
+          "name": "배연희",
+          "grade": "고2",
+          "chronic": false
+        },
+        {
+          "name": "홍은솔",
+          "grade": "고2",
+          "chronic": true
+        },
+        {
+          "name": "변형원",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "이하영",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "장요셉",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "정찬빈",
+          "grade": "고3",
+          "chronic": true
+        },
+        {
+          "name": "조재희",
+          "grade": "고3",
+          "chronic": true
+        }
+      ],
+      "grade": [
+        {
+          "grade": "중1",
+          "size": 8,
+          "present": 8,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "중2",
+          "size": 15,
+          "present": 11,
+          "absent": 4,
+          "rate": 73.3
+        },
+        {
+          "grade": "중3",
+          "size": 3,
+          "present": 3,
+          "absent": 0,
+          "rate": 100.0
+        },
+        {
+          "grade": "고1",
+          "size": 3,
+          "present": 2,
+          "absent": 1,
+          "rate": 66.7
+        },
+        {
+          "grade": "고2",
+          "size": 6,
+          "present": 4,
+          "absent": 2,
+          "rate": 66.7
+        },
+        {
+          "grade": "고3",
+          "size": 8,
+          "present": 3,
+          "absent": 5,
+          "rate": 37.5
+        }
+      ]
+    }
+  },
+  "order": [
+    "1/4",
+    "1/11",
+    "1/18",
+    "1/25",
+    "2/1",
+    "2/8",
+    "2/15",
+    "2/22",
+    "3/1",
+    "3/8",
+    "3/15",
+    "3/22",
+    "3/29",
+    "4/5",
+    "4/12",
+    "4/19",
+    "4/26",
+    "5/3",
+    "5/10",
+    "5/17",
+    "5/24",
+    "5/31",
+    "6/7",
+    "6/14",
+    "6/21",
+    "6/28",
+    "7/5",
+    "7/12",
+    "7/19"
+  ],
+  "offerList": {
+    "rows": [
+      {
+        "date": "2026-07-05",
+        "wk": "7/5",
+        "item": "감사헌금",
+        "amt": 75000,
+        "names": [
+          "박예은",
+          "강민아",
+          "강민희",
+          "홍예주",
+          "홍예인",
+          "이윤지"
+        ],
+        "note": "맥추 감사",
+        "idx": 26
+      },
+      {
+        "date": "2026-07-05",
+        "wk": "7/5",
+        "item": "주일헌금",
+        "amt": 113000,
+        "names": [
+          "김주온",
+          "김수현",
+          "이윤지",
+          "박봄",
+          "유세라",
+          "이예승",
+          "배연희",
+          "박온유",
+          "홍예인",
+          "홍예주",
+          "강민아",
+          "강민희",
+          "박예은",
+          "이지온",
+          "이다온",
+          "김지우"
+        ],
+        "note": "",
+        "idx": 26
+      },
+      {
+        "date": "2026-07-12",
+        "wk": "7/12",
+        "item": "구제/선교",
+        "amt": 5000,
+        "names": [],
+        "note": "익명 1명",
+        "idx": 27
+      },
+      {
+        "date": "2026-07-12",
+        "wk": "7/12",
+        "item": "기타",
+        "amt": 200000,
+        "names": [],
+        "note": "지목헌금 박션",
+        "idx": 27
+      },
+      {
+        "date": "2026-07-12",
+        "wk": "7/12",
+        "item": "주일헌금",
+        "amt": 75000,
+        "names": [
+          "홍예주",
+          "이다온",
+          "이지온",
+          "박예은",
+          "이준서",
+          "박온유",
+          "홍예인",
+          "배연희",
+          "이윤지",
+          "유세라",
+          "김지우",
+          "강민아"
+        ],
+        "note": "",
+        "idx": 27
+      },
+      {
+        "date": "2026-07-19",
+        "wk": "7/19",
+        "item": "구제/선교",
+        "amt": 5000,
+        "names": [],
+        "note": "익명 1명",
+        "idx": 28
+      },
+      {
+        "date": "2026-07-19",
+        "wk": "7/19",
+        "item": "기타",
+        "amt": 100000,
+        "names": [],
+        "note": "찬조 강순애 권사",
+        "idx": 28
+      },
+      {
+        "date": "2026-07-19",
+        "wk": "7/19",
+        "item": "주일헌금",
+        "amt": 112000,
+        "names": [
+          "김한빈",
+          "김수영",
+          "박온유",
+          "이지온",
+          "이다온",
+          "박예은",
+          "홍예주",
+          "홍예인",
+          "이예승",
+          "김수현",
+          "강민아",
+          "이하윤"
+        ],
+        "note": "",
+        "idx": 28
+      }
+    ],
+    "itemOrder": [
+      "주일헌금",
+      "감사헌금",
+      "구제/선교",
+      "기타"
+    ]
+  }
+}
