@@ -353,12 +353,14 @@ function drawOff(){
 function renderLists(){
  const w=D.order[cur],wd=D.weekly_detail[w];
  document.getElementById('absWk').textContent='· '+fmtDay(w);
- const chr=wd.absent.filter(a=>a.chronic).length;
- document.getElementById('absCnt').textContent='결석 '+wd.absent.length+'명 (장기 '+chr+')';
  const streakOf=n=>{let c=0;for(let i=cur;i>=0;i--){if(D.weekly_detail[D.order[i]].absent.some(a=>a.name===n))c++;else break;}return c;};
+ const LT=4; // 4주 이상 연속 결석 = 장기결석 (사유 표기와 무관하게 자동 판정)
+ const isChr=a=>a.chronic||streakOf(a.name)>=LT;
+ const chr=wd.absent.filter(isChr).length;
+ document.getElementById('absCnt').textContent='결석 '+wd.absent.length+'명 (장기 '+chr+')';
  document.getElementById('absBody').innerHTML=wd.absent.length?wd.absent.map(a=>
    `<tr><td style="font-weight:700">${a.name}</td><td>${a.grade}</td>
-    <td>${a.chronic?'<span class="tag r">장기결석</span>':'<span class="tag a">결석</span>'}</td>
+    <td>${isChr(a)?'<span class="tag r">장기결석</span>':'<span class="tag a">결석</span>'}</td>
     <td><b style="font-weight:700">${streakOf(a.name)}</b><span class="mut"> 주 연속</span></td>
     <td><b style="font-weight:700">${A.freq[a.name]||0}</b><span class="mut"> 회</span></td></tr>`).join('')
    :'<tr><td colspan="5" class="mut" style="text-align:center;padding:18px">결석자 없음 🎉</td></tr>';
