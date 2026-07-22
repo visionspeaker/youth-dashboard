@@ -85,6 +85,8 @@ tbody tr:hover{background:#f5f8ff}
 .ol-note{font-size:12px;color:var(--tx2);margin-top:6px}
 .ol-sub{font-size:12px;font-weight:700;color:var(--tx2);margin:0 0 8px}
 .ol-grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:6px}
+.ol-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:6px}
+@media(max-width:560px){.ol-grid3{grid-template-columns:minmax(0,1fr)}}
 .ol-empty{padding:18px;text-align:center;color:var(--tx2);font-size:13px}
 .chip.hot{background:#fff8ec;border-color:#f6d9a6}
 .chip.hot .gr{color:#c67c00;background:rgba(245,158,11,.16)}
@@ -134,7 +136,7 @@ tbody tr:hover{background:#f5f8ff}
  <div class="grid r2" style="margin-top:16px">
   <div class="card">
    <div class="sec-h"><h2><span class="i"></span>출석 추이</h2>
-    <div class="toggle" id="attToggle"><button data-m="month" class="on">월별</button><button data-m="week">주차별</button></div></div>
+    <div class="toggle" id="attToggle"><button data-m="week" class="on">주차별</button><button data-m="month">월별</button></div></div>
    <div class="chart-box"><canvas id="attChart"></canvas></div>
   </div>
   <div class="card">
@@ -252,19 +254,31 @@ function countUp(el,to,dec,ms){
    if(p<1)requestAnimationFrame(step);else el.textContent=to.toFixed(dec);};
  requestAnimationFrame(step);
 }
+// 증감 부제: 증가=파랑(▲), 감소=적색(▼), 동일=회색
+function deltaSub(diff,unit,fixed){
+ if(diff===0) return '<span class="mut">지난주와 동일</span>';
+ const up=diff>0, a=Math.abs(diff);
+ const num=fixed!=null?a.toFixed(fixed):won(a);
+ return `<span style="color:${up?'var(--accent)':'var(--red)'};font-weight:700">${up?'▲':'▼'} ${num}${unit}</span> <span class="mut" style="font-size:11px">지난주 대비</span>`;
+}
 function renderKPI(){
  const w=D.order[cur],wd=D.weekly_detail[w];
+ const prevW=cur>0?D.order[cur-1]:null, pwd=prevW?D.weekly_detail[prevW]:null;
+ // 이번 주 학생 출석 인원
+ const chulNow=wd.chul, chulPrev=pwd?pwd.chul:null;
+ // 이번 주 헌금(지목 제외) = 그 주 offering
+ const offNow=wd.offering, offPrev=pwd?pwd.offering:null;
  const cards=[
-  {t:'재적 (학생) · 선택주',n:wd.jae,d:0,u:'명',s:'교사 '+wd.tea+'명',cls:''},
-  {t:'평균 출석률 · 누적',n:A.rate,d:1,u:'%',s:'1월~'+w+' · '+A.ws.length+'주',cls:'bar-accent'},
-  {t:'평균 출석 · 누적',n:A.avgChul,d:1,u:'명',s:'주 평균 (새친구 포함)',cls:''},
-  {t:'완전개근 · 누적',n:A.perfect.filter(p=>!p.joinIdx).length,d:0,u:'명',s:'1월~'+w+' 결석 0회',cls:''},
-  {t:'새친구 · 누적',n:A.nf.length,d:0,u:'명',s:'1월~'+w,cls:''},
-  {t:'헌금 · 누적',n:Math.round(A.offTot/10000),d:0,u:'만원',s:'1월~'+w+' 합계',cls:''},
+  {t:'재적 (학생) · 선택주',n:wd.jae,d:0,u:'명',s:'교사 '+wd.tea+'명'},
+  {t:'평균 출석 · 누적',n:A.rate,d:1,u:'%',s:'평균 출석 '+A.avgChul.toFixed(1)+'명 · '+A.ws.length+'주'},
+  {t:'이번 주 출석',n:chulNow,d:0,u:'명',s:chulPrev==null?fmtDay(w)+' · 새친구 포함':deltaSub(chulNow-chulPrev,'명',0)},
+  {t:'완전개근 · 누적',n:A.perfect.filter(p=>!p.joinIdx).length,d:0,u:'명',s:'1월~'+w+' 결석 0회'},
+  {t:'새친구 · 누적',n:A.nf.length,d:0,u:'명',s:'1월~'+w},
+  {t:'헌금 · 누적',n:Math.round(A.offTot/10000),d:0,u:'만원',s:'이번 주 '+won(offNow)+'원'},
  ];
  const box=document.getElementById('kpis');
  box.innerHTML=cards.map((c,i)=>
-  `<div class="card kpi kpi-anim ${c.cls}" style="animation-delay:${i*120}ms">
+  `<div class="card kpi kpi-anim" style="animation-delay:${i*120}ms">
      <div class="t">${c.t}</div>
      <div class="v"><span class="num" data-to="${c.n}" data-dec="${c.d}">0</span><small> ${c.u}</small></div>
      <div class="s">${c.s}</div></div>`).join('');
@@ -276,7 +290,7 @@ function renderKPI(){
 }
 
 // ===== charts =====
-let attCh,grCh,offCh,offM,attMode='month',grMode='avg',grArr=[];
+let attCh,grCh,offCh,offM,attMode='week',grMode='avg',grArr=[];
 const OFFPAL=[cAcc,cViolet,cBlue,cGreen,cAmber,cRed];
 function drawAtt(mode){
  attMode=mode;
@@ -325,7 +339,11 @@ function drawGr(mode){
 }
 function drawOff(){
  const EXC=D.excludeCats||[];
- const by=D.categories.map((c,i)=>({cat:c,amt:A.csum[i],color:OFFPAL[i%OFFPAL.length]})).filter(c=>!EXC.includes(c.cat));
+ const ORDER=['십일조','주일헌금','감사헌금','특별헌금','선교헌금','지목헌금'];
+ const _colorOf={}; D.categories.forEach((c,i)=>_colorOf[c]=OFFPAL[i%OFFPAL.length]);
+ const _amtOf={}; D.categories.forEach((c,i)=>_amtOf[c]=A.csum[i]);
+ const by=ORDER.filter(c=>D.categories.includes(c)&&!EXC.includes(c))
+   .map(c=>({cat:c,amt:_amtOf[c],color:_colorOf[c]}));
  const bc=by.filter(c=>c.amt>0);
  if(offCh){
    offCh.data.labels=bc.map(c=>c.cat); offCh.data.datasets[0].data=bc.map(c=>c.amt);
@@ -353,16 +371,17 @@ function drawOff(){
 function renderLists(){
  const w=D.order[cur],wd=D.weekly_detail[w];
  document.getElementById('absWk').textContent='· '+fmtDay(w);
+ // 구분 기준: 연속 결석 1~4주=결석, 5주 이상=장기결석 (선택주 기준)
  const streakOf=n=>{let c=0;for(let i=cur;i>=0;i--){if(D.weekly_detail[D.order[i]].absent.some(a=>a.name===n))c++;else break;}return c;};
- const LT=4; // 4주 이상 연속 결석 = 장기결석 (사유 표기와 무관하게 자동 판정)
- const isChr=a=>a.chronic||streakOf(a.name)>=LT;
- const chr=wd.absent.filter(isChr).length;
+ const isLong=n=>streakOf(n)>=5;
+ const chr=wd.absent.filter(a=>isLong(a.name)).length;
  document.getElementById('absCnt').textContent='결석 '+wd.absent.length+'명 (장기 '+chr+')';
- document.getElementById('absBody').innerHTML=wd.absent.length?wd.absent.map(a=>
-   `<tr><td style="font-weight:700">${a.name}</td><td>${a.grade}</td>
-    <td>${isChr(a)?'<span class="tag r">장기결석</span>':'<span class="tag a">결석</span>'}</td>
+ document.getElementById('absBody').innerHTML=wd.absent.length?wd.absent.map(a=>{
+    const lng=isLong(a.name);
+    return `<tr><td style="font-weight:700">${a.name}</td><td>${a.grade}</td>
+    <td>${lng?'<span class="tag r">장기결석</span>':'<span class="tag a">결석</span>'}</td>
     <td><b style="font-weight:700">${streakOf(a.name)}</b><span class="mut"> 주 연속</span></td>
-    <td><b style="font-weight:700">${A.freq[a.name]||0}</b><span class="mut"> 회</span></td></tr>`).join('')
+    <td><b style="font-weight:700">${A.freq[a.name]||0}</b><span class="mut"> 회</span></td></tr>`;}).join('')
    :'<tr><td colspan="5" class="mut" style="text-align:center;padding:18px">결석자 없음 🎉</td></tr>';
  // 개근자
  const nonNew=A.perfect.filter(p=>!p.joinIdx),news=A.perfect.filter(p=>p.joinIdx);
@@ -411,15 +430,25 @@ function renderOfferList(){
  const chips=(names,hotMap)=>names.map(n=>{
    const c=hotMap?hotMap[n]:0, hot=c>=3;
    return `<span class="chip${hot?' hot':''}">${n}${c?`<span class="gr">${c}회</span>`:''}</span>`;}).join('');
- const rowHtml=r=>`<div class="ol-row"><div class="ol-h"><b>${r.item}</b>
-     <span class="ol-amt">${won(r.amt)}<span class="mut"> 원${r.names.length?' · '+r.names.length+'명':''}</span></span></div>
-   ${r.names.length?`<div style="margin-top:8px">${chips([...r.names].sort((a,b)=>a.localeCompare(b,'ko')))}</div>`:''}
-   ${r.note?`<div class="ol-note">${r.note}</div>`:''}</div>`;
- const named=thisWk.filter(r=>r.names.length), plain=thisWk.filter(r=>!r.names.length);
+ // 고정 4개 카드: [데이터 항목키, 표시명]. 선교헌금 = 헌금명단의 '구제/선교' 매핑
+ const FIX=[['주일헌금','주일헌금'],['십일조','십일조'],['감사헌금','감사헌금'],['구제/선교','선교헌금']];
+ const findRow=key=>thisWk.find(r=>r.item===key);
+ const fixCard=(key,label)=>{
+   const r=findRow(key);
+   const amt=r?won(r.amt)+'<span class="mut"> 원'+(r.names.length?' · '+r.names.length+'명':'')+'</span>':'<span class="mut">—</span>';
+   const body=r&&r.names.length
+       ? `<div style="margin-top:8px">${chips([...r.names].sort((a,b)=>a.localeCompare(b,'ko')))}</div>`
+       : `<div class="ol-note">${r?(r.note||'참여 명단 없음'):'해당 없음'}</div>`;
+   const extraNote=(r&&r.names.length&&r.note)?`<div class="ol-note">${r.note}</div>`:'';
+   return `<div class="ol-row"><div class="ol-h"><b>${label}</b><span class="ol-amt">${amt}</span></div>${body}${extraNote}</div>`;
+ };
+ // 기타(지목·찬조): 그 주에 있을 때만 표시
+ const etc=thisWk.filter(r=>r.item==='기타');
+ const etcHtml=etc.map(r=>`<div class="ol-row"><div class="ol-h"><b>기타</b><span class="ol-amt">${won(r.amt)}<span class="mut"> 원</span></span></div>${r.note?`<div class="ol-note">${r.note}</div>`:''}</div>`).join('');
  let html='<div class="ol-sub">선택주 내역 · '+fmtDay(cur_wk)+'</div>';
- html+= thisWk.length ? named.map(rowHtml).join('')
-        +(plain.length?`<div class="ol-grid2">${plain.map(rowHtml).join('')}</div>`:'')
-      : '<div class="ol-row"><div class="mut" style="font-size:12.5px">이 주의 헌금명단 기록이 없습니다</div></div>';
+ html+=fixCard('주일헌금','주일헌금');
+ html+=`<div class="ol-grid3">${['십일조','감사헌금','구제/선교'].map(k=>fixCard(k,k==='구제/선교'?'선교헌금':k)).join('')}</div>`;
+ if(etc.length) html+=etcHtml;
  html+='<div class="ol-sub" style="padding-top:12px;border-top:1px solid var(--line);margin-top:10px">누적 참여 횟수 · 1월~'+cur_wk+'</div>';
  html+=chips(rank.map(r=>r[0]),cnt);
  box.innerHTML=html;

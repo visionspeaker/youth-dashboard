@@ -1,55 +1,47 @@
-# 중고등부 대시보드 — 빌드/갱신 파이프라인
+# 중고등부 사역 대시보드 (송탄영광교회)
 
-송탄영광교회 중고등부 사역 대시보드( https://visionspeaker.github.io/youth-dashboard/ )의
-데이터를 **디자인은 그대로 두고** 매주 갱신하기 위한 파일 모음.
+GitHub Pages: **https://visionspeaker.github.io/youth-dashboard/**
 
-## 파일 구성
-| 파일 | 역할 | 수정 여부 |
-|---|---|---|
-| `template.html` | 레이아웃·CSS·JS 원본. 데이터 자리는 `@@DATA_JSON@@` 마커 | **손대지 말 것**(디자인 변경 시에만) |
-| `data.json` | 대시보드에 주입되는 집계 데이터(누적 상태) | compute.py가 갱신 |
-| `compute.py` | 새 주차만 읽어 data.json에 증분 반영 | 로직 고정 |
-| `build_html.py` | data.json + template.html → index.html | 고정 |
-| `index.html` | 배포본(GitHub Pages) | build_html.py가 생성 |
-| `weeks_incoming.json` | 이번에 반영할 새 주차 원자료(에이전트가 작성) | 매주 교체 |
+주간 사역보고서 · 온라인 출석부 데이터를 집계한 중고등부 현황 대시보드입니다.
+검색 비노출(noindex) 처리되어 있습니다.
 
-## 핵심 원칙
-- **과거 주차는 재계산하지 않는다.** data.json이 확정 누적치이고, compute.py는 새 주차 델타만 더한다.
-- **디자인/레이아웃/카드/애니메이션은 template.html에만 있다.** 데이터 갱신이 이를 건드리지 않는다.
-- 이미 반영된 주차(label이 data.json['order']에 존재)는 자동으로 건너뛴다(멱등).
+## 구조 (증분 갱신 파이프라인)
+```
+weeks.json (누적 raw)  ─┐
+weeks_incoming.json ────┤─▶ compute.py ─▶ data.json ─▶ build_html.py(+template.html) ─▶ index.html
+(신규 주차만)           ┘
+```
+- **template.html** — 레이아웃·CSS·JS 원본. 데이터 자리는 `@@DATA_JSON@@` 마커. **디자인 수정은 여기서만, 그 외 절대 금지.**
+- **weeks.json** — 확정 raw 누적 상태(주차별 출결·헌금·명단 등). 갱신의 원천.
+- **weeks_incoming.json** — 이번에 추가할 신규 주차만. compute.py 가 weeks.json 에 병합(멱등)하고, 처리 후 `{}` 로 비우면 됨.
+- **compute.py** — weeks.json(+incoming) → data.json. 과거 주차 재계산 안 함. `python3 compute.py`
+- **build_html.py** — template.html + data.json → index.html. `python3 build_html.py`
+- **index.html** — 배포본(GitHub Pages). 아이콘/매니페스트 동봉.
 
-## 매주 갱신 절차
-1. 두 구글시트에서 '중고등부' **새(작성완료) 주차**를 읽는다.
-   - 주간 사역보고서(`1rXRzno9pE_PYXHR6KX5Hm4FGtrPVVoRUJouxkNmhD5k`): 세 번째 '중고등부' 블록
-     → 학생 재적/출석, 교사, 결석(단기), 장기결석, 새친구, 헌금(십일조/감사/주일/선교/지목·금주합계), 작성완료 여부
-   - 출석체크(`1-moFQc8npkYh3ARL4SIpIB-Yft60d9srv7YBrmWpXXo`): `결석자명단`(해당주 결석자), `헌금명단`(참여 명단)
-   - **미도래/작성중/직전주 복사 주차는 제외.** 마지막 '작성완료' 주가 최신 집계주.
-2. 그 주차를 아래 스키마의 dict로 만들어 `weeks_incoming.json`(리스트)에 넣는다.
-3. `python3 compute.py`  → data.json 갱신
-4. `python3 build_html.py`  → index.html 재생성
-5. 검증: index.html에 `헌금 참여 명단 / renderOfferList / setupMotion / safeUpdate / minmax(0,1.25fr) / apple-touch-icon / 주 연속` 이 모두 있고, 크기가 직전 배포본의 90% 이상인지 확인. 하나라도 실패면 **업로드 중단**.
-6. index.html을 GitHub( https://github.com/visionspeaker/youth-dashboard )에 업로드·커밋("데이터 갱신 YYYY-MM-DD").
-
-## weeks_incoming.json 한 주차 스키마
+## 새 주차 추가 방법 (예: 260726 / 7월 4주차)
+`weeks_incoming.json` 에 아래 형식으로 신규 주차만 넣고 `compute.py`→`build_html.py` 실행:
 ```json
 {
-  "label": "7/26",
-  "jae": 43, "chul": 34, "teacher": 15,
-  "gyeolseok": 5, "jangkyeol": 8,
-  "absents": [ {"name":"홍길동","grade":"고3","chronic":true}, ... ],
-  "offering_week_total": 172000,
-  "offering_by_cat": {"십일조":0,"감사헌금":0,"주일헌금":92000,"특별헌금":0,"선교헌금":80000},
-  "offer_rows": [ {"date":"2026-07-26","item":"주일헌금","amt":92000,"names":["..."],"note":""} ],
-  "newfriends_add": [], "newfriend_report": 4,
-  "roster": null,
-  "note": "260726 작성완료 반영"
+  "report":  { "260726": [월,재적학생,출석학생,결석,장기결석,새친구수, 십일조,감사헌금,주일헌금,특별헌금,선교헌금,지목헌금] },
+  "teacher": { "260726": 교사수 },
+  "absent":  { "260726": "이름,이름,..." },
+  "offerRows": [ ["2026-07-26","주일헌금",금액,"이름, 이름, ..."], ["2026-07-26","구제/선교",금액,"1명"], ["2026-07-26","기타",금액,"지목/찬조 설명"] ],
+  "generated": "2026-07-26"
 }
 ```
-- `chul`은 새친구 포함 학생 출석. `absents`는 재적 기준(결석자명단 행). `gs`는 자동 계산(=len(absents)).
-- `offering_by_cat`는 지목헌금 제외(지목은 by_cat에서 자동 제외). `offering_week_total`은 지목 포함 금주합계.
-- `roster`는 재적 명부가 바뀐 경우에만 새 리스트로 전달.
+- report 배열은 **12개 숫자**(순서 고정). 금액은 정수(콤마 없이).
+- absent 는 결석자명단 탭의 그 주 결석자 이름을 쉼표로. (현 재적만 집계에 반영됨)
+- offerRows 는 헌금명단 탭 행. `기타`(지목·찬조)는 헌금 합계에서 제외되지만 참여명단엔 표시됨.
+- 명부/새친구/장기표시가 바뀌면 `roster` / `newfriends` / `chronic` 전체를 override 로 넣는다.
 
-## 집계 규칙(고정)
-- 출석률 = 학생 기준(chul/jae, 새친구 포함).  KPI '재적' 부제 교사 수 = 보고서 교사값.
-- 완전개근(perfect) = 1월부터 결석 0회.  결석 시 자동 제외.
-- 헌금 by_cat/total은 지목 제외, KPI offering_total·월별은 지목 포함.  헌금 참여 명단은 가나다순.
+## 집계 규칙 (compute.py/template.html 에 구현됨)
+- 출석률=학생 기준(새친구 포함). 완전개근=1월부터 결석 0회.
+- **결석/장기결석 구분**: 시트 표시가 아니라 **연속 결석 주수** — 1~4주=결석, 5주 이상=장기결석(선택주 기준, template 렌더가 계산).
+- 헌금 도넛/합계는 **지목헌금 제외**. 항목 표시순서: 십일조·주일헌금·감사헌금·선교헌금.
+- 주차 셀렉터는 as-of(선택주까지 누적). 헌금명단 이름 가나다순.
+
+## 검증 & 배포
+- 재생성한 index.html 에 다음이 모두 있어야 함(없으면 배포 중단):
+  `헌금 참여 명단` `renderOfferList` `setupMotion` `safeUpdate` `minmax(0,1.25fr)` `apple-touch-icon` `주 연속` `noindex`
+  또한 직전 index.html 의 90% 미만 크기면 중단.
+- 배포: `index.html` 과 `weeks.json` 을 함께 커밋(둘 다 올려야 다음 주 실행이 최신 상태를 받음).

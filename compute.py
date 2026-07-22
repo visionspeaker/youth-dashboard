@@ -1,152 +1,215 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-compute.py — 중고등부 대시보드 데이터(data.json) 증분 갱신기
+# 중고등부 대시보드 집계기: weeks.json(누적 raw) + weeks_incoming.json(신규 주차) -> data.json
+# ⚠️ 계산 로직은 검증됨. 새 주차는 weeks_incoming.json 로만 추가하고, 과거는 재계산하지 않는다.
+import json, collections, os, re
+HERE=os.path.dirname(os.path.abspath(__file__))
+def _p(n): return os.path.join(HERE,n)
+DATA_PATH=_p("data.json")
+W=json.load(open(_p("weeks.json"),encoding="utf-8"))
+# ---- 신규 주차 병합 (멱등: 같은 주차/헌금행 중복 방지) ----
+_incp=_p("weeks_incoming.json")
+if os.path.exists(_incp):
+    try: INC=json.load(open(_incp,encoding="utf-8"))
+    except Exception: INC={}
+    for _k in ("report","teacher","absent"):
+        if isinstance(INC.get(_k),dict): W[_k].update(INC[_k])
+    if isinstance(INC.get("offerRows"),list):
+        _seen={(r[0],r[1]) for r in W["offerRows"]}
+        for r in INC["offerRows"]:
+            if (r[0],r[1]) not in _seen: W["offerRows"].append(r); _seen.add((r[0],r[1]))
+    for _k in ("roster","newfriends","joinWeek","excludeCats","chronic","generated"):
+        if INC.get(_k): W[_k]=INC[_k]
+    json.dump(W,open(_p("weeks.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=1)
+# ---- unpack (기존 로직이 기대하는 변수들) ----
+roster=[tuple(x) for x in W["roster"]]
+grade_of={n:g for n,g in roster}
+grade_order=["중1","중2","중3","고1","고2","고3"]
+grade_size=collections.Counter(g for n,g in roster)
+join_week=dict(W["joinWeek"])
+chronic=set(W.get("chronic",[]))
+def norm(n): return "정찬빈" if n=="정창빈" else n
+absent_raw=W["absent"]
+weeks=list(absent_raw.keys())
+teacher_jae={k:int(v) for k,v in W["teacher"].items()}
+absent={w:[norm(x.strip()) for x in absent_raw[w].split(",")] for w in weeks}
+report={k:tuple(v) for k,v in W["report"].items()}
+NF_SRC=[dict(x) for x in W["newfriends"]]
+OFFER_ROWS=[list(r) for r in W["offerRows"]]
+EXCLUDE_CATS=list(W.get("excludeCats",["지목헌금"]))
+GEN=W.get("generated","2026-07-18")
 
-설계 원칙(중요)
-- 과거 주차는 절대 재계산하지 않는다. data.json 은 "현재까지 누적된 확정 상태"이며,
-  이 스크립트는 '새 주차'만 읽어 그 델타만 반영한다(1~6월 등 확정치 불변).
-- 시트를 직접 읽지 않는다. 구글시트 접근 권한이 없으므로, 에이전트(Claude)가 매주
-  두 시트에서 '중고등부' 새 주차를 읽어 아래 스키마의 dict 로 만들어
-  weeks_incoming.json (리스트) 에 넣은 뒤 이 스크립트를 실행한다.
-- 이미 반영된 주차(label 이 data.json['order'] 에 존재)는 건너뛴다(멱등).
+def wlabel(w): # 260712 -> 7/12
+    m=int(w[2:4]); d=int(w[4:6]); return f"{m}/{d}"
 
-실행:  python3 compute.py            # weeks_incoming.json 의 새 주차들을 반영
-       python3 compute.py --dry     # 계산만 하고 저장하지 않음
+# ===== 1) 월별 출석 =====
+month_names={1:"1월",2:"2월",3:"3월",4:"4월",5:"5월",6:"6월",7:"7월"}
+mon=collections.defaultdict(lambda:[0,0,0])  # month -> [sum출석, sum재적, cnt]
+for w,(m,jae,chul,gs,jk,sc,*rest) in report.items():
+    mon[m][0]+=chul; mon[m][1]+=jae; mon[m][2]+=1
+monthly=[]
+for m in sorted(mon):
+    s,j,c=mon[m]
+    monthly.append({"month":month_names[m],"avg_chul":round(s/c,1),"avg_jae":round(j/c,1),"rate":round(s/j*100,1),"weeks":c})
 
-weeks_incoming.json 예시(한 주차 dict): README 참고.
-"""
-import json, sys, datetime, pathlib
+# 주차별(라인용)
+weekly_series=[{"label":wlabel(w),"jae":report[w][1],"chul":report[w][2],"gs":report[w][3]+report[w][4],
+                "rate":round(report[w][2]/report[w][1]*100,1)} for w in report]
 
-HERE = pathlib.Path(__file__).resolve().parent
-DATA = HERE / "data.json"
-INCOMING = HERE / "weeks_incoming.json"
+# ===== 2) 결석자 명단 (최신 완결주 260712) =====
+latest="260712"
+def is_current(n): return n in grade_of
+latest_absent=[]
+for n in absent[latest]:
+    if is_current(n):
+        latest_absent.append({"name":n,"grade":grade_of[n],"chronic":n in chronic})
+# 누적 결석횟수(현 재적)
+abs_count=collections.Counter()
+for w in weeks:
+    for n in set(absent[w]):
+        if is_current(n): abs_count[n]+=1
 
-def month_of(label):
-    return f"{int(label.split('/')[0])}월"
+# ===== 3) 완전개근자 (28주 전체 결석 0회, 현 재적) =====
+perfect=[]
+for n,g in roster:
+    jw=join_week.get(n)
+    # 신규편입자는 등반 이후 주 대상
+    applicable=[w for w in weeks if (jw is None or w>=jw)]
+    cnt=sum(1 for w in applicable if n in absent[w])
+    if cnt==0:
+        perfect.append({"name":n,"grade":g,"note":("신규편입("+wlabel(jw)+")" if jw else "")})
+# 준개근 1회
+near=[{"name":n,"grade":grade_of[n],"cnt":abs_count[n]} for n,_ in roster if abs_count.get(n,0)==1]
 
-def recompute_month(D, mon):
-    ws = [w for w in D["weekly"] if month_of(w["label"]) == mon]
-    if not ws: return
-    n = len(ws)
-    entry = {"month": mon,
-             "avg_chul": round(sum(w["chul"] for w in ws)/n, 1),
-             "avg_jae":  round(sum(w["jae"]  for w in ws)/n, 1),
-             "rate":     round(sum(w["rate"] for w in ws)/n, 1),
-             "weeks": n}
-    for i, m in enumerate(D["monthly"]):
-        if m["month"] == mon:
-            D["monthly"][i] = entry; return
-    D["monthly"].append(entry)
-    D["monthly"].sort(key=lambda m: int(m["month"][:-1]))
+# ===== 4) 헌금 항목별 (완결 28주 누적) =====
+cats=["십일조","감사헌금","주일헌금","특별헌금","선교헌금","지목헌금"]
+csum={c:0 for c in cats}
+for w,v in report.items():
+    _,_,_,_,_,_,t,th,su,sp,mi,ji=v
+    csum["십일조"]+=t; csum["감사헌금"]+=th; csum["주일헌금"]+=su
+    csum["특별헌금"]+=sp; csum["선교헌금"]+=mi; csum["지목헌금"]+=ji
+offering_total=sum(csum.values())
+# 월별 헌금 합계
+mon_off=collections.defaultdict(int)
+for w,v in report.items():
+    m=v[0]; s=sum(v[6:12]); mon_off[m]+=s
+monthly_off=[{"month":month_names[m],"total":mon_off[m]} for m in sorted(mon_off)]
 
-def add_week(D, wk):
-    label = wk["label"]
-    if label in D["order"]:
-        print(f"  · {label}: 이미 반영됨 → 건너뜀"); return False
-    jae, chul = wk["jae"], wk["chul"]
-    absents = wk.get("absents", [])
-    gs = len(absents)
-    rate = round(chul/jae*100, 1) if jae else 0.0
-    if wk.get("roster"): D["roster"] = wk["roster"]
-    sizes = {}
-    for r in D["roster"]: sizes[r["grade"]] = sizes.get(r["grade"], 0) + 1
-    n_prev = len(D["order"])
+# ===== 5) 새친구 =====
+newfriends=[{"name":x["name"],"grade":x["grade"],"date":x["date"],"note":x["note"]} for x in NF_SRC]
+newfriend_count_total=sum(report[w][5] for w in report)
 
-    D["weekly"].append({"label": label, "jae": jae, "chul": chul, "gs": gs, "rate": rate})
-    D["order"].append(label)
-    recompute_month(D, month_of(label))
+# ===== 6) 학년별 출석률 =====
+# 최신주(260712) 기준: 재적 - (현재적 결석자수) / 재적
+def grade_rate_week(w):
+    ga=collections.Counter()
+    for n in absent[w]:
+        if is_current(n): ga[grade_of[n]]+=1
+    out=[]
+    for g in grade_order:
+        size=grade_size[g]; ab=ga[g]; pres=size-ab
+        out.append({"grade":g,"size":size,"present":pres,"absent":ab,"rate":round(pres/size*100,1)})
+    return out
+grade_latest=grade_rate_week(latest)
+# 기간평균: 각 주 현재적 출석/재적 평균 (단순평균)
+gsum=collections.defaultdict(lambda:[0,0])
+for w in weeks:
+    ga=collections.Counter()
+    for n in absent[w]:
+        if is_current(n): ga[grade_of[n]]+=1
+    for g in grade_order:
+        gsum[g][0]+=(grade_size[g]-ga[g]); gsum[g][1]+=grade_size[g]
+grade_avg=[{"grade":g,"rate":round(gsum[g][0]/gsum[g][1]*100,1)} for g in grade_order]
 
-    om = {m["month"]: m for m in D["offering"]["monthly"]}
-    mon = month_of(label)
-    if mon in om: om[mon]["total"] += wk.get("offering_week_total", 0)
-    else:
-        D["offering"]["monthly"].append({"month": mon, "total": wk.get("offering_week_total", 0)})
-        D["offering"]["monthly"].sort(key=lambda m: int(m["month"][:-1]))
-    bycat = {c["cat"]: c for c in D["offering"]["by_cat"]}
-    for cat, amt in wk.get("offering_by_cat", {}).items():
-        if cat in D["excludeCats"]: continue
-        if cat in bycat: bycat[cat]["amt"] += amt
-        else: D["offering"]["by_cat"].append({"cat": cat, "amt": amt})
-    D["offering"]["total"] = sum(c["amt"] for c in D["offering"]["by_cat"])
+out={
+ "generated":GEN,
+ "latest_week":wlabel(latest),
+ "note_latest":"260719주는 미집계(작성중)로 260712까지 반영",
+ "kpi":{
+   "jaejeok":report[latest][1],"chulseok":report[latest][2],
+   "rate":round(report[latest][2]/report[latest][1]*100,1),
+   "gyeolseok":report[latest][3],"jangkyeol":report[latest][4],
+   "newfriend_total":len(newfriends),"offering_total":offering_total,
+   "perfect_cnt":len(perfect),
+ },
+ "monthly":monthly,"weekly":weekly_series,
+ "latest_absent":latest_absent,"abs_freq":sorted([{"name":n,"grade":grade_of[n],"cnt":c} for n,c in abs_count.items()],key=lambda x:(-x["cnt"],x["name"])),
+ "perfect":perfect,"near":near,
+ "offering":{"by_cat":[{"cat":c,"amt":csum[c]} for c in cats],"total":offering_total,"monthly":monthly_off},
+ "newfriends":newfriends,"newfriend_report_sum":newfriend_count_total,
+ "grade_latest":grade_latest,"grade_avg":grade_avg,
+}
+with open(DATA_PATH,"w",encoding="utf-8") as f:
+    json.dump(out,f,ensure_ascii=False)
 
-    freq = {e["name"]: e for e in D["abs_freq"]}
-    for a in absents:
-        if a["name"] in freq: freq[a["name"]]["cnt"] += 1
-        else: D["abs_freq"].append({"name": a["name"], "grade": a["grade"], "cnt": 1})
-    D["abs_freq"].sort(key=lambda e: -e["cnt"])
-    D["near"] = sorted([e for e in D["abs_freq"] if e["cnt"] == 1], key=lambda e: e["name"])
+# ===== 주차별 상세 (주차 선택용) =====
+weekly_detail={}
+for w in report:
+    m,jae,chul,gs,jk,sc,t,th,su,sp,mi,ji=report[w]
+    al=[{"name":n,"grade":grade_of[n],"chronic":n in chronic} for n in absent.get(w,[]) if is_current(n)]
+    # 학년별(해당주)
+    ga=collections.Counter()
+    for n in absent.get(w,[]):
+        if is_current(n): ga[grade_of[n]]+=1
+    gr=[{"grade":g,"size":grade_size[g],"present":grade_size[g]-ga[g],"absent":ga[g],
+         "rate":round((grade_size[g]-ga[g])/grade_size[g]*100,1)} for g in grade_order]
+    weekly_detail[wlabel(w)]={
+      "jae":jae,"chul":chul,"gs":gs,"jk":jk,"sc":sc,"tea":teacher_jae.get(w,0),
+      "oc":[t,th,su,sp,mi,ji],
+      "offeringAll":t+th+su+sp+mi+ji,
+      "rate":round(chul/jae*100,1),
+      "offering":t+th+su+sp+mi,
+      "absent":al,"grade":gr}
+# as-of 누적 계산용 부가 데이터
+order_labels=[wlabel(w) for w in report]
+def widx(lbl):
+    return order_labels.index(lbl)
+# 신규 편입 인덱스
+join_idx={n:widx(wlabel(w)) for n,w in join_week.items() if wlabel(w) in order_labels}
+out["grade_order"]=grade_order
+out["roster"]=[{"name":n,"grade":g,"joinIdx":join_idx.get(n,0)} for n,g in roster]
+# 새친구 등록 주차 인덱스
+nf_week={x["name"]:x["wk"] for x in NF_SRC}
+for nf in out["newfriends"]:
+    nf["wk"]=widx(nf_week.get(nf["name"],order_labels[-1]))
+EXCLUDE=EXCLUDE_CATS
+out["excludeCats"]=EXCLUDE
+_ex={c for c in EXCLUDE}
+out["offering"]["by_cat"]=[x for x in out["offering"]["by_cat"] if x["cat"] not in _ex]
+out["offering"]["total"]=sum(x["amt"] for x in out["offering"]["by_cat"])
+_ji=cats.index("지목헌금")
+for _m in out["offering"]["monthly"]:
+    pass
+out["categories"]=cats
+out["weekly_detail"]=weekly_detail
+out["order"]=[wlabel(w) for w in report]
+with open(DATA_PATH,"w",encoding="utf-8") as f:
+    json.dump(out,f,ensure_ascii=False)
+print("OK weekly_detail weeks:",len(weekly_detail))
 
-    absset = {a["name"] for a in absents}
-    D["perfect"] = [p for p in D["perfect"] if p["name"] not in absset]
+# ===== 「헌금명단」 탭 (출석부) → 참여 명단 =====
+import re as _re
+OFFER_RAW=[tuple(r) for r in OFFER_ROWS]
+_roster={n for n,_g in roster}
+def _olab(iso):
+    _y,_m,_d=iso.split("-"); return f"{int(_m)}/{int(_d)}"
+def _oparse(t):
+    t=t.strip(); note=""
+    if ":" in t:
+        h,tail=t.split(":",1); note=h.strip(); t=tail.strip()
+    if _re.fullmatch(r"\d+\s*명", t): return [], f"무명 {t}"
+    parts=[p.strip() for p in t.split(",") if p.strip()]
+    names=[p for p in parts if p in _roster]
+    others=[p for p in parts if p not in _roster]
+    if others: note=(note+" · " if note else "")+" ".join(others)
+    return names, note
+_orows=[]
+for _iso,_item,_amt,_lst in OFFER_RAW:
+    _L=_olab(_iso); _n,_note=_oparse(_lst)
+    _orows.append({"date":_iso,"wk":_L,"item":_item,"amt":_amt,"names":_n,"note":_note,
+                   "idx":out["order"].index(_L) if _L in out["order"] else -1})
+_orows.sort(key=lambda r:(r["date"], r["item"]))
+out["offerList"]={"rows":_orows,"itemOrder":["주일헌금","감사헌금","구제/선교","기타"]}
 
-    order_idx = {r["name"]: i for i, r in enumerate(D["roster"])}
-    la = sorted(absents, key=lambda a: order_idx.get(a["name"], 999))
-    D["latest_absent"] = [{"name": a["name"], "grade": a["grade"], "chronic": bool(a.get("chronic"))} for a in la]
-
-    absN = {}
-    for a in absents: absN[a["grade"]] = absN.get(a["grade"], 0) + 1
-    gl = []; week_rate = {}
-    for g in D["grade_order"]:
-        sz = sizes.get(g, 0); ab = absN.get(g, 0); pr = sz - ab
-        r = round(pr/sz*100, 1) if sz else 0.0
-        week_rate[g] = r
-        gl.append({"grade": g, "size": sz, "present": pr, "absent": ab, "rate": r})
-    D["grade_latest"] = gl
-
-    ga = {x["grade"]: x for x in D["grade_avg"]}
-    for g in D["grade_order"]:
-        old = ga[g]["rate"] if g in ga else 0.0
-        new = round((old*n_prev + week_rate[g])/(n_prev+1), 1)
-        if g in ga: ga[g]["rate"] = new
-        else: D["grade_avg"].append({"grade": g, "rate": new})
-
-    idx = len(D["order"]) - 1
-    for row in wk.get("offer_rows", []):
-        D["offerList"]["rows"].append({"date": row.get("date",""), "wk": label,
-            "item": row["item"], "amt": row.get("amt",0),
-            "names": sorted(row.get("names", [])), "note": row.get("note",""), "idx": idx})
-        if row["item"] not in D["offerList"]["itemOrder"]:
-            D["offerList"]["itemOrder"].append(row["item"])
-
-    for nf in wk.get("newfriends_add", []):
-        if not any(x["name"] == nf["name"] for x in D["newfriends"]):
-            D["newfriends"].append(nf)
-    if "newfriend_report" in wk:
-        D["newfriend_report_sum"] = D.get("newfriend_report_sum", 0) + wk["newfriend_report"]
-
-    D["kpi"].update({
-        "jaejeok": jae, "chulseok": chul, "rate": rate,
-        "gyeolseok": wk.get("gyeolseok", gs),
-        "jangkyeol": wk.get("jangkyeol", D["kpi"]["jangkyeol"]),
-        "newfriend_total": len(D["newfriends"]),
-        "offering_total": sum(m["total"] for m in D["offering"]["monthly"]),
-        "perfect_cnt": len(D["perfect"]),
-    })
-    D["latest_week"] = label
-    D["generated"] = datetime.date.today().isoformat()
-    if wk.get("note"): D["note_latest"] = wk["note"]
-    print(f"  · {label} 반영: 재적{jae} 출석{chul} 결석{gs} 출석률{rate}%")
-    return True
-
-def main():
-    dry = "--dry" in sys.argv
-    D = json.loads(DATA.read_text(encoding="utf-8"))
-    weeks = []
-    if INCOMING.exists():
-        weeks = json.loads(INCOMING.read_text(encoding="utf-8"))
-        if isinstance(weeks, dict): weeks = [weeks]
-    if not weeks:
-        print("weeks_incoming.json 없음/비어있음 — 반영할 새 주차가 없습니다."); return
-    print(f"새 주차 후보 {len(weeks)}건 처리:")
-    changed = False
-    for wk in weeks: changed |= add_week(D, wk)
-    if not changed:
-        print("반영된 새 주차 없음."); return
-    if dry:
-        print("[--dry] 저장하지 않음."); return
-    DATA.write_text(json.dumps(D, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"data.json 저장 완료. 최신주차={D['latest_week']} 총 {len(D['order'])}주.")
-
-if __name__ == "__main__":
-    main()
+with open(DATA_PATH,"w",encoding="utf-8") as f:
+    json.dump(out,f,ensure_ascii=False)
+print("offerList 편입 완료:",len(_orows),"행")

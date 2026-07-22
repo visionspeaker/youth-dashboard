@@ -1,13 +1,12 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""build_html.py — data.json + template.html -> index.html
-템플릿(레이아웃/CSS/JS)은 그대로 두고 데이터(const D)만 주입한다.
-디자인/구조는 template.html 에만 있으니 이 스크립트는 수정할 일이 거의 없다."""
-import json, pathlib
-HERE = pathlib.Path(__file__).resolve().parent
-data = json.loads((HERE/'data.json').read_text(encoding='utf-8'))
-template = (HERE/'template.html').read_text(encoding='utf-8')
-blob = json.dumps(data, ensure_ascii=False)   # 원본과 동일한 기본 구분자
-html = template.replace('@@DATA_JSON@@', blob)
-(HERE/'index.html').write_text(html, encoding='utf-8')
-print('index.html written:', len(html), 'chars')
+# template.html + data.json -> index.html (+ 파일명 사본). 디자인은 template.html 에만 있다. 수정 금지.
+import json, os
+HERE=os.path.dirname(os.path.abspath(__file__))
+def _p(n): return os.path.join(HERE,n)
+d=json.load(open(_p("data.json"),encoding="utf-8"))
+DATA=json.dumps(d,ensure_ascii=False)
+tpl=open(_p("template.html"),encoding="utf-8").read()
+assert "@@DATA_JSON@@" in tpl, "template.html 에 @@DATA_JSON@@ 마커가 없습니다"
+html=tpl.replace("@@DATA_JSON@@", DATA)
+open(_p("index.html"),"w",encoding="utf-8").write(html)
+print("index.html 생성:", len(html), "bytes")
