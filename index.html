@@ -395,7 +395,7 @@ function renderLists(){
  document.getElementById('nfBody').innerHTML=A.nf.length?A.nf.map(n=>
    `<tr><td style="font-weight:700">${n.name}</td><td>${n.grade}</td><td class="mut">${n.date}</td><td class="mut">${n.note}</td></tr>`).join('')
    :'<tr><td colspan="4" class="mut" style="text-align:center;padding:14px">해당 시점까지 새친구 없음</td></tr>';
- document.getElementById('offTot').textContent=won(A.offTot)+'원';
+ document.getElementById('offTot').textContent='금주 '+won((D.weekly_detail[D.order[cur]]||{}).offering||0)+'원';
 }
 
 // ===== master render =====
