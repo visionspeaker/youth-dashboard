@@ -100,6 +100,18 @@ tbody tr:hover{background:#f5f8ff}
 .foot{margin-top:22px;color:var(--tx3);font-size:11.5px;line-height:1.7;border-top:1px solid var(--line);padding-top:14px}
 .foot a{color:#0784b5;text-decoration:none}
 .foot a:hover{text-decoration:underline}
+.visitbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;
+ background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 16px;box-shadow:var(--shadow)}
+.vb-left{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--tx2)}
+.vb-ico{color:var(--tx3);flex:none}
+.vb-left b{font-weight:800;font-variant-numeric:tabular-nums}
+.vb-t{color:var(--green)}
+.vb-n{color:var(--accent)}
+.vb-btn{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);
+ color:var(--tx2);font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:20px;cursor:pointer;transition:.15s}
+.vb-btn:hover{border-color:var(--accent);color:var(--accent);background:#eef1ff}
+.vb-btn.spin svg{animation:vbspin .6s linear}
+@keyframes vbspin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 @keyframes popIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes headIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
@@ -189,6 +201,16 @@ tbody tr:hover{background:#f5f8ff}
   </div>
  </div>
 
+ <div class="visitbar" id="visitbar" style="display:none">
+   <div class="vb-left">
+     <svg class="vb-ico" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+     <span>방문자 · Today <b id="visToday" class="vb-t">–</b> · Total <b id="visTotal" class="vb-n">–</b></span>
+   </div>
+   <button id="visRefresh" class="vb-btn" aria-label="방문자 수 새로고침">
+     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+     새로고침
+   </button>
+ </div>
  <div class="foot" id="foot"></div>
 </div>
 
@@ -499,6 +521,27 @@ function setupMotion(){
 }
 render();
 setupMotion();
+
+// ===== 방문 카운터 (Abacus) : 방문(로드)=+1, 새로고침 버튼=읽기전용 =====
+(function(){
+ const NS='sgy-youth-dashboard';
+ const bar=document.getElementById('visitbar');
+ const elT=document.getElementById('visToday'), elN=document.getElementById('visTotal');
+ const btn=document.getElementById('visRefresh');
+ const d=new Date();
+ const dayKey='day-'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+ const j=async u=>{const r=await fetch(u);if(!r.ok)throw 0;return (await r.json()).value;};
+ const anim=(el,to)=>{to=+to||0;const t0=performance.now();const f=n=>{let p=Math.min(1,(n-t0)/700);p=1-Math.pow(1-p,3);el.textContent=Math.round(to*p).toLocaleString('ko-KR');if(p<1)requestAnimationFrame(f);else el.textContent=to.toLocaleString('ko-KR');};requestAnimationFrame(f);};
+ async function load(count){
+   try{
+     const base='https://abacus.jasoncameron.dev/'+(count?'hit':'get')+'/'+NS+'/';
+     const [t,tot]=await Promise.all([j(base+dayKey), j(base+'total')]);
+     anim(elT,t); anim(elN,tot); bar.style.display='';
+   }catch(e){ if(!count) return; bar.style.display='none'; }
+ }
+ btn.addEventListener('click',()=>{ btn.classList.add('spin'); setTimeout(()=>btn.classList.remove('spin'),650); load(false); });
+ load(true); // 최초 방문 시에만 +1
+})();
 </script>
 </body>
 </html>
