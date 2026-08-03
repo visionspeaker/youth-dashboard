@@ -88,6 +88,13 @@ tbody tr:hover{background:#f5f8ff}
 .ol-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:6px}
 @media(max-width:560px){.ol-grid3{grid-template-columns:minmax(0,1fr)}}
 .ol-empty{padding:18px;text-align:center;color:var(--tx2);font-size:13px}
+.pc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.pc{border:1px solid var(--line);border-radius:10px;padding:8px 11px;background:var(--panel2);transition:.15s}
+.pc:hover{border-color:var(--green);background:#effaf3}
+.pc-t{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.pc-n{font-size:13px;font-weight:700;color:var(--tx)}
+.pc-c{font-size:12px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.pc-b{font-size:11px;color:var(--tx2);margin-top:3px;font-variant-numeric:tabular-nums;font-weight:600}
 .chip.hot{background:#fff8ec;border-color:#f6d9a6}
 .chip.hot .gr{color:#c67c00;background:rgba(245,158,11,.16)}
 .chip{display:inline-flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);
@@ -439,7 +446,8 @@ function renderOfferList(){
  const ord=r=>{const i=io.indexOf(r.item);return i<0?99:i;};
  thisWk.sort((a,b)=>ord(a)-ord(b));
  // 누적 참여 횟수
- const cnt={}; inRange.forEach(r=>r.names.forEach(n=>cnt[n]=(cnt[n]||0)+1));
+ const cnt={}, bycat={};
+ inRange.forEach(r=>r.names.forEach(n=>{cnt[n]=(cnt[n]||0)+1;(bycat[n]=bycat[n]||{})[r.item]=((bycat[n]||{})[r.item]||0)+1;}));
  const rank=Object.entries(cnt).sort((a,b)=>a[0].localeCompare(b[0],'ko'));
  document.getElementById('olWk').textContent='· 1월~'+cur_wk+' 누적';
  document.getElementById('olCnt').textContent=inRange.length
@@ -472,7 +480,12 @@ function renderOfferList(){
  html+=`<div class="ol-grid3">${['십일조','감사헌금','구제/선교'].map(k=>fixCard(k,k==='구제/선교'?'선교헌금':k)).join('')}</div>`;
  if(etc.length) html+=etcHtml;
  html+='<div class="ol-sub" style="padding-top:12px;border-top:1px solid var(--line);margin-top:10px">누적 참여 횟수 · 1월~'+cur_wk+'</div>';
- html+=chips(rank.map(r=>r[0]),cnt);
+ const PCAT=[['십일조','십'],['주일헌금','주'],['감사헌금','감'],['구제/선교','선']];
+ html+='<div class="pc-grid">'+rank.map(([n,c])=>{
+   const b=bycat[n]||{};
+   const parts=PCAT.filter(([k])=>b[k]).map(([k,s])=>s+b[k]).join(' · ');
+   return `<div class="pc"><div class="pc-t"><span class="pc-n">${n}</span><span class="pc-c">${c}회</span></div>`
+        +`<div class="pc-b">${parts||'—'}</div></div>`;}).join('')+'</div>';
  box.innerHTML=html;
 }
  renderLists(); renderOfferList();
