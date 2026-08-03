@@ -448,7 +448,7 @@ function renderOfferList(){
  // 누적 참여 횟수
  const cnt={}, bycat={};
  inRange.forEach(r=>r.names.forEach(n=>{cnt[n]=(cnt[n]||0)+1;(bycat[n]=bycat[n]||{})[r.item]=((bycat[n]||{})[r.item]||0)+1;}));
- const rank=Object.entries(cnt).sort((a,b)=>a[0].localeCompare(b[0],'ko'));
+ const rank=Object.entries(cnt).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'ko'));
  document.getElementById('olWk').textContent='· 1월~'+cur_wk+' 누적';
  document.getElementById('olCnt').textContent=inRange.length
    ? '참여 '+rank.length+'명 · '+inRange.length+'건' : '기록 없음';
