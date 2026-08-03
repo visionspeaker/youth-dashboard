@@ -42,7 +42,7 @@ def wlabel(w): # 260712 -> 7/12
     m=int(w[2:4]); d=int(w[4:6]); return f"{m}/{d}"
 
 # ===== 1) 월별 출석 =====
-month_names={1:"1월",2:"2월",3:"3월",4:"4월",5:"5월",6:"6월",7:"7월"}
+month_names={1:"1월",2:"2월",3:"3월",4:"4월",5:"5월",6:"6월",7:"7월",8:"8월",9:"9월",10:"10월",11:"11월",12:"12월"}
 mon=collections.defaultdict(lambda:[0,0,0])  # month -> [sum출석, sum재적, cnt]
 for w,(m,jae,chul,gs,jk,sc,*rest) in report.items():
     mon[m][0]+=chul; mon[m][1]+=jae; mon[m][2]+=1

@@ -233,7 +233,7 @@ const wkInfo=lbl=>{const[m,d]=lbl.split('/').map(Number);
   return {y:YEAR,m,d,nth:Math.floor((d-1)/7)+1};};
 const fmtDate=lbl=>{const k=wkInfo(lbl);return `${k.y}. ${k.m}. ${k.d}`;};
 const fmtSub =lbl=>{const k=wkInfo(lbl);return `주일 · ${k.y}년 ${k.m}월 ${k.nth}주차`;};
-const fmtOpt =lbl=>{const k=wkInfo(lbl);return `${lbl} (${k.m}월 ${k.nth}주차)`;};
+const fmtOpt =lbl=>{const k=wkInfo(lbl);return `${lbl} (${k.m}월 ${k.nth}주, ${D.order.indexOf(lbl)+1}주차)`;};
 const fmtDay =lbl=>`${lbl} 주일`;
 const sel=document.getElementById('weeksel');
 D.order.forEach((w,i)=>{const o=document.createElement('option');o.value=i;o.textContent=fmtOpt(w);sel.appendChild(o);});
