@@ -34,6 +34,11 @@ teacher_jae={k:int(v) for k,v in W["teacher"].items()}
 absent={w:[norm(x.strip()) for x in absent_raw[w].split(",")] for w in weeks}
 report={k:tuple(v) for k,v in W["report"].items()}
 NF_SRC=[dict(x) for x in W["newfriends"]]
+NFCLASS={k:tuple(v) for k,v in W.get("nfclass",{}).items()}  # {주차:(새친구재적,새친구출석)} 원천 탭 백필
+def nf_grade(w):  # 학년별 차트용 '새친구' 막대 (원천 탭 새친구 반 기준)
+    j,c=NFCLASS.get(w,(0,0))
+    return {"grade":"새친구","size":j,"present":c,"absent":max(0,j-c),
+            "rate":(round(c/j*100,1) if j else 0.0)}
 OFFER_ROWS=[list(r) for r in W["offerRows"]]
 EXCLUDE_CATS=list(W.get("excludeCats",["지목헌금"]))
 GEN=W.get("generated","2026-07-18")
@@ -108,9 +113,11 @@ def grade_rate_week(w):
     for g in grade_order:
         size=grade_size[g]; ab=ga[g]; pres=size-ab
         out.append({"grade":g,"size":size,"present":pres,"absent":ab,"rate":round(pres/size*100,1)})
+    out.append(nf_grade(w))  # 새친구 별도 항목 (원천 탭 새친구 반)
     return out
 grade_latest=grade_rate_week(latest)
-# 기간평균: 각 주 현재적 출석/재적 평균 (단순평균)
+grade_order_out=grade_order+["새친구"]  # 학년별 차트 표시 순서(새친구 별도)
+# 기간평균: 각 주 현재적 출석/재적 평균 (단순평균) — 새친구는 원천 탭 새친구 반 기준
 gsum=collections.defaultdict(lambda:[0,0])
 for w in weeks:
     ga=collections.Counter()
@@ -118,7 +125,9 @@ for w in weeks:
         if is_current(n): ga[grade_of[n]]+=1
     for g in grade_order:
         gsum[g][0]+=(grade_size[g]-ga[g]); gsum[g][1]+=grade_size[g]
-grade_avg=[{"grade":g,"rate":round(gsum[g][0]/gsum[g][1]*100,1)} for g in grade_order]
+    nfj,nfc=NFCLASS.get(w,(0,0))
+    gsum["새친구"][0]+=nfc; gsum["새친구"][1]+=nfj
+grade_avg=[{"grade":g,"rate":(round(gsum[g][0]/gsum[g][1]*100,1) if gsum[g][1] else 0.0)} for g in grade_order_out]
 
 out={
  "generated":GEN,
@@ -152,6 +161,7 @@ for w in report:
         if is_current(n): ga[grade_of[n]]+=1
     gr=[{"grade":g,"size":grade_size[g],"present":grade_size[g]-ga[g],"absent":ga[g],
          "rate":round((grade_size[g]-ga[g])/grade_size[g]*100,1)} for g in grade_order]
+    gr.append(nf_grade(w))  # 새친구 별도 항목
     weekly_detail[wlabel(w)]={
       "jae":jae,"chul":chul,"gs":gs,"jk":jk,"sc":sc,"tea":teacher_jae.get(w,0),
       "oc":[t,th,su,sp,mi,ji],
@@ -165,7 +175,7 @@ def widx(lbl):
     return order_labels.index(lbl)
 # 신규 편입 인덱스
 join_idx={n:widx(wlabel(w)) for n,w in join_week.items() if wlabel(w) in order_labels}
-out["grade_order"]=grade_order
+out["grade_order"]=grade_order_out
 out["roster"]=[{"name":n,"grade":g,"joinIdx":join_idx.get(n,0)} for n,g in roster]
 # 새친구 등록 주차 인덱스
 nf_week={x["name"]:x["wk"] for x in NF_SRC}
