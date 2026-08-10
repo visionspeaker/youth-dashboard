@@ -130,6 +130,53 @@ tbody tr:hover{background:#f5f8ff}
 @media(prefers-reduced-motion:reduce){.rv,.rv.in,.kpi-anim,.head-anim{animation:none!important;opacity:1!important}}
 @media(max-width:1100px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.r2,.r3{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:720px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.sg-top{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:18px;align-items:center}
+@media(max-width:820px){.sg-top{grid-template-columns:minmax(0,1fr)}}
+.sg-donut{position:relative;height:205px}
+.sg-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.sg-center .n{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1}
+.sg-center .l{font-size:11.5px;color:var(--tx2);font-weight:700;margin-top:3px}
+.sg-stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:8px}
+.sg-s{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--panel2)}
+.sg-s .t{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--tx2)}
+.sg-s .dot{width:9px;height:9px;border-radius:3px;flex:0 0 auto}
+.sg-s .v{font-size:23px;font-weight:800;letter-spacing:-.6px;margin-top:5px;font-variant-numeric:tabular-nums}
+.sg-s .v small{font-size:12.5px;font-weight:700;color:var(--tx2);margin-left:3px}
+.sg-s .sub{font-size:10.5px;color:var(--tx3);font-weight:650;margin-top:2px;min-height:13px}
+.sg-bar{height:12px;border-radius:8px;overflow:hidden;display:flex;background:var(--panel2);margin:14px 0 6px}
+.sg-bar i{display:block;height:100%}
+.sg-legend{display:flex;flex-wrap:wrap;gap:11px;font-size:11.5px;color:var(--tx2);font-weight:650}
+.sg-legend span{display:inline-flex;align-items:center;gap:5px}
+.sg-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
+.sg-cols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+@media(max-width:1000px){.sg-cols{grid-template-columns:minmax(0,1fr)}}
+.sg-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.sg-table th,.sg-table td{padding:7px 6px;text-align:center;border-bottom:1px solid var(--line)}
+.sg-table th{font-size:11.5px;color:var(--tx2);font-weight:700}
+.sg-table td:first-child,.sg-table th:first-child{text-align:left;font-weight:750}
+.sg-table td{font-variant-numeric:tabular-nums;font-weight:650}
+.sg-table td.z{color:var(--tx3);font-weight:500}
+.sg-table tr:last-child td{border-bottom:none;font-weight:800;background:var(--panel2)}
+.sg-warn{border:1px solid #f6c9d2;background:#fff5f7;border-radius:12px;padding:11px 13px;margin-top:6px}
+.sg-warn .h{font-size:12.5px;font-weight:750;color:#c81e42}
+.sg-sub-lg{display:inline-flex;gap:10px;font-size:11px;font-weight:700;color:var(--tx2);align-items:center}
+.chip.ip{background:#eef1ff;border-color:#c9d2ff;color:#31459e}
+.chip.ip .gr{background:rgba(79,104,255,.14);color:#4f68ff}
+.chip.ip:hover{border-color:var(--accent);background:#e7ebff}
+.chip.se{background:#f5f0ff;border-color:#ddd0fb;color:#6d40cf}
+.chip.se .gr{background:rgba(139,92,246,.15);color:#7c53e8}
+.chip.se:hover{border-color:var(--violet);background:#f0e9ff}
+.chip.ya{background:#eef8fd;border-color:#c5e6f7;color:#0b6f96}
+.chip.ya .gr{background:rgba(14,165,233,.14);color:#0784b5}
+.chip.ya:hover{border-color:var(--blue);background:#e6f5fd}
+.chip.hs{background:#effaf3;border-color:#c3ecd4;color:#0f7a45}
+.chip.hs .gr{background:rgba(22,179,100,.14);color:#0f9d55}
+.chip.hs:hover{border-color:var(--green)}
+.chip.nn{background:var(--panel2);border-color:var(--line);color:var(--tx2)}
+.chip.nn:hover{border-color:var(--tx3);background:#eef1f7}
+.chip.ms{background:#fff5f7;border-color:#f6c9d2;color:#c81e42}
+.chip.ms .gr{background:rgba(244,63,94,.13);color:var(--red)}
+.chip.ms:hover{border-color:var(--red)}
 </style>
 </head>
 <body>
@@ -205,6 +252,15 @@ tbody tr:hover{background:#f5f8ff}
     <span id="olCnt" class="tag a"></span></div>
    <div class="mut" style="font-size:11.5px;margin:-6px 0 12px">출석부 「헌금명단」 탭 기준 · 개인별 금액은 기록되지 않아 참여 여부/횟수로 집계</div>
    <div id="olBody"></div>
+  </div>
+ </div>
+
+ <div class="grid" style="margin-top:16px">
+  <div class="card">
+   <div class="sec-h"><h2><span class="i"></span>신급 현황 <span id="sgWk" class="mut" style="font-size:12px;font-weight:600"></span></h2>
+    <span id="sgCnt" class="tag r"></span></div>
+   <div class="mut" style="font-size:11.5px;margin:-6px 0 14px">입회원서 「신급」 기준 · 이후 성례 참여자 반영 · 「모름/받은 적 없음」은 <b>없음</b>으로 집계 · 연 2회(5·12월 첫째주) 갱신</div>
+   <div id="sgBody"></div>
   </div>
  </div>
 
@@ -489,7 +545,107 @@ function renderOfferList(){
         +`<div class="pc-b">${parts||'—'}</div></div>`;}).join('')+'</div>';
  box.innerHTML=html;
 }
- renderLists(); renderOfferList();
+
+let sgChart=null;
+function renderSingeup(){
+ const SG=D.singeup||{}, R=D.roster||[];
+ const box=document.getElementById('sgBody');
+ if(!box) return;
+ if(!R.length){ box.innerHTML='<div class="ol-empty">명부 데이터가 없습니다</div>'; return; }
+ const GO=(D.grade_order||['중1','중2','중3','고1','고2','고3']).filter(function(g){return g!=='새친구';});
+ const KEY=['입교','세례','유아세례','학습','없음','미작성'];
+ const COL={'입교':'#4f68ff','세례':'#8b5cf6','유아세례':'#0ea5e9','학습':'#16b364','없음':'#95a0b8','미작성':'#f43f5e'};
+ const CLS={'입교':'ip','세례':'se','유아세례':'ya','학습':'hs','없음':'nn','미작성':'ms'};
+ const val=function(n){ return SG[n]||'미작성'; };
+ const total=R.length;
+ const cnt={}, names={};
+ KEY.forEach(function(k){ cnt[k]=0; names[k]=[]; });
+ R.forEach(function(p){ const v=val(p.name); if(cnt[v]===undefined){cnt[v]=0;names[v]=[];} cnt[v]++; names[v].push(p); });
+ const gi=function(g){ const i=GO.indexOf(g); return i<0?99:i; };
+ KEY.forEach(function(k){ names[k].sort(function(a,b){ return gi(a.grade)-gi(b.grade)||a.name.localeCompare(b.name,'ko'); }); });
+ const pct=function(n){ return total?(n/total*100):0; };
+ const ip=cnt['입교'], se=cnt['세례'], grp=ip+se;
+ const sacr=grp+cnt['유아세례']+cnt['학습'];
+
+ document.getElementById('sgWk').textContent='· 재적 '+total+'명 기준'
+   +((D.singeupMeta&&D.singeupMeta.updated)?' · '+D.singeupMeta.updated+' 갱신':'');
+ const cEl=document.getElementById('sgCnt');
+ cEl.textContent = cnt['미작성'] ? '입회원서 미작성 '+cnt['미작성']+'명' : '입회원서 전원 작성';
+ cEl.className = cnt['미작성'] ? 'tag r' : 'tag g';
+
+ const stat=function(label,color,n,sub){
+   return '<div class="sg-s"><div class="t"><i class="dot" style="background:'+color+'"></i>'+label+'</div>'
+     +'<div class="v">'+n+'<small>명'+(n?' · '+pct(n).toFixed(1)+'%':'')+'</small></div>'
+     +'<div class="sub">'+(sub||'&nbsp;')+'</div></div>'; };
+ const seg=function(k){ return cnt[k]?'<i style="background:'+COL[k]+';width:'+pct(cnt[k])+'%"></i>':''; };
+ const chips=function(arr){ return arr.map(function(p){
+   return '<span class="chip '+CLS[val(p.name)]+'">'+p.name+'<span class="gr">'+p.grade+'</span></span>'; }).join(''); };
+ const dot=function(c){ return '<span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:'+c+';margin-right:6px"></span>'; };
+
+ let h='<div class="sg-top"><div class="sg-donut"><canvas id="sgDonut"></canvas>'
+  +'<div class="sg-center"><div class="n">'+total+'</div><div class="l">재적 인원</div></div></div><div>'
+  +'<div class="sg-stat">'
+  + stat('입교/세례','#4f68ff',grp, grp?('입교 '+ip+' · 세례 '+se):'')
+  + stat('유아세례','#0ea5e9',cnt['유아세례'],'')
+  + stat('학습','#16b364',cnt['학습'],cnt['학습']?'':'해당자 없음')
+  + stat('없음','#95a0b8',cnt['없음'],'')
+  + stat('미작성','#f43f5e',cnt['미작성'],cnt['미작성']?'원서 미제출':'')
+  +'</div><div class="sg-bar">'+KEY.map(seg).join('')+'</div><div class="sg-legend">'
+  + KEY.map(function(k){ return '<span><i style="background:'+COL[k]+'"></i>'+k+' '+cnt[k]+'</span>'; }).join('')
+  +'</div><div style="font-size:12px;color:var(--tx2);font-weight:650;margin-top:12px">'
+  +'성례 참여 <b style="color:var(--tx)">'+sacr+'명 · '+pct(sacr).toFixed(1)+'%</b> · 미참여(없음) <b style="color:var(--tx)">'+cnt['없음']+'명 · '+pct(cnt['없음']).toFixed(1)+'%</b>'
+  +'</div></div></div>';
+
+ let left='<div class="ol-sub">신급별 명단</div>';
+ left+='<div class="ol-row"><div class="ol-h"><b>'+dot(COL['입교'])+'입교/세례</b>'
+   +'<span class="sg-sub-lg"><span style="color:#4f68ff">■ 입교 '+ip+'</span><span style="color:#8b5cf6">■ 세례 '+se+'</span>'
+   +'<span class="ol-amt">'+grp+'<span class="mut"> 명</span></span></span></div>'
+   +(grp?('<div style="margin-top:8px">'+chips(names['입교'].concat(names['세례']))+'</div>'):'<div class="ol-note">해당자 없음</div>')
+   +'</div>';
+ [['유아세례','입교 대상자'],['학습','세례 대상자'],['없음','학습·세례 대상']].forEach(function(pair){
+   const k=pair[0], note=pair[1];
+   left+='<div class="ol-row"><div class="ol-h"><b>'+dot(COL[k])+k+'</b>'
+     +'<span class="ol-amt">'+cnt[k]+'<span class="mut"> 명</span></span></div>'
+     +(cnt[k]?('<div style="margin-top:8px">'+chips(names[k])+'</div><div class="ol-note">'+note+'</div>')
+             :'<div class="ol-note">현재 해당자 없음</div>')
+     +'</div>';
+ });
+
+ const rowFor=function(list){
+   const c={}; KEY.forEach(function(k){c[k]=0;});
+   list.forEach(function(p){ c[val(p.name)]++; });
+   const t=list.length, s=c['입교']+c['세례']+c['유아세례']+c['학습'];
+   return {g:c['입교']+c['세례'],y:c['유아세례'],h:c['학습'],n:c['없음'],m:c['미작성'],t:t,r:t?(s/t*100):0}; };
+ const cell=function(n){ return n?('<td>'+n+'</td>'):'<td class="z">0</td>'; };
+ let right='<div class="ol-sub">학년별 분포</div><table class="sg-table"><thead><tr><th>학년</th><th>입교/세례</th><th>유아세례</th><th>학습</th><th>없음</th><th>미작성</th><th>재적</th><th>성례율</th></tr></thead><tbody>';
+ GO.forEach(function(g){
+   const r=rowFor(R.filter(function(p){return p.grade===g;}));
+   if(!r.t) return;
+   right+='<tr><td>'+g+'</td>'+cell(r.g)+cell(r.y)+cell(r.h)+cell(r.n)+cell(r.m)+'<td>'+r.t+'</td><td>'+r.r.toFixed(1)+'%</td></tr>';
+ });
+ const ra=rowFor(R);
+ right+='<tr><td>계</td><td>'+ra.g+'</td><td>'+ra.y+'</td><td>'+ra.h+'</td><td>'+ra.n+'</td><td>'+ra.m+'</td><td>'+ra.t+'</td><td>'+ra.r.toFixed(1)+'%</td></tr></tbody></table>';
+ if(cnt['미작성']){
+   right+='<div class="sg-warn"><div class="h">⚠ 입회원서 미작성 '+cnt['미작성']+'명</div>'
+     +'<div style="margin-top:8px">'+chips(names['미작성'])+'</div>'
+     +'<div class="ol-note">재적명부에는 있으나 입회원서 제출 기록 없음 · 작성 안내 필요</div></div>';
+ }
+ h+='<div class="sg-cols"><div>'+left+'</div><div>'+right+'</div></div>';
+ box.innerHTML=h;
+
+ const cv=document.getElementById('sgDonut');
+ if(cv&&window.Chart){
+   if(sgChart){ sgChart.destroy(); sgChart=null; }
+   sgChart=new Chart(cv,{type:'doughnut',
+    data:{labels:KEY,datasets:[{data:KEY.map(function(k){return cnt[k];}),backgroundColor:KEY.map(function(k){return COL[k];}),
+      borderColor:'#fff',borderWidth:3,hoverOffset:6}]},
+    options:{cutout:'68%',responsive:true,maintainAspectRatio:false,animation:false,
+     plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:function(c){ return ' '+c.label+' '+c.raw+'명 ('+(total?(c.raw/total*100).toFixed(1):0)+'%)'; }}}}}});
+ }
+}
+
+ renderLists(); renderOfferList(); try{renderSingeup();}catch(err){console.warn("singeup",err);}
  document.getElementById('foot').innerHTML=
   '데이터 출처: <a href="https://docs.google.com/spreadsheets/d/1rXRzno9pE_PYXHR6KX5Hm4FGtrPVVoRUJouxkNmhD5k">주간 사역보고서</a>(출결·헌금) · '
   +'<a href="https://docs.google.com/spreadsheets/d/1-moFQc8npkYh3ARL4SIpIB-Yft60d9srv7YBrmWpXXo">온라인 출석부</a>(결석·명부·새친구) · 중고등부만 집계.<br>'
