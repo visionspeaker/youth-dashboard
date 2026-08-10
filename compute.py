@@ -190,6 +190,8 @@ _ji=cats.index("지목헌금")
 for _m in out["offering"]["monthly"]:
     pass
 out["categories"]=cats
+out["singeup"]=W.get("singeup",{})
+out["singeupMeta"]=W.get("singeupMeta",{})
 out["weekly_detail"]=weekly_detail
 out["order"]=[wlabel(w) for w in report]
 with open(DATA_PATH,"w",encoding="utf-8") as f:
