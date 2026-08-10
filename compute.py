@@ -27,7 +27,7 @@ grade_order=["중1","중2","중3","고1","고2","고3"]
 grade_size=collections.Counter(g for n,g in roster)
 join_week=dict(W["joinWeek"])
 chronic=set(W.get("chronic",[]))
-def norm(n): return "정찬빈" if n=="정창빈" else n
+def norm(n): return {"정창빈":"정찬빈","반소영":"반재키"}.get(n,n)  # parse_lib.NAME_FIX 와 동일 유지
 absent_raw=W["absent"]
 weeks=list(absent_raw.keys())
 teacher_jae={k:int(v) for k,v in W["teacher"].items()}
