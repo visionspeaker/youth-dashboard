@@ -450,8 +450,9 @@ function renderOfferList(){
  inRange.forEach(r=>r.names.forEach(n=>{cnt[n]=(cnt[n]||0)+1;(bycat[n]=bycat[n]||{})[r.item]=((bycat[n]||{})[r.item]||0)+1;}));
  const rank=Object.entries(cnt).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'ko'));
  document.getElementById('olWk').textContent='· 1월~'+cur_wk+' 누적';
+ const wkGivers=new Set(); thisWk.forEach(r=>r.names.forEach(n=>wkGivers.add(n)));
  document.getElementById('olCnt').textContent=inRange.length
-   ? '참여 '+rank.length+'명 · '+(cur+1)+'주차' : '기록 없음';
+   ? '참여 '+wkGivers.size+'명 · '+(cur+1)+'주차' : '기록 없음';
  const box=document.getElementById('olBody');
  if(!inRange.length){
    box.innerHTML='<div class="ol-empty">해당 기간의 헌금명단 기록이 없습니다<br><span style="font-size:11.5px">(「헌금명단」 탭은 7월부터 기록 시작)</span></div>';
