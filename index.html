@@ -355,8 +355,8 @@ function renderKPI(){
  const offNow=wd.offering, offPrev=pwd?pwd.offering:null;
  const cards=[
   {t:'재적 (학생) · 선택주',n:wd.jae,d:0,u:'명',s:'교사 '+wd.tea+'명'},
-  {t:'평균 출석 · 누적',n:A.rate,d:1,u:'%',s:'평균 출석 '+A.avgChul.toFixed(1)+'명 · '+A.ws.length+'주'},
   {t:'이번 주 출석',n:chulNow,d:0,u:'명',s:chulPrev==null?fmtDay(w)+' · 새친구 포함':deltaSub(chulNow-chulPrev,'명',0)},
+  {t:'출석률 · 선택주',n:wd.rate,d:1,u:'%',s:'평균 출석 '+A.avgChul.toFixed(1)+'명 · '+A.rate.toFixed(1)+'%'},
   {t:'완전개근 · 누적',n:A.perfect.filter(p=>!p.joinIdx).length,d:0,u:'명',s:'1월~'+w+' 결석 0회'},
   {t:'새친구 · 누적',n:A.nf.length,d:0,u:'명',s:'1월~'+w},
   {t:'헌금 · 누적',n:Math.round(A.offTot/10000),d:0,u:'만원',s:'이번 주 '+won(offNow)+'원'},
