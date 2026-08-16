@@ -324,7 +324,7 @@ function asof(){
   if(c===0) perfect.push(r); else if(c===1) near.push(Object.assign({cnt:1},r)); });
  const g2={}; D.grade_order.forEach(g=>g2[g]=[0,0]);
  ws.forEach(w=>wd[w].grade.forEach(g=>{g2[g.grade][0]+=g.present;g2[g.grade][1]+=g.size;}));
- const gradeAvg=D.grade_order.map(g=>({grade:g,rate:+(g2[g][0]/g2[g][1]*100).toFixed(1)}));
+ const gradeAvg=D.grade_order.map(g=>({grade:g,size:g2[g][1],rate:g2[g][1]?+(g2[g][0]/g2[g][1]*100).toFixed(1):0}));
  const nf=D.newfriends.filter(n=>n.wk<=cur);
  const freq={}; ws.forEach(w=>wd[w].absent.forEach(a=>{freq[a.name]=(freq[a.name]||0)+1;}));
  return {ws,csum,offTot,monthly,monthlyOff,weekly,perfect,near,gradeAvg,nf,freq,
@@ -406,7 +406,7 @@ function drawAtt(mode){
 }
 function drawGr(mode){
  grMode=mode;
- const arr=mode==='week'?D.weekly_detail[D.order[cur]].grade:A.gradeAvg; grArr=arr;
+ const arr=(mode==='week'?D.weekly_detail[D.order[cur]].grade:A.gradeAvg).filter(g=>g.size===undefined||g.size>0); grArr=arr;
  const labels=arr.map(g=>g.grade),rates=arr.map(g=>g.rate);
  const cols=rates.map(r=>r>=80?cGreen:r>=65?cAmber:cRed);
  const lbl=mode==='week'?fmtDay(D.order[cur])+' 출석률(%)':'누적 평균 출석률(%)';
