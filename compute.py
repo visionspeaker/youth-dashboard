@@ -25,9 +25,16 @@ roster=[tuple(x) for x in W["roster"]]
 grade_of={n:g for n,g in roster}
 grade_order=["중1","중2","중3","고1","고2","고3"]
 grade_size=collections.Counter(g for n,g in roster)
+roster_from=dict(W.get("rosterFrom",{}))   # {이름:YYMMDD} 학년별 재적 산입 시작 주차(미지정=전체)
+def grade_size_at(w):
+    c=collections.Counter()
+    for n,g in roster:
+        rf=roster_from.get(n)
+        if rf is None or w>=rf: c[g]+=1
+    return c
 join_week=dict(W["joinWeek"])
 chronic=set(W.get("chronic",[]))
-def norm(n): return {"정창빈":"정찬빈","반소영":"반재키"}.get(n,n)  # parse_lib.NAME_FIX 와 동일 유지
+def norm(n): return {"정창빈":"정찬빈","반소영":"반잭키","반재키":"반잭키"}.get(n,n)  # parse_lib.NAME_FIX 와 동일 유지
 absent_raw=W["absent"]
 weeks=list(absent_raw.keys())
 teacher_jae={k:int(v) for k,v in W["teacher"].items()}
@@ -109,9 +116,9 @@ def grade_rate_week(w):
     ga=collections.Counter()
     for n in absent[w]:
         if is_current(n): ga[grade_of[n]]+=1
-    out=[]
+    out=[]; _gs=grade_size_at(w)
     for g in grade_order:
-        size=grade_size[g]; ab=ga[g]; pres=size-ab
+        size=_gs[g]; ab=ga[g]; pres=size-ab
         out.append({"grade":g,"size":size,"present":pres,"absent":ab,"rate":round(pres/size*100,1)})
     out.append(nf_grade(w))  # 새친구 별도 항목 (원천 탭 새친구 반)
     return out
@@ -123,8 +130,9 @@ for w in weeks:
     ga=collections.Counter()
     for n in absent[w]:
         if is_current(n): ga[grade_of[n]]+=1
+    _gs=grade_size_at(w)
     for g in grade_order:
-        gsum[g][0]+=(grade_size[g]-ga[g]); gsum[g][1]+=grade_size[g]
+        gsum[g][0]+=(_gs[g]-ga[g]); gsum[g][1]+=_gs[g]
     nfj,nfc=NFCLASS.get(w,(0,0))
     gsum["새친구"][0]+=nfc; gsum["새친구"][1]+=nfj
 grade_avg=[{"grade":g,"rate":(round(gsum[g][0]/gsum[g][1]*100,1) if gsum[g][1] else 0.0)} for g in grade_order_out]
@@ -159,8 +167,9 @@ for w in report:
     ga=collections.Counter()
     for n in absent.get(w,[]):
         if is_current(n): ga[grade_of[n]]+=1
-    gr=[{"grade":g,"size":grade_size[g],"present":grade_size[g]-ga[g],"absent":ga[g],
-         "rate":round((grade_size[g]-ga[g])/grade_size[g]*100,1)} for g in grade_order]
+    _gs=grade_size_at(w)
+    gr=[{"grade":g,"size":_gs[g],"present":_gs[g]-ga[g],"absent":ga[g],
+         "rate":round((_gs[g]-ga[g])/_gs[g]*100,1) if _gs[g] else 0.0} for g in grade_order]
     gr.append(nf_grade(w))  # 새친구 별도 항목
     weekly_detail[wlabel(w)]={
       "jae":jae,"chul":chul,"gs":gs,"jk":jk,"sc":sc,"tea":teacher_jae.get(w,0),
