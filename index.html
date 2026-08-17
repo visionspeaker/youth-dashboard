@@ -406,7 +406,7 @@ function drawAtt(mode){
 }
 function drawGr(mode){
  grMode=mode;
- const arr=(mode==='week'?D.weekly_detail[D.order[cur]].grade:A.gradeAvg).filter(g=>g.size===undefined||g.size>0); grArr=arr;
+ const arr=((mode==='week'?D.weekly_detail[D.order[cur]].grade:A.gradeAvg).filter(g=>g.size===undefined||g.size>0)).filter(g=>g.grade!=='새친구'); grArr=arr;
  const labels=arr.map(g=>g.grade),rates=arr.map(g=>g.rate);
  const cols=rates.map(r=>r>=80?cGreen:r>=65?cAmber:cRed);
  const lbl=mode==='week'?fmtDay(D.order[cur])+' 출석률(%)':'누적 평균 출석률(%)';
