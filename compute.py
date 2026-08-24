@@ -14,9 +14,10 @@ if os.path.exists(_incp):
     for _k in ("report","teacher","absent"):
         if isinstance(INC.get(_k),dict): W[_k].update(INC[_k])
     if isinstance(INC.get("offerRows"),list):
-        _seen={(r[0],r[1]) for r in W["offerRows"]}
+        _okey=lambda r:(r[0],r[1],r[2])   # (날짜,항목,금액) — 같은 날 동일항목 2행도 보존
+        _seen={_okey(r) for r in W["offerRows"]}
         for r in INC["offerRows"]:
-            if (r[0],r[1]) not in _seen: W["offerRows"].append(r); _seen.add((r[0],r[1]))
+            if _okey(r) not in _seen: W["offerRows"].append(r); _seen.add(_okey(r))
     for _k in ("roster","newfriends","joinWeek","excludeCats","chronic","generated"):
         if INC.get(_k): W[_k]=INC[_k]
     json.dump(W,open(_p("weeks.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=1)
