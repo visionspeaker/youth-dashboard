@@ -88,6 +88,22 @@ tbody tr:hover{background:#f5f8ff}
 .ol-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:6px}
 @media(max-width:560px){.ol-grid3{grid-template-columns:minmax(0,1fr)}}
 .ol-empty{padding:18px;text-align:center;color:var(--tx2);font-size:13px}
+.pill-bar{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel2);color:var(--tx2);
+ font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;cursor:pointer;transition:.15s;line-height:1.35;font-family:inherit}
+.pill:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.pill .n{font-size:10.5px;font-weight:700;background:#e9eef7;color:var(--tx2);padding:1px 6px;border-radius:6px;font-variant-numeric:tabular-nums}
+.pill.on{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 3px 10px rgba(79,104,255,.28)}
+.pill.on:hover{color:#fff}
+.pill.on .n{background:rgba(255,255,255,.22);color:#fff}
+.pill.on.c-t{background:var(--violet);border-color:var(--violet);box-shadow:0 3px 10px rgba(139,92,246,.28)}
+.pill.on.c-h{background:var(--amber);border-color:var(--amber);box-shadow:0 3px 10px rgba(245,158,11,.3)}
+.pill.on.c-m{background:var(--green);border-color:var(--green);box-shadow:0 3px 10px rgba(22,179,100,.28)}
+.pc-hint{font-size:11.5px;color:var(--tx2);margin:-2px 0 10px;line-height:1.55}
+.pc-rk{font-size:10.5px;font-weight:800;color:var(--tx3);font-variant-numeric:tabular-nums;margin-right:3px}
+.pc.top{background:#fff8ec;border-color:#f6d9a6}
+.pc.top .pc-c{color:#c67c00}
+.pc-b em{font-style:normal;color:var(--tx);font-weight:750}
 .pc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
 .pc{border:1px solid var(--line);border-radius:10px;padding:8px 11px;background:var(--panel2);transition:.15s}
 .pc:hover{border-color:var(--green);background:#effaf3}
@@ -537,14 +553,48 @@ function renderOfferList(){
  html+=`<div class="ol-grid3">${['십일조','감사헌금','구제/선교'].map(k=>fixCard(k,k==='구제/선교'?'선교헌금':k)).join('')}</div>`;
  if(etc.length) html+=etcHtml;
  html+='<div class="ol-sub" style="padding-top:12px;border-top:1px solid var(--line);margin-top:10px">누적 참여 횟수 · 1월~'+cur_wk+'</div>';
- const PCAT=[['십일조','십'],['주일헌금','주'],['감사헌금','감'],['구제/선교','선']];
- html+='<div class="pc-grid">'+rank.map(([n,c])=>{
-   const b=bycat[n]||{};
-   const parts=PCAT.filter(([k])=>b[k]).map(([k,s])=>s+b[k]).join(' · ');
-   return `<div class="pc"><div class="pc-t"><span class="pc-n">${n}</span><span class="pc-c">${c}회</span></div>`
-        +`<div class="pc-b">${parts||'—'}</div></div>`;}).join('')+'</div>';
+ html+='<div class="pill-bar" id="olPills"></div><div class="pc-hint" id="olHint"></div><div id="olRank"></div>';
  box.innerHTML=html;
+ OL_STATE={cnt:cnt,bycat:bycat,wk:cur_wk,anon:inRange.filter(r=>r.item==='구제/선교'&&!r.names.length).length};
+ renderOfferRank();
 }
+
+// 누적 참여 횟수 — 헌금 종류별 알약 탭(전체가 기본) · 선택 종류 참여자만 횟수 내림차순
+const OL_CATS=[['all','전체',''],['십일조','십일조','c-t'],['주일헌금','주일헌금',''],['감사헌금','감사헌금','c-h'],['구제/선교','선교헌금','c-m']];
+const OL_SHORT={'십일조':'십','주일헌금':'주','감사헌금':'감','구제/선교':'선'};
+let olCat='all', OL_STATE=null;
+function renderOfferRank(){
+ if(!OL_STATE) return;
+ const S=OL_STATE, pillBox=document.getElementById('olPills'), rankBox=document.getElementById('olRank');
+ if(!pillBox||!rankBox) return;
+ const cntOf=(n,k)=> k==='all' ? (S.cnt[n]||0) : ((S.bycat[n]||{})[k]||0);
+ const listOf=k=>Object.keys(S.cnt).filter(n=>cntOf(n,k)>0)
+    .sort((a,b)=>cntOf(b,k)-cntOf(a,k)||a.localeCompare(b,'ko'));
+ pillBox.innerHTML=OL_CATS.map(([k,label,cls])=>
+   `<button class="pill${k===olCat?' on':''}${cls?' '+cls:''}" data-k="${k}">${label}<span class="n">${listOf(k).length}</span></button>`).join('');
+ const label=(OL_CATS.find(c=>c[0]===olCat)||[])[1];
+ const hint=document.getElementById('olHint');
+ if(hint) hint.textContent = olCat==='all'
+   ? '전체 종류를 합산한 참여 횟수입니다 · 횟수 많은 순'
+   : (olCat==='구제/선교'
+      ? '선교헌금 '+S.anon+'개 주차는 「무명·N명」으로만 기록돼 이름 집계에서 빠집니다 · 횟수 많은 순'
+      : label+'에 이름이 기록된 참여자만 표시됩니다 · 횟수 많은 순');
+ const arr=listOf(olCat);
+ rankBox.innerHTML = arr.length
+   ? '<div class="pc-grid">'+arr.map((n,i)=>{
+       const b=S.bycat[n]||{};
+       const parts=['십일조','주일헌금','감사헌금','구제/선교'].filter(k=>b[k])
+         .map(k=> k===olCat ? `<em>${OL_SHORT[k]}${b[k]}</em>` : OL_SHORT[k]+b[k]).join(' · ');
+       return `<div class="pc${i<5?' top':''}"><div class="pc-t">`
+            +`<span class="pc-n"><span class="pc-rk">${i+1}</span>${n}</span>`
+            +`<span class="pc-c">${cntOf(n,olCat)}회</span></div>`
+            +`<div class="pc-b">${parts||'—'}</div></div>`;}).join('')+'</div>'
+   : '<div class="ol-empty">해당 종류에 이름이 기록된 참여자가 없습니다</div>';
+}
+document.addEventListener('click',function(e){
+ const b=e.target.closest&&e.target.closest('#olPills .pill'); if(!b) return;
+ olCat=b.dataset.k; try{renderOfferRank();}catch(err){console.warn('offerRank',err);}
+});
 
 let sgChart=null;
 function renderSingeup(){
