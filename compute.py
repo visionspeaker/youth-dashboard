@@ -202,6 +202,7 @@ for _m in out["offering"]["monthly"]:
 out["categories"]=cats
 out["singeup"]=W.get("singeup",{})
 out["singeupMeta"]=W.get("singeupMeta",{})
+out["singeuEdu"]=W.get("singeuEdu",{})   # 신급 교육 진행 대상(수기 입력, 기수별 갱신)
 out["weekly_detail"]=weekly_detail
 out["order"]=[wlabel(w) for w in report]
 with open(DATA_PATH,"w",encoding="utf-8") as f:

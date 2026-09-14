@@ -176,6 +176,20 @@ tbody tr:hover{background:#f5f8ff}
 .sg-warn{border:1px solid #f6c9d2;background:#fff5f7;border-radius:12px;padding:11px 13px;margin-top:6px}
 .sg-warn .h{font-size:12.5px;font-weight:750;color:#c81e42}
 .sg-sub-lg{display:inline-flex;gap:10px;font-size:11px;font-weight:700;color:var(--tx2);align-items:center}
+.sg-edu{border:1px solid #c3ecd4;background:#f4fbf7;border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.sg-edu .hd{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.sg-edu .t{font-size:13px;font-weight:750;color:#0f7a45;display:flex;align-items:center;gap:7px}
+.sg-edu .t .ic{width:9px;height:9px;border-radius:3px;background:var(--green);flex:0 0 auto}
+.sg-edu .st{font-size:11.5px;font-weight:700;color:var(--tx2);font-variant-numeric:tabular-nums}
+.sg-edu .pbar{height:8px;border-radius:6px;background:#e2f1e9;margin:10px 0 9px;overflow:hidden}
+.sg-edu .pbar i{display:block;height:100%;background:var(--green);border-radius:6px;transition:width .4s ease}
+.sg-edu .meta{display:flex;flex-wrap:wrap;gap:14px;font-size:11.5px;font-weight:650;color:var(--tx2);margin-bottom:10px}
+.sg-edu .meta b{color:var(--tx);font-weight:750}
+.sg-edu .grps{display:flex;flex-wrap:wrap;gap:16px}
+.sg-edu .gl{font-size:11px;font-weight:750;margin-bottom:6px}
+.sg-edu .gl.hs{color:#0f9d55}
+.sg-edu .gl.ip{color:var(--accent)}
+.edu-pill{font-size:9.5px;font-weight:750;background:var(--green);color:#fff;padding:2px 7px;border-radius:20px;letter-spacing:-.2px;line-height:1.5}
 .chip.ip{background:#eef1ff;border-color:#c9d2ff;color:#31459e}
 .chip.ip .gr{background:rgba(79,104,255,.14);color:#4f68ff}
 .chip.ip:hover{border-color:var(--accent);background:#e7ebff}
@@ -628,11 +642,43 @@ function renderSingeup(){
      +'<div class="v">'+n+'<small>명'+(n?' · '+pct(n).toFixed(1)+'%':'')+'</small></div>'
      +'<div class="sub">'+(sub||'&nbsp;')+'</div></div>'; };
  const seg=function(k){ return cnt[k]?'<i style="background:'+COL[k]+';width:'+pct(cnt[k])+'%"></i>':''; };
+ const EDU=(D.singeuEdu&&D.singeuEdu.members)?D.singeuEdu.members:[];
+ const eduOf={}; EDU.forEach(function(m){ eduOf[m.name]=m.target; });
  const chips=function(arr){ return arr.map(function(p){
-   return '<span class="chip '+CLS[val(p.name)]+'">'+p.name+'<span class="gr">'+p.grade+'</span></span>'; }).join(''); };
+   return '<span class="chip '+CLS[val(p.name)]+'">'+p.name+'<span class="gr">'+p.grade+'</span>'
+     +(eduOf[p.name]?'<span class="edu-pill">교육중</span>':'')+'</span>'; }).join(''); };
+ const eduChips=function(arr){ return arr.map(function(m){
+   const p=R.filter(function(x){return x.name===m.name;})[0];
+   return '<span class="chip '+(m.target==='학습'?'hs':'ip')+'">'+m.name
+     +'<span class="gr">'+((p&&p.grade)||'')+'</span></span>'; }).join(''); };
  const dot=function(c){ return '<span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:'+c+';margin-right:6px"></span>'; };
 
- let h='<div class="sg-top"><div class="sg-donut"><canvas id="sgDonut"></canvas>'
+ let eduH='';
+ if(EDU.length){
+   const E=D.singeuEdu||{}, WKS=E.weeks||8, DAY=86400000;
+   const dt=function(v){ return v?new Date(v+'T00:00:00'):null; };
+   const md=function(v){ const d=dt(v); return d?((d.getMonth()+1)+'/'+d.getDate()):''; };
+   const dw=function(v){ const d=dt(v); return d?'일월화수목금토'.charAt(d.getDay()):''; };
+   const now=new Date(), d0=dt(E.start), d1=dt(E.end);
+   let st='', pct2=0;
+   if(d0&&now<d0){ st='개강 D-'+Math.ceil((d0-now)/DAY)+' · 0/'+WKS+'주'; pct2=0; }
+   else if(d1&&now>d1){ st='교육 종료 · '+WKS+'/'+WKS+'주'; pct2=100; }
+   else if(d0){ let n=Math.floor((now-d0)/(7*DAY))+1; if(n<1)n=1; if(n>WKS)n=WKS;
+                st=n+'/'+WKS+'주 진행'; pct2=n/WKS*100; }
+   const hs2=EDU.filter(function(m){return m.target==='학습';});
+   const ip2=EDU.filter(function(m){return m.target!=='학습';});
+   const grp2=function(list,lbl,cls){ return list.length?('<div><div class="gl '+cls+'">'+lbl+' '+list.length+'명</div>'+eduChips(list)+'</div>'):''; };
+   eduH='<div class="sg-edu"><div class="hd">'
+     +'<div class="t"><span class="ic"></span>'+(E.term?E.term+' ':'')+'신급 교육 진행 · '+EDU.length+'명</div>'
+     +'<div class="st">'+st+'</div></div>'
+     +'<div class="pbar"><i style="width:'+pct2.toFixed(0)+'%"></i></div>'
+     +'<div class="meta"><span><b>교육</b> '+md(E.start)+'~'+md(E.end)+' ('+WKS+'주)</span>'
+     +(E.exam?'<span><b>문답</b> '+md(E.exam)+' ('+dw(E.exam)+')</span>':'')
+     +(E.rite?'<span><b>성례식</b> '+md(E.rite)+' ('+dw(E.rite)+')</span>':'')
+     +'</div><div class="grps">'+grp2(hs2,'학습','hs')+grp2(ip2,'입교','ip')+'</div></div>';
+ }
+
+ let h=eduH+'<div class="sg-top"><div class="sg-donut"><canvas id="sgDonut"></canvas>'
   +'<div class="sg-center"><div class="n">'+total+'</div><div class="l">재적 인원</div></div></div><div>'
   +'<div class="sg-stat">'
   + stat('입교/세례','#4f68ff',grp, grp?('입교 '+ip+' · 세례 '+se):'')
