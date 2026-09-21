@@ -52,8 +52,9 @@ def attend_rows(path, iso):
 def load_hg(path):
     rows = collections.defaultdict(list)
     for r in csv.DictReader(open(path, encoding="utf-8")):
+        _lst = r.get("명단", "")
         rows[P.iso2key(r["날짜"])].append(
-            (r["항목"].strip(), int((r["금액"] or "0").replace(",", "")), r.get("명단", "")))
+            (P.norm_item(r["항목"], _lst), int((r["금액"] or "0").replace(",", "")), _lst))
     return rows
 
 

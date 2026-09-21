@@ -17,7 +17,8 @@ def _p(n): return os.path.join(HERE,n)
 def load_heonggeum(path):
     rows=collections.defaultdict(list)  # YYMMDD -> [(iso,항목,금액,명단)]
     for r in csv.DictReader(open(path,encoding="utf-8")):
-        k=P.iso2key(r["날짜"]); rows[k].append((r["날짜"],r["항목"].strip(),int(r["금액"] or 0),r.get("명단","").strip()))
+        k=P.iso2key(r["날짜"]); _lst=r.get("명단","").strip()
+        rows[k].append((r["날짜"],P.norm_item(r["항목"],_lst),int(r["금액"] or 0),_lst))  # 생일감사→감사헌금
     return rows
 
 HG_MAP={"십일조":0,"감사헌금":1,"주일헌금":2,"구제/선교":4,"기타":5}  # report[6:12] 상대 인덱스
@@ -57,7 +58,12 @@ def build(raw_path, hg_path, weeks_path, only=None):
         inc["teacher"][k]=0  # ⚠ 사역보고서에서 확인해 채울 것
         inc["absent"][k]=",".join(ab)  # 전체 명단 저장(비재적 포함); compute.py 가 현재적만 표시
         inc["nfclass"][k]=[nfj,nfc]
+        _keys=set()
         for iso,item,amt,lst in hg.get(k,[]):
+            _kk=(iso,item,amt)
+            if _kk in _keys:  # (날짜,항목,금액) 병합키 충돌 = 행 소실 위험
+                raise SystemExit(f"[{k}] 헌금 병합키 충돌 {_kk} — 중단")
+            _keys.add(_kk)
             inc["offerRows"].append([iso, HG_ITEM_TO_OFFER.get(item,item), amt, lst])
         log.append(f"[{k}] 재적{mj} 출석{mc+nfc}(학생{mc}+새친구{nfc}) 결석{len(gyeol)} 장기{len(jang)} "
                    f"새친구{nfc} 헌금{sum(hg6[:5])+hg6[5]}  ⚠교사수=사역보고서확인 필요")
