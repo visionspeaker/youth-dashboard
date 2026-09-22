@@ -35,7 +35,7 @@ def grade_size_at(w):
     return c
 join_week=dict(W["joinWeek"])
 chronic=set(W.get("chronic",[]))
-def norm(n): return {"정창빈":"정찬빈","반소영":"반잭키","반재키":"반잭키"}.get(n,n)  # parse_lib.NAME_FIX 와 동일 유지
+def norm(n): return {"반소영":"반잭키","반재키":"반잭키"}.get(n,n)  # parse_lib.NAME_FIX 와 동일 유지
 absent_raw=W["absent"]
 weeks=list(absent_raw.keys())
 teacher_jae={k:int(v) for k,v in W["teacher"].items()}
