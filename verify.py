@@ -210,7 +210,25 @@ def main(week, baseline=None):
             err("불변성", "과거 주차 weekly 가 변경됨")
         else:
             ok("불변성", f"과거 {n}주 weekly 동일")
-        for k in ("roster", "singeup", "singeupMeta", "newfriends"):
+        # roster/newfriends: 새친구가 4주 출석 후 '등반'하면 재적 명부가 늘어나는 정상 구조.
+        # 기존 항목이 그대로 유지된 채 신규 항목만 "추가"된 경우는 불변성 위반이 아니라 정상 편입으로 처리하고,
+        # 기존 항목이 바뀌거나 사라지면(=진짜 손상) 그대로 ERROR 로 막는다.
+        def _append_only(old, new, key=lambda x: x):
+            if old is None or new is None: return False
+            try:
+                old_keys = [key(x) for x in old]; new_keys = [key(x) for x in new]
+            except Exception:
+                return False
+            return len(new_keys) >= len(old_keys) and old_keys == new_keys[:len(old_keys)]
+        for k in ("roster", "newfriends"):
+            ov, nv = B.get(k), D.get(k)
+            if ov == nv:
+                continue
+            if _append_only(ov, nv):
+                warn("불변성", f"{k} {len(ov)}→{len(nv)}명 — 신규 편입(추가)만 확인, 기존 항목 변경 없음(등반 구조상 정상)")
+            else:
+                err("불변성", f"{k} 가 변경됨(기존 항목 수정/삭제 감지)")
+        for k in ("singeup", "singeupMeta"):
             if B.get(k) != D.get(k): err("불변성", f"{k} 가 변경됨")
         b_o = [r for r in B["offerList"]["rows"] if r["date"] != iso]
         d_o = [r for r in D["offerList"]["rows"] if r["date"] != iso]
