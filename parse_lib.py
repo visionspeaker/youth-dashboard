@@ -74,3 +74,20 @@ def consec_absent(name, upto_key, absent_by_week):
     while i>=0 and name in absent_by_week[weeks[i]]:
         c+=1; i-=1
     return c
+
+
+def english_promoted(path, key, roster):
+    """영어반 행에 입력된 등반자(roster 편입자) -> (출석[], 결석[]).
+    교사가 등반자(예: 일라이 9/27, 리암 10/4)를 영어반 행에만 입력하는 경우, 학년 반 명단(MAIN_BAN)에 이미 있는 사람은
+    제외(앨런 등 이중계산 방지)하고 roster 에 있는 사람만 재적·출석·결석에 포함한다. (2026-10-06 사용자 승인)"""
+    rows = [r for r in csv.DictReader(open(path, encoding="utf-8")) if iso2key(r["날짜"]) == key]
+    main = set()
+    for r in rows:
+        if r["반"].strip() in MAIN_BAN:
+            main.update(split_names(r.get("출석명단", ""))); main.update(split_names(r.get("결석명단", "")))
+    pres, absn = [], []
+    for r in rows:
+        if r["반"].strip() != "영어반": continue
+        pres += [n for n in split_names(r.get("출석명단", "")) if n in roster and n not in main]
+        absn += [n for n in split_names(r.get("결석명단", "")) if n in roster and n not in main]
+    return pres, absn

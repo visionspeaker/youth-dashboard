@@ -33,12 +33,12 @@ def build(raw_path, hg_path, weeks_path, only=None):
     existing=set(W["report"].keys())
     # 결석 이력(과거 weeks.json + 원천 전체)로 연속결석 계산
     absent_hist={}
+    roster={n for n,g in W["roster"]}
     for k in sorted(set(list(existing)+list(raw.keys()))):
         if k in raw:
-            _,_,_,_,ab=P.week_totals(raw[k]); absent_hist[k]=set(ab)
+            _,_,_,_,ab=P.week_totals(raw[k]); _pp,_pa=P.english_promoted(raw_path,k,roster); absent_hist[k]=set(ab)|set(_pa)
         elif k in W["absent"]:
             absent_hist[k]={x.strip() for x in W["absent"][k].split(",") if x.strip()}
-    roster={n for n,g in W["roster"]}
     targets = only if only else sorted(k for k in raw if k not in existing)
     inc={"report":{},"teacher":{},"absent":{},"offerRows":[],"nfclass":{},
          "generated":""}
@@ -46,6 +46,8 @@ def build(raw_path, hg_path, weeks_path, only=None):
     for k in sorted(targets):
         if k not in raw: log.append(f"[{k}] 원천 탭에 없음 — 건너뜀"); continue
         mj,mc,nfj,nfc,ab=P.week_totals(raw[k])
+        _pp,_pa=P.english_promoted(raw_path,k,roster)   # 영어반 행에 입력된 등반자
+        mj+=len(_pp)+len(_pa); mc+=len(_pp); ab=list(ab)+_pa
         cur=[n for n in ab if n in roster]
         jang=[n for n in cur if P.consec_absent(n,k,absent_hist)>=5]
         gyeol=[n for n in cur if n not in jang]

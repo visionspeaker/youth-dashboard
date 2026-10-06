@@ -77,8 +77,11 @@ def main(week, baseline=None):
     # ── A. 출결: 원천 재계산 ↔ weeks.json ────────────────────────────────
     mj, mc, nfj, nfc, ab = P.week_totals(raw[week])
     roster = {n for n, _g in W["roster"]}
+    _pp, _pa = P.english_promoted(_p("raw_attend.csv"), week, roster)   # 영어반 행의 등반자(roster 편입자)
+    if _pp or _pa: ok("출결", f"영어반 행 등반자 반영: 출석 {_pp} 결석 {_pa}")
+    mj += len(_pp) + len(_pa); mc += len(_pp); ab = list(ab) + _pa
     cur = [n for n in ab if n in roster]
-    hist = {k: (set(P.week_totals(raw[k])[4]) if k in raw
+    hist = {k: (set(P.week_totals(raw[k])[4]) | set(P.english_promoted(_p("raw_attend.csv"), k, roster)[1]) if k in raw
                 else {x.strip() for x in W["absent"].get(k, "").split(",") if x.strip()})
             for k in sorted(set(list(W["report"]) + list(raw)))}
     jang = [n for n in cur if P.consec_absent(n, week, hist) >= 5]
@@ -228,8 +231,16 @@ def main(week, baseline=None):
                 warn("불변성", f"{k} {len(ov)}→{len(nv)}명 — 신규 편입(추가)만 확인, 기존 항목 변경 없음(등반 구조상 정상)")
             else:
                 err("불변성", f"{k} 가 변경됨(기존 항목 수정/삭제 감지)")
-        for k in ("singeup", "singeupMeta"):
-            if B.get(k) != D.get(k): err("불변성", f"{k} 가 변경됨")
+        # singeup: 입회원서 신규 작성자 '추가'만 허용(기존 사람 값 변경/삭제는 ERROR). singeupMeta 는 updated 만 변경 허용.
+        _bs, _ds = B.get("singeup") or {}, D.get("singeup") or {}
+        if _bs != _ds:
+            _chg = [n for n in _bs if _ds.get(n) != _bs[n]]
+            if _chg: err("불변성", f"singeup 기존 값 변경/삭제 {_chg}")
+            else: warn("불변성", f"singeup 신규 추가 {sorted(set(_ds)-set(_bs))} (기존 값 변경 없음)")
+        _bm, _dm = dict(B.get("singeupMeta") or {}), dict(D.get("singeupMeta") or {})
+        if _bm != _dm:
+            _bm.pop("updated", None); _dm.pop("updated", None)
+            if _bm != _dm: err("불변성", "singeupMeta 가 updated 외 항목까지 변경됨")
         b_o = [r for r in B["offerList"]["rows"] if r["date"] != iso]
         d_o = [r for r in D["offerList"]["rows"] if r["date"] != iso]
         if b_o != d_o:
