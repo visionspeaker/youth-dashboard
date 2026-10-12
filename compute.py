@@ -35,7 +35,7 @@ def grade_size_at(w):
     return c
 join_week=dict(W["joinWeek"])
 chronic=set(W.get("chronic",[]))
-def norm(n): return {"반소영":"반잭키","반재키":"반잭키"}.get(n,n)  # parse_lib.NAME_FIX 와 동일 유지
+def norm(n): return {"반소영":"반잭키","반재키":"반잭키","레이첼":"반레이첼"}.get(n,n)  # parse_lib.NAME_FIX 와 동일 유지
 absent_raw=W["absent"]
 weeks=list(absent_raw.keys())
 teacher_jae={k:int(v) for k,v in W["teacher"].items()}
@@ -220,7 +220,7 @@ def _oparse(t):
     if ":" in t:
         h,tail=t.split(":",1); note=h.strip(); t=tail.strip()
     if _re.fullmatch(r"\d+\s*명", t): return [], f"무명 {t}"
-    parts=[p.strip() for p in t.split(",") if p.strip()]
+    parts=[norm(p.strip()) for p in t.split(",") if p.strip()]
     names=[p for p in parts if p in _roster]
     others=[p for p in parts if p not in _roster]
     if others: note=(note+" · " if note else "")+" ".join(others)

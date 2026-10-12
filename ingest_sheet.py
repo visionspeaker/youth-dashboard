@@ -46,8 +46,9 @@ def build(raw_path, hg_path, weeks_path, only=None):
     for k in sorted(targets):
         if k not in raw: log.append(f"[{k}] 원천 탭에 없음 — 건너뜀"); continue
         mj,mc,nfj,nfc,ab=P.week_totals(raw[k])
-        _pp,_pa=P.english_promoted(raw_path,k,roster)   # 영어반 행에 입력된 등반자
+        _pp,_pa=P.english_promoted(raw_path,k,roster)   # 영어반·새친구 반 행에 입력된 등반자
         mj+=len(_pp)+len(_pa); mc+=len(_pp); ab=list(ab)+_pa
+        _dj,_dc=P.nf_promoted(raw_path,k,roster); nfj-=_dj; nfc-=_dc   # 새친구 반에서 학생으로 옮긴 만큼 차감
         cur=[n for n in ab if n in roster]
         jang=[n for n in cur if P.consec_absent(n,k,absent_hist)>=5]
         gyeol=[n for n in cur if n not in jang]

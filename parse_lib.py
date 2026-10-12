@@ -13,7 +13,7 @@ NF_BAN = "새친구"
 # 반 -> 학년 매핑 (중2남/중2여 -> 중2 로 합산)
 BAN2GRADE = {"중1":"중1","중2":"중2","중2남":"중2","중2여":"중2","중3":"중3",
              "고1":"고1","고2":"고2","고3":"고3"}
-NAME_FIX = {"반소영":"반잭키", "반재키":"반잭키"}  # 시트 오타 보정(compute.py norm 과 동일)
+NAME_FIX = {"반소영":"반잭키", "반재키":"반잭키", "레이첼":"반레이첼"}  # 시트 오타 보정(compute.py norm 과 동일)
 
 # 헌금 항목 정규화 (2026-09-21 반영)
 # 원천 탭은 생일감사헌금을 '기타'로 입력하지만 사역보고서는 '감사헌금(생일)'로 분류한다.
@@ -76,18 +76,37 @@ def consec_absent(name, upto_key, absent_by_week):
     return c
 
 
-def english_promoted(path, key, roster):
-    """영어반 행에 입력된 등반자(roster 편입자) -> (출석[], 결석[]).
-    교사가 등반자(예: 일라이 9/27, 리암 10/4)를 영어반 행에만 입력하는 경우, 학년 반 명단(MAIN_BAN)에 이미 있는 사람은
-    제외(앨런 등 이중계산 방지)하고 roster 에 있는 사람만 재적·출석·결석에 포함한다. (2026-10-06 사용자 승인)"""
+PROMO_BAN = ("영어반", NF_BAN)  # 등반자가 남아 있을 수 있는 비학생 반
+
+def _promoted(path, key, roster):
+    """영어반·새친구 반 행에 입력된 등반자(roster 편입자) -> (출석[], 결석[], 새친구반 출석수, 새친구반 결석수).
+    한 사람은 한 번만 센다(출석이 결석보다 우선)."""
     rows = [r for r in csv.DictReader(open(path, encoding="utf-8")) if iso2key(r["날짜"]) == key]
     main = set()
     for r in rows:
         if r["반"].strip() in MAIN_BAN:
             main.update(split_names(r.get("출석명단", ""))); main.update(split_names(r.get("결석명단", "")))
-    pres, absn = [], []
-    for r in rows:
-        if r["반"].strip() != "영어반": continue
-        pres += [n for n in split_names(r.get("출석명단", "")) if n in roster and n not in main]
-        absn += [n for n in split_names(r.get("결석명단", "")) if n in roster and n not in main]
-    return pres, absn
+    pres, absn, nfp, nfa = [], [], 0, 0
+    for ban in PROMO_BAN:
+        for r in rows:
+            if r["반"].strip() != ban: continue
+            for n in split_names(r.get("출석명단", "")):
+                if n in roster and n not in main and n not in pres:
+                    if n in absn: absn.remove(n)
+                    pres.append(n); nfp += ban == NF_BAN
+            for n in split_names(r.get("결석명단", "")):
+                if n in roster and n not in main and n not in pres and n not in absn:
+                    absn.append(n); nfa += ban == NF_BAN
+    return pres, absn, nfp, nfa
+
+def english_promoted(path, key, roster):
+    """영어반·새친구 반 행에 입력된 등반자(roster 편입자) -> (출석[], 결석[]).
+    교사가 등반자(예: 일라이 9/27, 리암 10/4 = 영어반 / 이주원 10/11 = 새친구 반)를 학년 반이 아닌 행에 입력하는 경우,
+    학년 반 명단(MAIN_BAN)에 이미 있는 사람은 제외(앨런 등 이중계산 방지)하고 roster 에 있는 사람만
+    재적·출석·결석에 포함한다. (2026-10-06 영어반, 2026-10-12 새친구 반 확장 — 사용자 승인)"""
+    return _promoted(path, key, roster)[:2]
+
+def nf_promoted(path, key, roster):
+    """새친구 반 행에 남아 있는 등반자 수 -> (재적 차감, 출석 차감). week_totals 의 새친구 재적/출석에서 뺀다."""
+    _p, _a, nfp, nfa = _promoted(path, key, roster)
+    return nfp + nfa, nfp

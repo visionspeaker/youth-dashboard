@@ -37,7 +37,7 @@ def names_of(cell):
     t = (cell or "").strip()
     if ":" in t: t = t.split(":", 1)[1].strip()
     if re.fullmatch(r"\d+\s*명", t): return set(), True
-    return {p.strip() for p in t.split(",") if p.strip()}, False
+    return {P.norm_name(p) for p in t.split(",") if p.strip()}, False
 
 
 def attend_rows(path, iso):
@@ -78,8 +78,9 @@ def main(week, baseline=None):
     mj, mc, nfj, nfc, ab = P.week_totals(raw[week])
     roster = {n for n, _g in W["roster"]}
     _pp, _pa = P.english_promoted(_p("raw_attend.csv"), week, roster)   # 영어반 행의 등반자(roster 편입자)
-    if _pp or _pa: ok("출결", f"영어반 행 등반자 반영: 출석 {_pp} 결석 {_pa}")
+    if _pp or _pa: ok("출결", f"영어반·새친구 반 행 등반자 반영: 출석 {_pp} 결석 {_pa}")
     mj += len(_pp) + len(_pa); mc += len(_pp); ab = list(ab) + _pa
+    _dj, _dc = P.nf_promoted(_p("raw_attend.csv"), week, roster); nfj -= _dj; nfc -= _dc   # 새친구 반 행의 등반자
     cur = [n for n in ab if n in roster]
     hist = {k: (set(P.week_totals(raw[k])[4]) | set(P.english_promoted(_p("raw_attend.csv"), k, roster)[1]) if k in raw
                 else {x.strip() for x in W["absent"].get(k, "").split(",") if x.strip()})
@@ -243,7 +244,20 @@ def main(week, baseline=None):
             if _bm != _dm: err("불변성", "singeupMeta 가 updated 외 항목까지 변경됨")
         b_o = [r for r in B["offerList"]["rows"] if r["date"] != iso]
         d_o = [r for r in D["offerList"]["rows"] if r["date"] != iso]
-        if b_o != d_o:
+        # 신규 편입자(roster 추가)의 이름이 과거 행에서 비고(note) → 이름 칩(names)으로 옮겨간 것만은 정상 편입으로 허용
+        _new = {r["name"] for r in (D.get("roster") or [])} - {r["name"] for r in (B.get("roster") or [])}
+        def _promo_only(b, d):
+            if {k: v for k, v in b.items() if k not in ("names", "note")} != {k: v for k, v in d.items() if k not in ("names", "note")}:
+                return False
+            moved = set(d["names"]) - set(b["names"])
+            if not moved <= _new or set(b["names"]) - set(d["names"]): return False
+            left = [x for x in (b.get("note") or "").replace(" · ", " ").split(" ") if x and x not in moved]
+            right = [x for x in (d.get("note") or "").replace(" · ", " ").split(" ") if x]
+            return left == right
+        if len(b_o) == len(d_o) and b_o != d_o and all(b == d or _promo_only(b, d) for b, d in zip(b_o, d_o)):
+            _rows = [f"{d['date']} {d['item']}" for b, d in zip(b_o, d_o) if b != d]
+            warn("불변성", f"대상주 외 헌금 {len(_rows)}행 — 신규 편입자 {sorted(_new)} 이름 칩 전환만 확인 {_rows}")
+        elif b_o != d_o:
             err("불변성", "대상 주차 외 헌금 행이 변경됨")
         else:
             ok("불변성", f"대상주 외 헌금 {len(d_o)}행 동일")
