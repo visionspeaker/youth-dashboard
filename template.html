@@ -207,6 +207,17 @@ tbody tr:hover{background:#f5f8ff}
 .chip.ms{background:#fff5f7;border-color:#f6c9d2;color:#c81e42}
 .chip.ms .gr{background:rgba(244,63,94,.13);color:var(--red)}
 .chip.ms:hover{border-color:var(--red)}
+/* 당겨서 새로고침 */
+html,body{overscroll-behavior-y:contain}
+#ptr{position:fixed;left:50%;top:0;z-index:999;width:40px;height:40px;margin-left:-20px;border-radius:50%;
+ background:var(--panel);border:1px solid var(--line);box-shadow:0 4px 14px rgba(31,40,64,.16);
+ display:flex;align-items:center;justify-content:center;color:var(--accent);
+ transform:translateY(-60px);opacity:0;pointer-events:none;transition:transform .2s ease,opacity .2s ease}
+#ptr.drag{transition:none}
+#ptr svg{width:20px;height:20px;transition:transform .15s ease}
+#ptr.ready svg{transform:rotate(180deg)}
+#ptr.load svg{animation:ptrspin .8s linear infinite}
+@keyframes ptrspin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -807,6 +818,56 @@ setupMotion();
  }
  btn.addEventListener('click',()=>{ btn.classList.add('spin'); setTimeout(()=>btn.classList.remove('spin'),650); load(false); });
  load(true); // 최초 방문 시에만 +1
+})();
+</script>
+<div id="ptr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+<script>
+// 당겨서 새로고침: 맨 위에서 아래로 당겼다 놓으면 캐시를 피해 새로 불러온다
+(function(){
+ const el=document.getElementById('ptr'), svg=el.querySelector('svg');
+ const TH=70, MAX=110;
+ let y0=null, x0=0, dy=0, on=false, busy=false;
+ const scrolledParent=function(t){
+   for(let n=t; n&&n!==document.body; n=n.parentElement){
+     if(n.scrollTop>0) return true;
+   }
+   return false; };
+ const show=function(d){
+   const y=Math.min(d,MAX);
+   el.style.transform='translateY('+(y-48)+'px)';
+   el.style.opacity=Math.min(1,y/TH);
+   el.classList.toggle('ready', y>=TH); };
+ const reset=function(){ el.classList.remove('drag','ready'); el.style.transform=''; el.style.opacity=''; };
+ window.addEventListener('touchstart',function(e){
+   if(busy||e.touches.length!==1||window.scrollY>0||scrolledParent(e.target)){ y0=null; return; }
+   y0=e.touches[0].clientY; x0=e.touches[0].clientX; dy=0; on=false;
+ },{passive:true});
+ window.addEventListener('touchmove',function(e){
+   if(y0===null) return;
+   if(e.touches.length!==1){ y0=null; reset(); return; }
+   const ddy=e.touches[0].clientY-y0, ddx=e.touches[0].clientX-x0;
+   if(!on){
+     if(ddy<=0||Math.abs(ddx)>Math.abs(ddy)){ if(Math.abs(ddx)>8||ddy<-8) y0=null; return; }
+     if(ddy<8) return;
+     on=true; el.classList.add('drag');
+   }
+   if(window.scrollY>0){ y0=null; reset(); return; }
+   dy=ddy*0.5;
+   if(e.cancelable) e.preventDefault();
+   show(dy);
+ },{passive:false});
+ const end=function(){
+   if(y0===null) return;
+   y0=null; el.classList.remove('drag');
+   if(on&&dy>=TH){
+     busy=true; el.classList.remove('ready'); el.classList.add('load');
+     el.style.transform='translateY(16px)'; el.style.opacity='1';
+     const u=new URL(location.href); u.searchParams.set('r',Date.now());
+     setTimeout(function(){ location.replace(u.toString()); },150);
+   } else reset();
+   on=false; dy=0; };
+ window.addEventListener('touchend',end,{passive:true});
+ window.addEventListener('touchcancel',end,{passive:true});
 })();
 </script>
 </body>
