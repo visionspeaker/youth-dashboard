@@ -870,5 +870,44 @@ setupMotion();
  window.addEventListener('touchcancel',end,{passive:true});
 })();
 </script>
+<script>
+// 자동 최신화 (2026-11-23)
+// ① 앱이 뜰 때·다시 앞으로 나올 때 서버에 새 버전(Last-Modified)이 있으면 새로고침
+// ② 마지막으로 불러온 날짜가 오늘이 아니면(날짜가 바뀐 뒤 처음 열면) 새로고침
+(function ydFresh(){
+ const pad=function(n){ return (n<10?'0':'')+n; };
+ const today=function(){ const d=new Date(); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); };
+ const ss={get:function(k){ try{ return sessionStorage.getItem(k); }catch(e){ return null; } },
+           set:function(k,v){ try{ sessionStorage.setItem(k,v); }catch(e){} }};
+ const LOAD_DAY=today();
+ const PAGE_LM=Date.parse(document.lastModified)||0;
+ let busy=false;
+ // 새로고침 꼬리(?r=) 정리
+ try{ const u=new URL(location.href); if(u.searchParams.has('r')){ u.searchParams.delete('r'); history.replaceState(null,'',u.pathname+u.search+u.hash); } }catch(e){}
+ const reload=function(why){
+   if(busy) return;
+   const last=+ss.get('ydReload')||0;
+   if(Date.now()-last<30000) return;           // 연속 새로고침 방지
+   busy=true; ss.set('ydReload',String(Date.now()));
+   const u=new URL(location.href); u.searchParams.set('r',Date.now());
+   location.replace(u.toString()); };
+ const check=function(){
+   if(busy||document.visibilityState==='hidden') return;
+   if(today()!==LOAD_DAY){ reload('day'); return; }
+   if(!navigator.onLine||!PAGE_LM) return;
+   const lastChk=+ss.get('ydChk')||0;
+   if(Date.now()-lastChk<60000) return;          // 버전 확인은 1분에 한 번
+   ss.set('ydChk',String(Date.now()));
+   fetch(location.pathname+'?v='+Date.now(),{method:'HEAD',cache:'no-store'}).then(function(r){
+     const lm=Date.parse(r.headers.get('last-modified')||'');
+     if(r.ok&&lm&&lm>PAGE_LM+1000) reload('new');
+   }).catch(function(){});
+ };
+ document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible') check(); });
+ window.addEventListener('pageshow',function(e){ if(e.persisted) check(); });
+ window.addEventListener('focus',check);
+ setTimeout(check,1500);
+})();
+</script>
 </body>
 </html>
